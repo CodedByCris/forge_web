@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.bycriss.forge",
+      "sha256_cert_fingerprints": [
+        "28:A1:A5:58:6C:7D:57:A2:FC:7C:D4:D4:44:DF:E7:CD:A4:63:9C:BF:D8:9D:EE:A1:AC:75:B1:6D:C8:6C:48:F5"
+      ]
+    }
+  }
+]

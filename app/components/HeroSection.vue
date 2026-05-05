@@ -1,0 +1,168 @@
+<script setup lang="ts">
+defineEmits<{ 'open-modal': [] }>()
+</script>
+
+<template>
+  <section
+    class="relative min-h-screen flex items-center justify-center overflow-hidden px-4 pt-16 pb-24"
+  >
+    <!-- Ambient background glow -->
+    <div
+      class="absolute inset-0 pointer-events-none"
+      aria-hidden="true"
+    >
+      <div
+        class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full opacity-10"
+        style="background: radial-gradient(circle, #FF6200 0%, transparent 70%)"
+      />
+    </div>
+
+    <div class="relative z-10 max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center w-full">
+      <!-- Left: copy -->
+      <div class="text-center lg:text-left animate-fade-in-up">
+        <!-- Badge -->
+        <span
+          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest mb-6"
+          style="background: rgba(255,98,0,0.15); border: 1px solid rgba(255,98,0,0.3); color: #FF9A3C"
+        >
+          <span class="w-1.5 h-1.5 rounded-full bg-forge-accent animate-pulse" />
+          Beta disponible en Android
+        </span>
+
+        <!-- Headline -->
+        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight mb-6">
+          Forja<br />
+          <span class="text-gradient-orange">tus límites.</span>
+        </h1>
+
+        <!-- Subheading -->
+        <p class="text-forge-textSec text-lg sm:text-xl leading-relaxed mb-10 max-w-lg mx-auto lg:mx-0">
+          Registra entrenamientos, visualiza tu progreso, compite con amigos en tiempo real y sube de nivel con gamificación integrada.
+        </p>
+
+        <!-- CTA -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          <button
+            @click="$emit('open-modal')"
+            class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-base gradient-orange glow-orange glow-orange-hover transition-all duration-200 hover:scale-105 active:scale-95"
+          >
+            <!-- Android icon -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M6.18 15.64a2.18 2.18 0 0 1-2.18-2.18V9.5a2.18 2.18 0 0 1 4.36 0v3.96a2.18 2.18 0 0 1-2.18 2.18zm11.64 0a2.18 2.18 0 0 1-2.18-2.18V9.5a2.18 2.18 0 0 1 4.36 0v3.96a2.18 2.18 0 0 1-2.18 2.18zM3.56 8.04C3.56 5.38 7.44 3 12 3s8.44 2.38 8.44 5.04v8.6c0 .7-.57 1.27-1.27 1.27h-.5v2.27a1.82 1.82 0 0 1-3.64 0V16.9H8.97v2.27a1.82 1.82 0 0 1-3.64 0V16.9h-.5c-.7 0-1.27-.57-1.27-1.27v-8.6zM8.71 2.27l-1-1.73a.27.27 0 0 0-.47.27L8.3 2.6a6.18 6.18 0 0 1 3.7-.6 6.18 6.18 0 0 1 3.7.6l1.06-1.79a.27.27 0 0 0-.47-.27l-1 1.73A6.25 6.25 0 0 0 12 2c-1.18 0-2.28.1-3.29.27zM9.5 6.5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm5 0a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+            </svg>
+            Descargar en Android
+          </button>
+          <span class="self-center text-forge-muted text-sm">iOS próximamente</span>
+        </div>
+      </div>
+
+      <!-- Right: phone mockup -->
+      <div class="flex justify-center lg:justify-end animate-fade-in-up" style="animation-delay: 0.2s">
+        <div class="relative">
+          <!-- Glow behind phone -->
+          <div
+            class="absolute inset-0 rounded-[3rem] blur-3xl opacity-30 -z-10 scale-90"
+            style="background: linear-gradient(135deg, #FF6200, #FF9A3C)"
+          />
+
+          <!-- Phone frame -->
+          <div
+            class="relative w-[240px] sm:w-[280px] h-[480px] sm:h-[560px] rounded-[3rem] border-2 border-forge-divider overflow-hidden"
+            style="background: #1A1A1A; box-shadow: 0 32px 64px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)"
+          >
+            <!-- Notch -->
+            <div class="absolute top-4 left-1/2 -translate-x-1/2 w-20 h-5 rounded-full bg-forge-bg z-10" />
+
+            <!-- Screen content (fake UI) -->
+            <div class="absolute inset-0 pt-14 px-4 pb-6 flex flex-col gap-3">
+              <!-- Header row -->
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-forge-muted text-xs">Hola,</p>
+                  <p class="text-forge-text text-sm font-bold">Criss 🔥</p>
+                </div>
+                <div class="w-8 h-8 rounded-full gradient-orange flex items-center justify-center text-xs font-black text-white">
+                  12
+                </div>
+              </div>
+
+              <!-- XP bar -->
+              <div class="rounded-xl p-3" style="background: #242424; border: 1px solid #2A2A2A">
+                <div class="flex justify-between text-xs mb-1.5">
+                  <span class="text-forge-muted">XP</span>
+                  <span style="color: #8B5CF6">1240 / 2000</span>
+                </div>
+                <div class="w-full h-1.5 rounded-full" style="background: #2A2A2A">
+                  <div class="h-full rounded-full" style="width: 62%; background: linear-gradient(90deg, #8B5CF6, #a78bfa)" />
+                </div>
+              </div>
+
+              <!-- Workout card -->
+              <div class="rounded-xl p-3" style="background: #242424; border: 1px solid #2A2A2A">
+                <p class="text-forge-muted text-xs mb-2">Último entreno</p>
+                <p class="text-forge-text text-sm font-bold mb-3">Push A — Pecho</p>
+                <div class="flex gap-2">
+                  <div class="flex-1 text-center rounded-lg py-2" style="background: rgba(255,98,0,0.1)">
+                    <p class="text-forge-primary font-black text-sm">4</p>
+                    <p class="text-forge-muted text-xs">series</p>
+                  </div>
+                  <div class="flex-1 text-center rounded-lg py-2" style="background: rgba(255,98,0,0.1)">
+                    <p class="text-forge-primary font-black text-sm">80kg</p>
+                    <p class="text-forge-muted text-xs">peso</p>
+                  </div>
+                  <div class="flex-1 text-center rounded-lg py-2" style="background: rgba(16,185,129,0.1)">
+                    <p class="text-forge-success font-black text-sm">+5%</p>
+                    <p class="text-forge-muted text-xs">mejora</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Ranked card -->
+              <div
+                class="rounded-xl p-3 flex items-center gap-3"
+                style="background: linear-gradient(135deg, rgba(255,98,0,0.2), rgba(255,154,60,0.1)); border: 1px solid rgba(255,98,0,0.3)"
+              >
+                <div class="text-2xl">⚔️</div>
+                <div>
+                  <p class="text-forge-accent text-xs font-bold uppercase tracking-wider">Modo Ranked</p>
+                  <p class="text-forge-text text-xs">vs. Adrián — en curso</p>
+                </div>
+              </div>
+
+              <!-- Bottom nav bar -->
+              <div
+                class="mt-auto flex justify-around items-center py-2 rounded-2xl"
+                style="background: #242424; border: 1px solid #2A2A2A"
+              >
+                <div class="flex flex-col items-center gap-0.5">
+                  <div class="w-4 h-4 rounded" style="background: #FF6200" />
+                  <span class="text-forge-primary text-xs">Inicio</span>
+                </div>
+                <div class="flex flex-col items-center gap-0.5">
+                  <div class="w-4 h-4 rounded" style="background: #2A2A2A" />
+                  <span class="text-forge-muted text-xs">Stats</span>
+                </div>
+                <div class="flex flex-col items-center gap-0.5">
+                  <div class="w-4 h-4 rounded" style="background: #2A2A2A" />
+                  <span class="text-forge-muted text-xs">Social</span>
+                </div>
+                <div class="flex flex-col items-center gap-0.5">
+                  <div class="w-4 h-4 rounded" style="background: #2A2A2A" />
+                  <span class="text-forge-muted text-xs">Perfil</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+      <span class="text-forge-muted text-xs tracking-widest uppercase">Descubrir</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+  </section>
+</template>
