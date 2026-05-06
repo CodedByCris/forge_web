@@ -29,6 +29,7 @@ provide('openModal', openModal)
   <main>
     <HeroSection @open-modal="openModal" />
     <FeaturesSection />
+    <AppShowcase />
     <HowItWorks />
     <BetaSection @open-modal="openModal" />
     <AppFooter />

@@ -15,6 +15,7 @@ type LazyComponent<T> = DefineComponent<HydrationStrategies, {}, {}, {}, {}, {},
 
 interface _GlobalComponents {
   AppFooter: typeof import("../../app/components/AppFooter.vue")['default']
+  AppShowcase: typeof import("../../app/components/AppShowcase.vue")['default']
   BetaModal: typeof import("../../app/components/BetaModal.vue")['default']
   BetaSection: typeof import("../../app/components/BetaSection.vue")['default']
   FeaturesSection: typeof import("../../app/components/FeaturesSection.vue")['default']
@@ -45,6 +46,7 @@ interface _GlobalComponents {
   Body: typeof import("../../node_modules/nuxt/dist/head/runtime/components")['Body']
   NuxtIsland: typeof import("../../node_modules/nuxt/dist/app/components/nuxt-island")['default']
   LazyAppFooter: LazyComponent<typeof import("../../app/components/AppFooter.vue")['default']>
+  LazyAppShowcase: LazyComponent<typeof import("../../app/components/AppShowcase.vue")['default']>
   LazyBetaModal: LazyComponent<typeof import("../../app/components/BetaModal.vue")['default']>
   LazyBetaSection: LazyComponent<typeof import("../../app/components/BetaSection.vue")['default']>
   LazyFeaturesSection: LazyComponent<typeof import("../../app/components/FeaturesSection.vue")['default']>
