@@ -29,10 +29,10 @@
         </div>
 
         <!-- Síguenos -->
-        <div class="flex flex-col items-center lg:items-start gap-3">
+        <!-- <div class="flex flex-col items-center lg:items-start gap-3">
           <p class="text-forge-text text-xs font-semibold uppercase tracking-widest mb-1">Síguenos</p>
           <div class="flex items-center gap-4">
-            <!-- Instagram -->
+            <!~~ Instagram ~~>
             <a
               href="https://google.com"
               target="_blank"
@@ -53,7 +53,7 @@
               Instagram
             </a>
 
-            <!-- TikTok -->
+            <!~~ TikTok ~~>
             <a
               href="https://google.com"
               target="_blank"
@@ -72,7 +72,7 @@
               TikTok
             </a>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <!-- Divider -->
