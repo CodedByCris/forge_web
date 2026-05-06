@@ -91,7 +91,7 @@ onMounted(() => {
                 :src="screen.img"
                 :alt="screen.title"
                 class="relative"
-                style="max-width: 480px; width: 100%; filter: drop-shadow(0 32px 48px rgba(0,0,0,0.6));"
+                style="max-width: 320px; width: 100%; filter: drop-shadow(0 32px 48px rgba(0,0,0,0.6));"
               />
               <!-- Accent dot -->
               <div
