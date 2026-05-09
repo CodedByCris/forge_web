@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" fill="none">
+  <!-- Shield base -->
+  <path d="M50 8 L88 22 L88 58 C88 80 70 100 50 112 C30 100 12 80 12 58 L12 22 Z" fill="#061410" stroke="#00C878" stroke-width="2.5"/>
+  <!-- Emerald glow sheen -->
+  <path d="M50 8 L88 22 L88 58 C88 80 70 100 50 112 C30 100 12 80 12 58 L12 22 Z" fill="url(#emeraldSheen)"/>
+  <!-- Inner border glow -->
+  <path d="M50 16 L80 27 L80 57 C80 75 65 92 50 102 C35 92 20 75 20 57 L20 27 Z" fill="none" stroke="#00E090" stroke-width="2.2"/>
+  <path d="M50 20 L76 30 L76 57 C76 73 63 88 50 98 C37 88 24 73 24 57 L24 30 Z" fill="none" stroke="#008A50" stroke-width="1"/>
+  <!-- Emerald cut gem icon -->
+  <polygon points="50,34 63,42 65,56 50,72 35,56 37,42" fill="#051E14" stroke="#00C878" stroke-width="2"/>
+  <!-- Facets inner -->
+  <polygon points="50,34 63,42 60,44 50,38 40,44 37,42" fill="#0A3020" opacity="0.8"/>
+  <polygon points="60,44 65,56 62,57 58,50 50,53 50,38 60,44" fill="#0D2818" opacity="0.7"/>
+  <polygon points="40,44 37,42 35,56 38,57 42,50 50,53 50,38 40,44" fill="#071E12" opacity="0.8"/>
+  <polygon points="50,72 35,56 38,57 42,65 50,68 58,65 62,57 65,56 50,72" fill="#031008" opacity="0.9"/>
+  <line x1="50" y1="34" x2="50" y2="72" stroke="#00C878" stroke-width="0.8" opacity="0.4"/>
+  <line x1="37" y1="42" x2="65" y2="56" stroke="#00C878" stroke-width="0.8" opacity="0.3"/>
+  <line x1="35" y1="56" x2="63" y2="42" stroke="#00C878" stroke-width="0.8" opacity="0.3"/>
+  <!-- Shine -->
+  <line x1="42" y1="37" x2="40" y2="41" stroke="#80FFD0" stroke-width="1.5" stroke-linecap="round" opacity="0.9"/>
+  <line x1="45" y1="35" x2="44" y2="38" stroke="#80FFD0" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+  <!-- Rank text -->
+  <!-- Top gem -->
+  <polygon points="50,10 55,17 50,20 45,17" fill="#082A18" stroke="#00C878" stroke-width="1"/>
+  <circle cx="50" cy="15" r="2.5" fill="#00C878" opacity="0.8"/>
+  <defs>
+    <radialGradient id="emeraldSheen" cx="40%" cy="35%">
+      <stop offset="0%" stop-color="#80FFD0" stop-opacity="0.2"/>
+      <stop offset="50%" stop-color="#00C878" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#061410" stop-opacity="0.3"/>
+    </radialGradient>
+  </defs>
+</svg>

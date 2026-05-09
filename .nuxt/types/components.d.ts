@@ -21,6 +21,7 @@ interface _GlobalComponents {
   FeaturesSection: typeof import("../../app/components/FeaturesSection.vue")['default']
   HeroSection: typeof import("../../app/components/HeroSection.vue")['default']
   HowItWorks: typeof import("../../app/components/HowItWorks.vue")['default']
+  RanksSection: typeof import("../../app/components/RanksSection.vue")['default']
   NuxtWelcome: typeof import("../../node_modules/nuxt/dist/app/components/welcome.vue")['default']
   NuxtLayout: typeof import("../../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
   NuxtErrorBoundary: typeof import("../../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']
@@ -52,6 +53,7 @@ interface _GlobalComponents {
   LazyFeaturesSection: LazyComponent<typeof import("../../app/components/FeaturesSection.vue")['default']>
   LazyHeroSection: LazyComponent<typeof import("../../app/components/HeroSection.vue")['default']>
   LazyHowItWorks: LazyComponent<typeof import("../../app/components/HowItWorks.vue")['default']>
+  LazyRanksSection: LazyComponent<typeof import("../../app/components/RanksSection.vue")['default']>
   LazyNuxtWelcome: LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
   LazyNuxtLayout: LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
   LazyNuxtErrorBoundary: LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']>

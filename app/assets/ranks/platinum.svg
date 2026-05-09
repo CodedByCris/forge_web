@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" fill="none">
+  <!-- Shield base -->
+  <path d="M50 8 L88 22 L88 58 C88 80 70 100 50 112 C30 100 12 80 12 58 L12 22 Z" fill="#0E1218" stroke="#7EC8D8" stroke-width="2.5"/>
+  <!-- Platinum cold sheen -->
+  <path d="M50 8 L88 22 L88 58 C88 80 70 100 50 112 C30 100 12 80 12 58 L12 22 Z" fill="url(#platSheen)"/>
+  <!-- Inner border -->
+  <path d="M50 16 L80 27 L80 57 C80 75 65 92 50 102 C35 92 20 75 20 57 L20 27 Z" fill="none" stroke="#9EDAEA" stroke-width="2.2"/>
+  <path d="M50 20 L76 30 L76 57 C76 73 63 88 50 98 C37 88 24 73 24 57 L24 30 Z" fill="none" stroke="#5AAABB" stroke-width="1"/>
+  <!-- Snowflake/crystal icon -->
+  <line x1="50" y1="40" x2="50" y2="68" stroke="#7EC8D8" stroke-width="2"/>
+  <line x1="36" y1="47" x2="64" y2="61" stroke="#7EC8D8" stroke-width="2"/>
+  <line x1="36" y1="61" x2="64" y2="47" stroke="#7EC8D8" stroke-width="2"/>
+  <!-- Branch tips -->
+  <line x1="50" y1="40" x2="46" y2="44" stroke="#9EDAEA" stroke-width="1.5"/>
+  <line x1="50" y1="40" x2="54" y2="44" stroke="#9EDAEA" stroke-width="1.5"/>
+  <line x1="50" y1="68" x2="46" y2="64" stroke="#9EDAEA" stroke-width="1.5"/>
+  <line x1="50" y1="68" x2="54" y2="64" stroke="#9EDAEA" stroke-width="1.5"/>
+  <line x1="36" y1="47" x2="38" y2="51" stroke="#9EDAEA" stroke-width="1.5"/>
+  <line x1="36" y1="61" x2="38" y2="57" stroke="#9EDAEA" stroke-width="1.5"/>
+  <line x1="64" y1="47" x2="62" y2="51" stroke="#9EDAEA" stroke-width="1.5"/>
+  <line x1="64" y1="61" x2="62" y2="57" stroke="#9EDAEA" stroke-width="1.5"/>
+  <!-- Center -->
+  <circle cx="50" cy="54" r="4" fill="#1A2830" stroke="#9EDAEA" stroke-width="1.5"/>
+  <circle cx="50" cy="54" r="2" fill="#7EC8D8" opacity="0.6"/>
+  <!-- Rank text -->
+  <!-- Top gem -->
+  <polygon points="50,10 55,17 50,20 45,17" fill="#2A4050" stroke="#9EDAEA" stroke-width="1"/>
+  <circle cx="50" cy="15" r="2.5" fill="#7EC8D8" opacity="0.7"/>
+  <defs>
+    <linearGradient id="platSheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9EDAEA" stop-opacity="0.18"/>
+      <stop offset="50%" stop-color="#7EC8D8" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#0E1218" stop-opacity="0.25"/>
+    </linearGradient>
+  </defs>
+</svg>

@@ -19,7 +19,7 @@ const steps = [
 </script>
 
 <template>
-  <section class="py-24 px-4" style="background: #0F0F0F; border-top: 1px solid #2A2A2A">
+  <section class="py-24 px-4" style="background: #0A0A0A; border-top: 1px solid #2A2A2A">
     <div class="max-w-5xl mx-auto">
       <!-- Header -->
       <div class="text-center mb-16 reveal">

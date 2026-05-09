@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" fill="none">
+  <!-- Shield base -->
+  <path d="M50 8 L88 22 L88 58 C88 80 70 100 50 112 C30 100 12 80 12 58 L12 22 Z" fill="#2A1A0E" stroke="#5C3A1E" stroke-width="2.5"/>
+  <!-- Wood grain texture -->
+  <path d="M50 8 L88 22 L88 58 C88 80 70 100 50 112 C30 100 12 80 12 58 L12 22 Z" fill="url(#woodGrain)"/>
+  <!-- Inner border -->
+  <path d="M50 16 L80 27 L80 57 C80 75 65 92 50 102 C35 92 20 75 20 57 L20 27 Z" fill="none" stroke="#7A4E2D" stroke-width="1.5"/>
+  <!-- Wood log icon -->
+  <ellipse cx="50" cy="56" rx="18" ry="11" fill="#3D2010" stroke="#8B5E3C" stroke-width="2"/>
+  <ellipse cx="50" cy="56" rx="12" ry="7" fill="none" stroke="#6B3F1E" stroke-width="1.2"/>
+  <ellipse cx="50" cy="56" rx="6" ry="3.5" fill="none" stroke="#5C3A1E" stroke-width="1"/>
+  <line x1="32" y1="56" x2="68" y2="56" stroke="#8B5E3C" stroke-width="1.5"/>
+  <!-- Rank text -->
+  <!-- Top gem -->
+  <polygon points="50,10 55,17 50,20 45,17" fill="#5C3A1E" stroke="#8B5E3C" stroke-width="1"/>
+  <defs>
+    <linearGradient id="woodGrain" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3D2010" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#1A0D05" stop-opacity="0.6"/>
+    </linearGradient>
+  </defs>
+</svg>

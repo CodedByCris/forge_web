@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" fill="none">
+  <!-- Shield base -->
+  <path d="M50 8 L88 22 L88 58 C88 80 70 100 50 112 C30 100 12 80 12 58 L12 22 Z" fill="#1A1200" stroke="#C9920A" stroke-width="2.5"/>
+  <!-- Gold sheen -->
+  <path d="M50 8 L88 22 L88 58 C88 80 70 100 50 112 C30 100 12 80 12 58 L12 22 Z" fill="url(#goldSheen)"/>
+  <!-- Inner border triple -->
+  <path d="M50 16 L80 27 L80 57 C80 75 65 92 50 102 C35 92 20 75 20 57 L20 27 Z" fill="none" stroke="#C9920A" stroke-width="2.2"/>
+  <path d="M50 20 L76 30 L76 57 C76 73 63 88 50 98 C37 88 24 73 24 57 L24 30 Z" fill="none" stroke="#E8B020" stroke-width="1"/>
+  <path d="M50 23 L73 32 L73 57 C73 71 62 85 50 95 C38 85 27 71 27 57 L27 32 Z" fill="none" stroke="#A07008" stroke-width="0.8"/>
+  <!-- Crown icon -->
+  <path d="M33 65 L33 52 L40 58 L50 46 L60 58 L67 52 L67 65 Z" fill="#1A1200" stroke="#C9920A" stroke-width="2"/>
+  <path d="M31 65 L69 65" stroke="#C9920A" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Crown gems -->
+  <circle cx="40" cy="56" r="2.5" fill="#E8B020"/>
+  <circle cx="50" cy="48" r="3" fill="#FFD700"/>
+  <circle cx="60" cy="56" r="2.5" fill="#E8B020"/>
+  <!-- Rank text -->
+  <!-- Top gem -->
+  <polygon points="50,10 55,17 50,20 45,17" fill="#C9920A" stroke="#FFD700" stroke-width="1"/>
+  <circle cx="50" cy="15" r="2.5" fill="#FFD700" opacity="0.8"/>
+  <defs>
+    <linearGradient id="goldSheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFD700" stop-opacity="0.25"/>
+      <stop offset="50%" stop-color="#C9920A" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#1A1200" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+</svg>

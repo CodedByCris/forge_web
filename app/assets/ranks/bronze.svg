@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" fill="none">
+  <!-- Shield base -->
+  <path d="M50 8 L88 22 L88 58 C88 80 70 100 50 112 C30 100 12 80 12 58 L12 22 Z" fill="#1E1208" stroke="#7A4F1E" stroke-width="2.5"/>
+  <!-- Bronze sheen -->
+  <path d="M50 8 L88 22 L88 58 C88 80 70 100 50 112 C30 100 12 80 12 58 L12 22 Z" fill="url(#bronzeSheen)"/>
+  <!-- Inner border double -->
+  <path d="M50 16 L80 27 L80 57 C80 75 65 92 50 102 C35 92 20 75 20 57 L20 27 Z" fill="none" stroke="#8B5E2A" stroke-width="2"/>
+  <path d="M50 20 L76 30 L76 57 C76 73 63 88 50 98 C37 88 24 73 24 57 L24 30 Z" fill="none" stroke="#6B4218" stroke-width="1"/>
+  <!-- Helmet/warrior icon -->
+  <path d="M38 62 L38 52 C38 44 44 40 50 40 C56 40 62 44 62 52 L62 62 Z" fill="#3D2208" stroke="#8B5E2A" stroke-width="1.8"/>
+  <path d="M36 62 L64 62" stroke="#8B5E2A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M44 62 L44 56 L56 56 L56 62" fill="#2A1504" stroke="#7A4F1E" stroke-width="1.2"/>
+  <path d="M38 52 L36 46 L40 47" fill="none" stroke="#8B5E2A" stroke-width="1.5"/>
+  <path d="M62 52 L64 46 L60 47" fill="none" stroke="#8B5E2A" stroke-width="1.5"/>
+  <!-- Plume -->
+  <path d="M50 40 C48 34 44 30 46 26 C48 22 50 24 50 24 C50 24 52 22 54 26 C56 30 52 34 50 40Z" fill="#7A4F1E"/>
+  <!-- Rank text -->
+  <!-- Top gem -->
+  <polygon points="50,10 55,17 50,20 45,17" fill="#7A4F1E" stroke="#C4863A" stroke-width="1"/>
+  <defs>
+    <linearGradient id="bronzeSheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C4863A" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#3D2208" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+</svg>

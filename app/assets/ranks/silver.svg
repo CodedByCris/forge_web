@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" fill="none">
+  <!-- Shield base -->
+  <path d="M50 8 L88 22 L88 58 C88 80 70 100 50 112 C30 100 12 80 12 58 L12 22 Z" fill="#141418" stroke="#8A8A9A" stroke-width="2.5"/>
+  <!-- Silver sheen -->
+  <path d="M50 8 L88 22 L88 58 C88 80 70 100 50 112 C30 100 12 80 12 58 L12 22 Z" fill="url(#silverSheen)"/>
+  <!-- Inner border double -->
+  <path d="M50 16 L80 27 L80 57 C80 75 65 92 50 102 C35 92 20 75 20 57 L20 27 Z" fill="none" stroke="#A0A0B4" stroke-width="2"/>
+  <path d="M50 20 L76 30 L76 57 C76 73 63 88 50 98 C37 88 24 73 24 57 L24 30 Z" fill="none" stroke="#707082" stroke-width="1"/>
+  <!-- Star icon -->
+  <polygon points="50,36 53.5,47 65,47 55.5,53.5 59,65 50,58 41,65 44.5,53.5 35,47 46.5,47" fill="#2A2A32" stroke="#A0A0B4" stroke-width="1.8"/>
+  <polygon points="50,40 52.5,48 60,48 54,52.5 56.5,60 50,56 43.5,60 46,52.5 40,48 47.5,48" fill="#3A3A48" stroke="#C0C0D4" stroke-width="0.8"/>
+  <!-- Rank text -->
+  <!-- Top gem -->
+  <polygon points="50,10 55,17 50,20 45,17" fill="#5A5A6A" stroke="#C0C0D4" stroke-width="1"/>
+  <circle cx="50" cy="15" r="2.5" fill="#A0A0B4" opacity="0.6"/>
+  <defs>
+    <linearGradient id="silverSheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D0D0E8" stop-opacity="0.2"/>
+      <stop offset="40%" stop-color="#A0A0B4" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#141418" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+</svg>
