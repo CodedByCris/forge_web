@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import imgPerfil from '~/assets/perfil.png'
 defineEmits<{ 'open-modal': [] }>()
 </script>
 
@@ -65,94 +66,12 @@ defineEmits<{ 'open-modal': [] }>()
             style="background: linear-gradient(135deg, #FF6200, #FF9A3C)"
           />
 
-          <!-- Phone frame -->
-          <div
-            class="relative w-[240px] sm:w-[280px] h-[480px] sm:h-[560px] rounded-[3rem] border-2 border-forge-divider overflow-hidden"
-            style="background: #1A1A1A; box-shadow: 0 32px 64px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)"
-          >
-            <!-- Notch -->
-            <div class="absolute top-4 left-1/2 -translate-x-1/2 w-20 h-5 rounded-full bg-forge-bg z-10" />
-
-            <!-- Screen content (fake UI) -->
-            <div class="absolute inset-0 pt-14 px-4 pb-6 flex flex-col gap-3">
-              <!-- Header row -->
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-forge-muted text-xs">Hola,</p>
-                  <p class="text-forge-text text-sm font-bold">Criss 🔥</p>
-                </div>
-                <div class="w-8 h-8 rounded-full gradient-orange flex items-center justify-center text-xs font-black text-white">
-                  12
-                </div>
-              </div>
-
-              <!-- XP bar -->
-              <div class="rounded-xl p-3" style="background: #242424; border: 1px solid #2A2A2A">
-                <div class="flex justify-between text-xs mb-1.5">
-                  <span class="text-forge-muted">XP</span>
-                  <span style="color: #8B5CF6">1240 / 2000</span>
-                </div>
-                <div class="w-full h-1.5 rounded-full" style="background: #2A2A2A">
-                  <div class="h-full rounded-full" style="width: 62%; background: linear-gradient(90deg, #8B5CF6, #a78bfa)" />
-                </div>
-              </div>
-
-              <!-- Workout card -->
-              <div class="rounded-xl p-3" style="background: #242424; border: 1px solid #2A2A2A">
-                <p class="text-forge-muted text-xs mb-2">Último entreno</p>
-                <p class="text-forge-text text-sm font-bold mb-3">Push A — Pecho</p>
-                <div class="flex gap-2">
-                  <div class="flex-1 text-center rounded-lg py-2" style="background: rgba(255,98,0,0.1)">
-                    <p class="text-forge-primary font-black text-sm">4</p>
-                    <p class="text-forge-muted text-xs">series</p>
-                  </div>
-                  <div class="flex-1 text-center rounded-lg py-2" style="background: rgba(255,98,0,0.1)">
-                    <p class="text-forge-primary font-black text-sm">80kg</p>
-                    <p class="text-forge-muted text-xs">peso</p>
-                  </div>
-                  <div class="flex-1 text-center rounded-lg py-2" style="background: rgba(16,185,129,0.1)">
-                    <p class="text-forge-success font-black text-sm">+5%</p>
-                    <p class="text-forge-muted text-xs">mejora</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Ranked card -->
-              <div
-                class="rounded-xl p-3 flex items-center gap-3"
-                style="background: linear-gradient(135deg, rgba(255,98,0,0.2), rgba(255,154,60,0.1)); border: 1px solid rgba(255,98,0,0.3)"
-              >
-                <div class="text-2xl">⚔️</div>
-                <div>
-                  <p class="text-forge-accent text-xs font-bold uppercase tracking-wider">Modo Ranked</p>
-                  <p class="text-forge-text text-xs">vs. Adrián — en curso</p>
-                </div>
-              </div>
-
-              <!-- Bottom nav bar -->
-              <div
-                class="mt-auto flex justify-around items-center py-2 rounded-2xl"
-                style="background: #242424; border: 1px solid #2A2A2A"
-              >
-                <div class="flex flex-col items-center gap-0.5">
-                  <div class="w-4 h-4 rounded" style="background: #FF6200" />
-                  <span class="text-forge-primary text-xs">Inicio</span>
-                </div>
-                <div class="flex flex-col items-center gap-0.5">
-                  <div class="w-4 h-4 rounded" style="background: #2A2A2A" />
-                  <span class="text-forge-muted text-xs">Stats</span>
-                </div>
-                <div class="flex flex-col items-center gap-0.5">
-                  <div class="w-4 h-4 rounded" style="background: #2A2A2A" />
-                  <span class="text-forge-muted text-xs">Social</span>
-                </div>
-                <div class="flex flex-col items-center gap-0.5">
-                  <div class="w-4 h-4 rounded" style="background: #2A2A2A" />
-                  <span class="text-forge-muted text-xs">Perfil</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <!-- Phone image -->
+          <img
+            :src="imgPerfil"
+            alt="Forge App"
+            class="relative w-[240px] sm:w-[280px]"
+          />
         </div>
       </div>
     </div>
