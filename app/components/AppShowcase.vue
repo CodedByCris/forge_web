@@ -1,40 +1,58 @@
 <script setup lang="ts">
-import imgPerfil from '~/assets/perfil.png'
-import imgEstadisticas from '~/assets/estadisticas.png'
-import imgRutinas from '~/assets/rutinas.png'
-import imgFantasma from '~/assets/supera_fantasma.png'
+import imgEntrenoManual from '~/assets/Entreno/Entreno manual.png'
+import imgStats from '~/assets/Stats/Stats.png'
+import imgIA from '~/assets/IA.png'
+import imgFantasma from '~/assets/Entreno/Fantasma.png'
+import imgFeed from '~/assets/Feed/Feed.png'
+import imgDuelo from '~/assets/Entreno/Crear duelo.png'
 
 const screens = [
   {
-    img: imgPerfil,
-    title: 'Tu perfil, tu historia',
-    desc: 'Cada entreno queda guardado. Consulta tu historial, tus récords personales y cómo has evolucionado desde el primer día.',
-    bullets: ['Historial completo de entrenamientos', 'Récords personales por ejercicio', 'Nivel y XP acumulado'],
+    img: imgEntrenoManual,
+    title: 'Entrena sin fricción',
+    desc: 'Registra series, pesos y repeticiones al instante. Interfaz diseñada para no sacar el foco del entrenamiento.',
+    bullets: ['Añade ejercicios en segundos', 'Pesos sugeridos por historial', 'Timer de descanso integrado'],
     accent: '#FF6200',
     flip: false,
   },
   {
-    img: imgEstadisticas,
+    img: imgStats,
     title: 'Estadísticas que te hablan',
-    desc: 'Gráficas claras de tu progreso semana a semana. Ve exactamente cuánto has mejorado en cada ejercicio y en qué áreas puedes crecer más.',
+    desc: 'Gráficas claras de tu progreso semana a semana. Ve exactamente cuánto has mejorado y dónde puedes crecer más.',
     bullets: ['Gráficas por ejercicio y periodo', 'Volumen total y tendencias', 'Comparativa semana a semana'],
     accent: '#FF9A3C',
     flip: true,
   },
   {
-    img: imgRutinas,
-    title: 'Rutinas a tu medida',
-    desc: 'Crea tus propias rutinas o deja que la IA las genere por ti según tus objetivos. Estructura tu semana de entrenamiento en segundos.',
-    bullets: ['Generación de rutinas con IA', 'Plantillas personalizables', 'Días y grupos musculares organizados'],
+    img: imgIA,
+    title: 'Rutinas generadas con IA',
+    desc: 'Introduce tu objetivo, nivel y días disponibles. La IA crea un plan estructurado y realista en segundos.',
+    bullets: ['Plan semanal personalizado', 'Pesos orientativos según tu nivel', 'Guarda o edita antes de empezar'],
     accent: '#8B5CF6',
     flip: false,
   },
   {
     img: imgFantasma,
     title: 'Supera tu fantasma',
-    desc: 'Tu peor rival eres tú mismo del pasado. Compara tu sesión actual con la anterior y supera tus propias marcas en tiempo real.',
-    bullets: ['Comparativa en vivo con tu sesión anterior', 'Alerta cuando superas un récord', 'Modo competición contra ti mismo'],
+    desc: 'Tu peor rival eres tú del pasado. Compara tu sesión actual con la anterior y supera tus marcas en tiempo real.',
+    bullets: ['Comparativa en vivo sesión anterior', 'Alerta cuando bates un récord', 'Modo competición contra ti mismo'],
     accent: '#FF6200',
+    flip: true,
+  },
+  {
+    img: imgFeed,
+    title: 'Comparte tu progreso',
+    desc: 'Al terminar un entreno, súbelo al feed. Reacciona a los logros de tus amigos y mantén la motivación alta.',
+    bullets: ['Historia tras cada entreno', 'Reacciones y comentarios', 'Ve la actividad de tus contactos'],
+    accent: '#FF9A3C',
+    flip: false,
+  },
+  {
+    img: imgDuelo,
+    title: 'Modo Ranked — el mejor gana',
+    desc: 'Reta a un amigo a un duelo de entrenamiento sincronizado. Compara pesos en tiempo real. El que más levante, gana.',
+    bullets: ['Duelo en tiempo real', 'Comparativa de volumen al instante', 'Resultado final y estadísticas del duelo'],
+    accent: '#EF4444',
     flip: true,
   },
 ]

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import imgPerfil from '~/assets/perfil.png'
+import imgSplash from '~/assets/Splash.png'
 defineEmits<{ 'open-modal': [] }>()
 </script>
 
@@ -68,7 +68,7 @@ defineEmits<{ 'open-modal': [] }>()
 
           <!-- Phone image -->
           <img
-            :src="imgPerfil"
+            :src="imgSplash"
             alt="Forge App"
             class="relative w-[240px] sm:w-[280px]"
           />

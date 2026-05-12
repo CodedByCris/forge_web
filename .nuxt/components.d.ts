@@ -22,6 +22,7 @@ export const FeaturesSection: typeof import("../app/components/FeaturesSection.v
 export const HeroSection: typeof import("../app/components/HeroSection.vue")['default']
 export const HowItWorks: typeof import("../app/components/HowItWorks.vue")['default']
 export const RanksSection: typeof import("../app/components/RanksSection.vue")['default']
+export const ScreenshotGallery: typeof import("../app/components/ScreenshotGallery.vue")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
 export const NuxtLayout: typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
 export const NuxtErrorBoundary: typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']
@@ -54,6 +55,7 @@ export const LazyFeaturesSection: LazyComponent<typeof import("../app/components
 export const LazyHeroSection: LazyComponent<typeof import("../app/components/HeroSection.vue")['default']>
 export const LazyHowItWorks: LazyComponent<typeof import("../app/components/HowItWorks.vue")['default']>
 export const LazyRanksSection: LazyComponent<typeof import("../app/components/RanksSection.vue")['default']>
+export const LazyScreenshotGallery: LazyComponent<typeof import("../app/components/ScreenshotGallery.vue")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
 export const LazyNuxtLayout: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
 export const LazyNuxtErrorBoundary: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']>
