@@ -14,7 +14,8 @@
       "Bash(npx kill-port:*)",
       "Bash(netstat -ano)",
       "Bash(awk '{print $5}')",
-      "Bash(xargs -r taskkill /PID /F)"
+      "Bash(xargs -r taskkill /PID /F)",
+      "Bash(npx nuxi:*)"
     ]
   }
 }
