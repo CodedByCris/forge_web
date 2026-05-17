@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { authService } from '~/services/auth.service'
-import { profileService } from '~/services/profile.service'
+import { profileService, type ProfileUpdateParams } from '~/services/profile.service'
 import type { AuthUser } from '~/types/auth'
 import type { UserProfile } from '~/types/user'
 
@@ -38,5 +38,12 @@ export const useAuthStore = defineStore('auth', () => {
     })
   }
 
-  return { user, profile, loading, signIn, signOut, init }
+  async function updateProfile(params: ProfileUpdateParams): Promise<void> {
+    if (!user.value) return
+    await profileService.updateProfile(user.value.id, params)
+    // Refresh local profile
+    profile.value = await profileService.fetchProfile(user.value.id)
+  }
+
+  return { user, profile, loading, signIn, signOut, init, updateProfile }
 })

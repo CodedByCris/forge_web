@@ -22,21 +22,51 @@
       </div>
     </header>
 
-    <!-- Page content -->
-    <main class="max-w-2xl mx-auto px-4 py-6">
+    <!-- Page content (with bottom padding for nav) -->
+    <main class="max-w-2xl mx-auto px-4 py-6 pb-24">
       <slot />
     </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 inset-x-0 z-40 bg-forge-surface/90 backdrop-blur-md border-t border-forge-divider">
+      <div class="max-w-2xl mx-auto px-4 flex" style="padding-bottom: env(safe-area-inset-bottom)">
+        <NuxtLink
+          v-for="item in navItems"
+          :key="item.to"
+          :to="item.to"
+          class="flex-1 flex flex-col items-center gap-1 py-2.5 transition-colors"
+          :class="isActive(item.to)
+            ? 'text-forge-primary'
+            : 'text-forge-muted hover:text-forge-textSec'"
+        >
+          <component :is="item.icon" :size="22" />
+          <span class="text-xs font-medium">{{ item.label }}</span>
+        </NuxtLink>
+      </div>
+    </nav>
 
     <SharedToastContainer />
   </div>
 </template>
 
 <script setup lang="ts">
-import { LogOut } from 'lucide-vue-next'
+import { LogOut, Home, Activity, Settings } from 'lucide-vue-next'
 import { storeToRefs } from 'pinia'
 
 const authStore = useAuthStore()
 const { profile } = storeToRefs(authStore)
+const route = useRoute()
+
+const navItems = [
+  { to: '/train', label: 'Inicio', icon: Home },
+  { to: '/train/feed', label: 'Actividad', icon: Activity },
+  { to: '/train/settings', label: 'Ajustes', icon: Settings },
+]
+
+function isActive(to: string): boolean {
+  if (to === '/train') return route.path === '/train'
+  return route.path.startsWith(to)
+}
 
 async function handleSignOut() {
   await authStore.signOut()

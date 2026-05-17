@@ -24,6 +24,18 @@ interface _GlobalComponents {
   HowItWorks: typeof import("../../app/components/HowItWorks.vue")['default']
   RanksSection: typeof import("../../app/components/RanksSection.vue")['default']
   ScreenshotGallery: typeof import("../../app/components/ScreenshotGallery.vue")['default']
+  FeedCommentItem: typeof import("../../app/components/feed/CommentItem.vue")['default']
+  FeedCommentSheet: typeof import("../../app/components/feed/CommentSheet.vue")['default']
+  FeedEmptyState: typeof import("../../app/components/feed/EmptyState.vue")['default']
+  FeedExercisePreview: typeof import("../../app/components/feed/ExercisePreview.vue")['default']
+  FeedPostCard: typeof import("../../app/components/feed/PostCard.vue")['default']
+  FeedPostHeader: typeof import("../../app/components/feed/PostHeader.vue")['default']
+  FeedReactionBar: typeof import("../../app/components/feed/ReactionBar.vue")['default']
+  FeedSkeletonCard: typeof import("../../app/components/feed/SkeletonCard.vue")['default']
+  FeedWorkoutStats: typeof import("../../app/components/feed/WorkoutStats.vue")['default']
+  SettingsDeleteAccountDialog: typeof import("../../app/components/settings/DeleteAccountDialog.vue")['default']
+  SettingsProfileSheet: typeof import("../../app/components/settings/ProfileSheet.vue")['default']
+  SettingsToggleSwitch: typeof import("../../app/components/settings/ToggleSwitch.vue")['default']
   SharedToastContainer: typeof import("../../app/components/shared/ToastContainer.vue")['default']
   WorkoutAddExerciseModal: typeof import("../../app/components/workout/AddExerciseModal.vue")['default']
   WorkoutExerciseCard: typeof import("../../app/components/workout/ExerciseCard.vue")['default']
@@ -69,6 +81,18 @@ interface _GlobalComponents {
   LazyHowItWorks: LazyComponent<typeof import("../../app/components/HowItWorks.vue")['default']>
   LazyRanksSection: LazyComponent<typeof import("../../app/components/RanksSection.vue")['default']>
   LazyScreenshotGallery: LazyComponent<typeof import("../../app/components/ScreenshotGallery.vue")['default']>
+  LazyFeedCommentItem: LazyComponent<typeof import("../../app/components/feed/CommentItem.vue")['default']>
+  LazyFeedCommentSheet: LazyComponent<typeof import("../../app/components/feed/CommentSheet.vue")['default']>
+  LazyFeedEmptyState: LazyComponent<typeof import("../../app/components/feed/EmptyState.vue")['default']>
+  LazyFeedExercisePreview: LazyComponent<typeof import("../../app/components/feed/ExercisePreview.vue")['default']>
+  LazyFeedPostCard: LazyComponent<typeof import("../../app/components/feed/PostCard.vue")['default']>
+  LazyFeedPostHeader: LazyComponent<typeof import("../../app/components/feed/PostHeader.vue")['default']>
+  LazyFeedReactionBar: LazyComponent<typeof import("../../app/components/feed/ReactionBar.vue")['default']>
+  LazyFeedSkeletonCard: LazyComponent<typeof import("../../app/components/feed/SkeletonCard.vue")['default']>
+  LazyFeedWorkoutStats: LazyComponent<typeof import("../../app/components/feed/WorkoutStats.vue")['default']>
+  LazySettingsDeleteAccountDialog: LazyComponent<typeof import("../../app/components/settings/DeleteAccountDialog.vue")['default']>
+  LazySettingsProfileSheet: LazyComponent<typeof import("../../app/components/settings/ProfileSheet.vue")['default']>
+  LazySettingsToggleSwitch: LazyComponent<typeof import("../../app/components/settings/ToggleSwitch.vue")['default']>
   LazySharedToastContainer: LazyComponent<typeof import("../../app/components/shared/ToastContainer.vue")['default']>
   LazyWorkoutAddExerciseModal: LazyComponent<typeof import("../../app/components/workout/AddExerciseModal.vue")['default']>
   LazyWorkoutExerciseCard: LazyComponent<typeof import("../../app/components/workout/ExerciseCard.vue")['default']>

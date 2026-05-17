@@ -19,4 +19,5 @@ export interface UserProfile {
   coins: number
   lastXpDate: string | null // 'YYYY-MM-DD'
   purchasedItems: string[]
+  weeklyGoalDays: number | null // 1–7
 }
