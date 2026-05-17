@@ -1,0 +1,1 @@
+import{X as u,f as n,q as r}from"./BuZ6elNH.js";const s=u(e=>{const{user:t,loading:i}=n();if(i)return;const a=e.path.startsWith("/train/auth");if(!t&&!a)return r("/train/auth/login");if(t&&a)return r("/train")});export{s as default};

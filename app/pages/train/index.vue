@@ -39,11 +39,12 @@
       >
         Iniciar entrenamiento
       </button>
-      <button
-        class="w-full bg-forge-surface text-forge-text font-semibold py-4 rounded-2xl border border-forge-divider hover:border-forge-primary/40 transition-colors active:scale-[0.98]"
+      <NuxtLink
+        to="/train/templates"
+        class="w-full bg-forge-surface text-forge-text font-semibold py-4 rounded-2xl border border-forge-divider hover:border-forge-primary/40 transition-colors active:scale-[0.98] flex items-center justify-center"
       >
         Ver plantillas
-      </button>
+      </NuxtLink>
     </div>
   </div>
 </template>

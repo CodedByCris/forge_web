@@ -8,9 +8,9 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # Fall back to index.html for SPA routing
 RewriteRule ^ index.html [L]
 
-# Force HTTPS (uncomment if SSL is active on Hostinger)
-# RewriteCond %{HTTPS} off
-# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Cache static assets aggressively
 <IfModule mod_expires.c>
