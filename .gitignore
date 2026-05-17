@@ -1,0 +1,24 @@
+# Nuxt
+.nuxt/
+.output/
+.data/
+.nitro/
+
+# Node
+node_modules/
+
+# Build
+dist/
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
