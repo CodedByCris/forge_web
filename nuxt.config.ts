@@ -19,6 +19,12 @@ export default defineNuxtConfig({
     dirs: ['stores'],
   },
 
+  vite: {
+    optimizeDeps: {
+      include: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+    },
+  },
+
   // Static site generation — no Node server needed on Hostinger
   nitro: {
     preset: 'static',

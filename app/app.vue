@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const route = useRoute()
+
 useSeoMeta({
   title: 'Forge — Entrena. Progresa. Compite.',
   description:
@@ -33,6 +35,7 @@ useHead({
 
 <template>
   <div class="min-h-screen bg-forge-bg text-forge-text">
+    <AppNavbar v-if="!route.path.startsWith('/train')" />
     <NuxtPage />
   </div>
 </template>
