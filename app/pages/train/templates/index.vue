@@ -64,6 +64,7 @@
 <script setup lang="ts">
 import { Plus, Dumbbell } from 'lucide-vue-next'
 import { storeToRefs } from 'pinia'
+import { workoutService } from '~/services/workout.service'
 import type { WorkoutTemplate } from '~/types/template'
 
 definePageMeta({ layout: 'train', middleware: 'auth' })
@@ -104,8 +105,47 @@ async function handleDelete(id: string) {
   await templateStore.deleteTemplate(user.value!.id, id)
 }
 
-function handleStart(_template: WorkoutTemplate) {
-  // TODO: wire up in Workout feature
-  navigateTo('/train/workout/active')
+async function handleStart(template: WorkoutTemplate) {
+  const workoutStore = useActiveWorkoutStore()
+
+  const workoutId = await workoutService.createWorkout({
+    userId: user.value!.id,
+    name: template.name,
+    color: template.color,
+  })
+
+  const exerciseNames = template.exercises.map((e) => e.name)
+  const ghostSets = exerciseNames.length
+    ? await workoutService.fetchGhostSets({ userId: user.value!.id, exerciseNames })
+    : {}
+
+  workoutStore.initWorkout({
+    workoutId,
+    name: template.name,
+    color: template.color,
+    exercises: template.exercises.map((e) => ({
+      name: e.name,
+      nameEs: e.nameEs,
+      order: e.order,
+      exerciseId: e.exerciseId,
+      bodyParts: e.bodyParts,
+      defaultSets: e.defaultSets,
+      defaultReps: e.defaultReps,
+      note: '',
+      exerciseType: e.exerciseType,
+      sets: Array.from({ length: e.defaultSets }, () => ({
+        weight: '',
+        reps: '',
+        completed: false,
+        setType: 'regular' as const,
+        durationSeconds: null,
+        distanceKm: '',
+        inclinationPercent: '',
+      })),
+    })),
+  })
+
+  workoutStore.ghostSets = ghostSets
+  await navigateTo('/train/workout/active')
 }
 </script>

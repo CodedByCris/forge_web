@@ -35,6 +35,7 @@
     <!-- Quick actions -->
     <div class="space-y-3">
       <button
+        @click="showStartModal = true"
         class="w-full gradient-orange text-white font-bold py-4 rounded-2xl text-base glow-orange-hover transition-all active:scale-[0.98]"
       >
         Iniciar entrenamiento
@@ -45,7 +46,22 @@
       >
         Ver plantillas
       </NuxtLink>
+      <NuxtLink
+        to="/train/workout/history"
+        class="w-full bg-forge-surface text-forge-muted font-medium py-3 rounded-2xl border border-forge-divider hover:border-forge-primary/40 transition-colors active:scale-[0.98] flex items-center justify-center text-sm"
+      >
+        Ver historial
+      </NuxtLink>
     </div>
+
+    <!-- Start workout modal -->
+    <WorkoutStartWorkoutModal
+      v-if="showStartModal"
+      @close="showStartModal = false"
+      @started="showStartModal = false"
+    />
+
+    <SharedToastContainer />
   </div>
 </template>
 
@@ -55,6 +71,7 @@ import { storeToRefs } from 'pinia'
 definePageMeta({ layout: 'train', middleware: 'auth' })
 
 const { user, profile } = storeToRefs(useAuthStore())
+const showStartModal = ref(false)
 
 const level = computed(() => Math.floor((profile.value?.totalXp ?? 0) / 100))
 const xpInLevel = computed(() => (profile.value?.totalXp ?? 0) % 100)
