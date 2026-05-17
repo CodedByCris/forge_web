@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import imgSplash from '~/assets/Splash.png'
 defineEmits<{ 'open-modal': [] }>()
 </script>
 
@@ -18,9 +17,9 @@ defineEmits<{ 'open-modal': [] }>()
       />
     </div>
 
-    <div class="relative z-10 max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center w-full">
-      <!-- Left: copy -->
-      <div class="text-center lg:text-left animate-fade-in-up">
+    <div class="relative z-10 max-w-3xl mx-auto flex flex-col items-center w-full">
+      <!-- Copy -->
+      <div class="text-center animate-fade-in-up">
         <!-- Badge -->
         <span
           class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest mb-6"
@@ -37,12 +36,12 @@ defineEmits<{ 'open-modal': [] }>()
         </h1>
 
         <!-- Subheading -->
-        <p class="text-forge-textSec text-lg sm:text-xl leading-relaxed mb-10 max-w-lg mx-auto lg:mx-0">
+        <p class="text-forge-textSec text-lg sm:text-xl leading-relaxed mb-10 max-w-lg mx-auto">
           Registra entrenamientos, visualiza tu progreso, compite con amigos en tiempo real y sube de nivel con gamificación integrada.
         </p>
 
         <!-- CTA -->
-        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             @click="$emit('open-modal')"
             class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-base gradient-orange glow-orange glow-orange-hover transition-all duration-200 hover:scale-105 active:scale-95"
@@ -54,24 +53,6 @@ defineEmits<{ 'open-modal': [] }>()
             Descargar en Android
           </button>
           <span class="self-center text-forge-muted text-sm">iOS próximamente</span>
-        </div>
-      </div>
-
-      <!-- Right: phone mockup -->
-      <div class="flex justify-center lg:justify-end animate-fade-in-up" style="animation-delay: 0.2s">
-        <div class="relative">
-          <!-- Glow behind phone -->
-          <div
-            class="absolute inset-0 rounded-[3rem] blur-3xl opacity-30 -z-10 scale-90"
-            style="background: linear-gradient(135deg, #FF6200, #FF9A3C)"
-          />
-
-          <!-- Phone image -->
-          <img
-            :src="imgSplash"
-            alt="Forge App"
-            class="relative w-[240px] sm:w-[280px]"
-          />
         </div>
       </div>
     </div>

@@ -1,0 +1,337 @@
+# Backend / Firebase — Web (/train)
+
+Proyecto Firebase: `gym-app-41fd6`
+SDK: `firebase` v10+ (modular, web)
+
+El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecciones nuevas. Solo usa las existentes.
+
+---
+
+## Colecciones relevantes para /train
+
+### `users/{userId}`
+
+```typescript
+{
+  id: string                  // UID Firebase Auth
+  email: string
+  nickname: string
+  photoUrl: string | null
+  firstName: string | null
+  lastName: string | null
+  heightCm: number | null
+  weightKg: number | null
+  configured: boolean
+  buildType: string | null    // 'powerlifter' | 'bodybuilder' | 'hybrid' | 'athlete'
+  activeTitle: string | null
+  isPrivate: boolean
+  followersCount: number
+  followingCount: number
+  totalXp: number
+  coins: number
+  lastXpDate: string | null   // 'YYYY-MM-DD'
+  purchasedItems: string[]
+  createdAt: Timestamp
+}
+```
+
+### `users/{userId}/badges/{badgeId}`
+
+```typescript
+{
+  earnedAt: Timestamp
+  seen: boolean
+}
+```
+
+### `users/{userId}/prs/{exerciseKey}`
+
+```typescript
+{
+  exerciseKey: string
+  exerciseName: string
+  exerciseNameEs: string | null
+  bestByReps: {
+    [reps: string]: {
+      weight: number
+      date: number        // ms timestamp
+      workoutId: string | null
+    }
+  }
+  estimatedOneRepMax: number
+  lastUpdated: Timestamp
+}
+```
+
+### `users/{userId}/workout_templates/{templateId}`
+
+```typescript
+{
+  name: string
+  color: number            // ARGB int
+  exercises: Array<{
+    name: string
+    nameEs: string | null
+    order: number
+    defaultSets: number
+    defaultReps: string
+    exerciseId: string | null
+    bodyParts: string[]
+    exerciseType: string   // 'standard' | 'assistedBody' | 'timed' | 'cardioDistance'
+  }>
+  updatedAt: Timestamp
+}
+```
+
+> Máximo 5 plantillas por usuario (validado en cliente).
+
+### `users/{userId}/goals/{goalId}`
+
+```typescript
+{
+  type: string             // 'strength' | 'hypertrophy' | 'consistency' | 'custom'
+  title: string
+  description: string | null
+  targetValue: number
+  startValue: number
+  exerciseId: string | null
+  exerciseName: string | null
+  deadline: Timestamp | null
+  createdAt: Timestamp
+  completedAt: Timestamp | null
+  customCurrentValue: number | null
+}
+```
+
+---
+
+### `workouts/{workoutId}`
+
+```typescript
+{
+  userId: string
+  name: string
+  color: number            // ARGB int
+  startedAt: Timestamp
+  endedAt: Timestamp | null
+  isCompleted: boolean
+  multiSessionId: string | null
+  xpEarned: number | null
+  feedback: {
+    difficulty: string     // 'easy' | 'medium' | 'hard'
+    energyLevel: number    // 1–5
+    notes: string | null
+    savedAt: Timestamp
+  } | null
+}
+```
+
+### `workouts/{workoutId}/exercises/{exerciseId}`
+
+```typescript
+{
+  name: string
+  nameEs: string | null
+  order: number
+  exerciseType: string
+  notes: string | null
+  sets: Array<{
+    setNumber: number
+    weight: number | null
+    reps: number | null
+    completed: boolean
+    setType: string        // 'warmup' | 'regular' | 'failed' | 'dropset'
+    durationSeconds: number | null
+    distanceKm: number | null
+    inclinationPercent: number | null
+  }>
+}
+```
+
+> Los sets se escriben **en bloque** al finalizar el workout. Durante el workout activo viven en memoria (estado Pinia).
+
+---
+
+### `posts/{postId}`
+
+```typescript
+{
+  userId: string
+  userNickname: string
+  userPhotoUrl: string | null
+  workoutId: string
+  workoutName: string
+  durationSeconds: number
+  totalVolumeKg: number
+  prsCount: number
+  exercisesPreview: Array<{
+    name: string
+    nameEs: string | null
+    sets: number
+    reps: string
+  }>
+  likesCount: number
+  commentsCount: number
+  reactionsMap: Record<string, number>  // emoji → count
+  createdAt: Timestamp
+}
+```
+
+### `posts/{postId}/likes/{userId}`
+
+```typescript
+{
+  userId: string
+  createdAt: Timestamp
+}
+```
+
+### `posts/{postId}/reactions/{userId}`
+
+```typescript
+{
+  userId: string
+  emoji: string           // '🔥' | '💪' | '😤' | '🧠'
+  createdAt: Timestamp
+}
+```
+
+### `posts/{postId}/comments/{commentId}`
+
+```typescript
+{
+  userId: string
+  userNickname: string
+  userPhotoUrl: string | null
+  text: string
+  createdAt: Timestamp
+}
+```
+
+---
+
+### `follows/{followerId}_{followingId}`
+
+```typescript
+{
+  followerId: string
+  followingId: string
+  status: 'pending' | 'accepted'
+  createdAt: Timestamp
+}
+```
+
+> Para obtener el feed: query `follows` donde `followerId == currentUid AND status == 'accepted'` → lista de `followingId` → fetch posts de esos usuarios.
+
+---
+
+### `exercises` (colección global)
+
+```typescript
+{
+  id: string              // doc ID kebab-case slug
+  name: string
+  nameEs: string | null
+  bodyParts: string[]
+  exerciseType: string
+  isActive: boolean
+  imageUrl: string | null
+}
+```
+
+> Cacheada en cliente. Fetch una vez y guardar en `sessionStorage` (TTL 1 semana).
+
+---
+
+## Patrones Firestore para web
+
+### Lectura en tiempo real (onSnapshot)
+
+```typescript
+import { onSnapshot, doc } from 'firebase/firestore'
+
+const unsub = onSnapshot(doc(db, 'users', uid), (snap) => {
+  store.setProfile(snap.data())
+})
+// Llamar unsub() en onUnmounted
+```
+
+### Batch write (finish workout)
+
+```typescript
+import { writeBatch, doc, collection, serverTimestamp } from 'firebase/firestore'
+
+const batch = writeBatch(db)
+batch.update(doc(db, 'workouts', workoutId), {
+  isCompleted: true,
+  endedAt: serverTimestamp()
+})
+exercises.forEach(ex => {
+  batch.set(doc(db, 'workouts', workoutId, 'exercises', ex.id), ex)
+})
+await batch.commit()
+```
+
+### Transaction (like toggle)
+
+```typescript
+import { runTransaction, doc, increment } from 'firebase/firestore'
+
+await runTransaction(db, async (tx) => {
+  const likeRef = doc(db, 'posts', postId, 'likes', userId)
+  const likeSnap = await tx.get(likeRef)
+
+  if (likeSnap.exists()) {
+    tx.delete(likeRef)
+    tx.update(doc(db, 'posts', postId), { likesCount: increment(-1) })
+  } else {
+    tx.set(likeRef, { userId, createdAt: serverTimestamp() })
+    tx.update(doc(db, 'posts', postId), { likesCount: increment(1) })
+  }
+})
+```
+
+### Paginación (workout history)
+
+```typescript
+import { query, collection, where, orderBy, limit, startAfter, getDocs } from 'firebase/firestore'
+
+let lastDoc: DocumentSnapshot | null = null
+
+async function fetchPage() {
+  let q = query(
+    collection(db, 'workouts'),
+    where('userId', '==', uid),
+    orderBy('startedAt', 'desc'),
+    limit(10)
+  )
+  if (lastDoc) q = query(q, startAfter(lastDoc))
+
+  const snap = await getDocs(q)
+  lastDoc = snap.docs[snap.docs.length - 1] ?? null
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+}
+```
+
+### FieldValue.increment
+
+```typescript
+import { increment, arrayUnion, arrayRemove } from 'firebase/firestore'
+
+// Incrementar contador
+update(postRef, { likesCount: increment(1) })
+
+// Añadir a array sin duplicados
+update(userRef, { purchasedItems: arrayUnion(itemId) })
+
+// Quitar de array
+update(userRef, { purchasedItems: arrayRemove(itemId) })
+```
+
+### Server timestamp
+
+```typescript
+import { serverTimestamp } from 'firebase/firestore'
+
+set(ref, { createdAt: serverTimestamp() })
+```

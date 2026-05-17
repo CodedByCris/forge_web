@@ -13,11 +13,20 @@ export default defineNuxtConfig({
   future: { compatibilityVersion: 4 },
   devtools: { enabled: true },
 
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt'],
+
+  imports: {
+    dirs: ['stores'],
+  },
 
   // Static site generation — no Node server needed on Hostinger
   nitro: {
     preset: 'static',
+  },
+
+  // /train is a client-side SPA (Firebase Auth — no SSR)
+  routeRules: {
+    '/train/**': { ssr: false },
   },
 
   css: ['~/assets/css/main.css'],
