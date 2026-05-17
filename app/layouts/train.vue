@@ -3,9 +3,18 @@
     <!-- Header -->
     <header class="sticky top-0 z-40 bg-forge-surface/80 backdrop-blur-md border-b border-forge-divider">
       <div class="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
-        <NuxtLink to="/train" class="text-gradient-orange font-black text-xl tracking-tight select-none">
-          FORGE
-        </NuxtLink>
+        <div class="flex items-center gap-2">
+          <NuxtLink
+            to="/"
+            class="p-1.5 rounded-lg text-forge-muted hover:text-forge-text hover:bg-forge-surfaceAlt transition-colors"
+            title="Volver al inicio"
+          >
+            <ArrowLeft :size="18" />
+          </NuxtLink>
+          <NuxtLink to="/train" class="text-gradient-orange font-black text-xl tracking-tight select-none">
+            FORGE
+          </NuxtLink>
+        </div>
 
         <div class="flex items-center gap-3">
           <span v-if="profile" class="text-forge-muted text-sm hidden sm:block">
@@ -50,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { LogOut, Home, Activity, Settings } from 'lucide-vue-next'
+import { LogOut, Home, Activity, Settings, ArrowLeft } from 'lucide-vue-next'
 import { storeToRefs } from 'pinia'
 
 const authStore = useAuthStore()

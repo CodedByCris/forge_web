@@ -40,7 +40,6 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { storeToRefs } from 'pinia'
 import { useToast } from '~/composables/useToast'
 
 definePageMeta({ layout: 'train', middleware: 'auth' })
