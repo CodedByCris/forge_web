@@ -28,12 +28,14 @@ provide('openModal', openModal)
 <template>
   <main>
     <HeroSection @open-modal="openModal" />
+    <LandingSocialProof />
     <FeaturesSection />
     <AppShowcase />
     <ScreenshotGallery />
     <RanksSection />
     <HowItWorks />
-    <BetaSection @open-modal="openModal" />
+    <LandingSponsorSection />
+    <LandingCtaSection />
     <AppFooter />
     <BetaModal :open="showModal" @close="closeModal" />
   </main>

@@ -24,6 +24,9 @@ export const HeroSection: typeof import("../app/components/HeroSection.vue")['de
 export const HowItWorks: typeof import("../app/components/HowItWorks.vue")['default']
 export const RanksSection: typeof import("../app/components/RanksSection.vue")['default']
 export const ScreenshotGallery: typeof import("../app/components/ScreenshotGallery.vue")['default']
+export const AuthRegisterStep1: typeof import("../app/components/auth/RegisterStep1.vue")['default']
+export const AuthRegisterStep2: typeof import("../app/components/auth/RegisterStep2.vue")['default']
+export const AuthRegisterStep3: typeof import("../app/components/auth/RegisterStep3.vue")['default']
 export const FeedCommentItem: typeof import("../app/components/feed/CommentItem.vue")['default']
 export const FeedCommentSheet: typeof import("../app/components/feed/CommentSheet.vue")['default']
 export const FeedEmptyState: typeof import("../app/components/feed/EmptyState.vue")['default']
@@ -33,6 +36,9 @@ export const FeedPostHeader: typeof import("../app/components/feed/PostHeader.vu
 export const FeedReactionBar: typeof import("../app/components/feed/ReactionBar.vue")['default']
 export const FeedSkeletonCard: typeof import("../app/components/feed/SkeletonCard.vue")['default']
 export const FeedWorkoutStats: typeof import("../app/components/feed/WorkoutStats.vue")['default']
+export const LandingCtaSection: typeof import("../app/components/landing/CtaSection.vue")['default']
+export const LandingSocialProof: typeof import("../app/components/landing/SocialProof.vue")['default']
+export const LandingSponsorSection: typeof import("../app/components/landing/SponsorSection.vue")['default']
 export const SettingsDeleteAccountDialog: typeof import("../app/components/settings/DeleteAccountDialog.vue")['default']
 export const SettingsProfileSheet: typeof import("../app/components/settings/ProfileSheet.vue")['default']
 export const SettingsToggleSwitch: typeof import("../app/components/settings/ToggleSwitch.vue")['default']
@@ -81,6 +87,9 @@ export const LazyHeroSection: LazyComponent<typeof import("../app/components/Her
 export const LazyHowItWorks: LazyComponent<typeof import("../app/components/HowItWorks.vue")['default']>
 export const LazyRanksSection: LazyComponent<typeof import("../app/components/RanksSection.vue")['default']>
 export const LazyScreenshotGallery: LazyComponent<typeof import("../app/components/ScreenshotGallery.vue")['default']>
+export const LazyAuthRegisterStep1: LazyComponent<typeof import("../app/components/auth/RegisterStep1.vue")['default']>
+export const LazyAuthRegisterStep2: LazyComponent<typeof import("../app/components/auth/RegisterStep2.vue")['default']>
+export const LazyAuthRegisterStep3: LazyComponent<typeof import("../app/components/auth/RegisterStep3.vue")['default']>
 export const LazyFeedCommentItem: LazyComponent<typeof import("../app/components/feed/CommentItem.vue")['default']>
 export const LazyFeedCommentSheet: LazyComponent<typeof import("../app/components/feed/CommentSheet.vue")['default']>
 export const LazyFeedEmptyState: LazyComponent<typeof import("../app/components/feed/EmptyState.vue")['default']>
@@ -90,6 +99,9 @@ export const LazyFeedPostHeader: LazyComponent<typeof import("../app/components/
 export const LazyFeedReactionBar: LazyComponent<typeof import("../app/components/feed/ReactionBar.vue")['default']>
 export const LazyFeedSkeletonCard: LazyComponent<typeof import("../app/components/feed/SkeletonCard.vue")['default']>
 export const LazyFeedWorkoutStats: LazyComponent<typeof import("../app/components/feed/WorkoutStats.vue")['default']>
+export const LazyLandingCtaSection: LazyComponent<typeof import("../app/components/landing/CtaSection.vue")['default']>
+export const LazyLandingSocialProof: LazyComponent<typeof import("../app/components/landing/SocialProof.vue")['default']>
+export const LazyLandingSponsorSection: LazyComponent<typeof import("../app/components/landing/SponsorSection.vue")['default']>
 export const LazySettingsDeleteAccountDialog: LazyComponent<typeof import("../app/components/settings/DeleteAccountDialog.vue")['default']>
 export const LazySettingsProfileSheet: LazyComponent<typeof import("../app/components/settings/ProfileSheet.vue")['default']>
 export const LazySettingsToggleSwitch: LazyComponent<typeof import("../app/components/settings/ToggleSwitch.vue")['default']>

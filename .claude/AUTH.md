@@ -2,12 +2,13 @@
 
 ## Qué hace
 
-Login y logout con Firebase Auth (email + password). Sin registro — los usuarios ya tienen cuenta desde la app móvil. Guarda sesión persistente (Firebase lo maneja nativamente).
+Login, registro y logout con Firebase Auth (email + password). Guarda sesión persistente (Firebase lo maneja nativamente). El registro crea la cuenta en Firebase Auth y el doc `users/{uid}` en Firestore con los mismos campos que usa la app Flutter.
 
-## Ruta
+## Rutas
 
 - `GET /train/auth/login` — página de login
-- Redirect a `/train` tras login exitoso
+- `GET /train/auth/register` — wizard de registro (3 pasos)
+- Redirect a `/train` tras login/registro exitoso
 - Redirect a `/train/auth/login` si no hay sesión (middleware)
 
 ---
@@ -15,9 +16,14 @@ Login y logout con Firebase Auth (email + password). Sin registro — los usuari
 ## Archivos
 
 ```
-services/auth.service.ts
+services/auth.service.ts          ← signIn, signOut, onAuthStateChanged, createUser
+services/profile.service.ts       ← fetchProfile, checkNicknameAvailable, createProfile
 stores/auth.store.ts
-pages/train/auth/login.vue
+pages/train/auth/login.vue        ← link a /train/auth/register añadido
+pages/train/auth/register.vue     ← wizard 3 pasos
+components/auth/RegisterStep1.vue ← email + contraseña
+components/auth/RegisterStep2.vue ← nickname (check unicidad) + objetivo
+components/auth/RegisterStep3.vue ← éxito + descarga app + ir al dashboard
 middleware/auth.ts
 plugins/firebase.client.ts
 ```
@@ -200,8 +206,10 @@ export default defineNuxtPlugin(async () => {
 
 ## Decisiones técnicas
 
-- **Solo login** — sin registro (usuarios vienen de la app móvil)
+- **Login y registro** — el registro crea cuenta en Firebase Auth + doc `users/{uid}` en Firestore con los mismos campos que la app Flutter (username, email, coins, totalXp, purchasedItems, etc.)
+- Validación de nickname único: `checkNicknameAvailable()` hace query Firestore antes de crear la cuenta
 - Firebase Auth maneja la persistencia de sesión (`LOCAL` por defecto)
 - El token se renueva automáticamente
 - `onAuthStateChanged` en plugin → resuelve antes de primer render
 - No guardar credenciales en Pinia/localStorage — Firebase maneja todo
+- Las rutas `/` y `/pricing` son públicas — el middleware `auth.ts` las excluye explícitamente

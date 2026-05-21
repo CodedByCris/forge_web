@@ -52,7 +52,12 @@ defineEmits<{ 'open-modal': [] }>()
             </svg>
             Descargar en Android
           </button>
-          <span class="self-center text-forge-muted text-sm">iOS próximamente</span>
+          <NuxtLink
+            to="/train/auth/login"
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-bold text-base border border-forge-divider hover:border-forge-primary/40 text-forge-text transition-all duration-200 hover:scale-105 active:scale-95"
+          >
+            Probar desde web
+          </NuxtLink>
         </div>
       </div>
     </div>

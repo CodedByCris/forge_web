@@ -15,7 +15,13 @@
       "Bash(netstat -ano)",
       "Bash(awk '{print $5}')",
       "Bash(xargs -r taskkill /PID /F)",
-      "Bash(npx nuxi:*)"
+      "Bash(npx nuxi:*)",
+      "Bash(node ./node_modules/nuxi/bin/nuxi.mjs typecheck)",
+      "Bash(chmod +x /Users/cris/Desktop/forge_web/node_modules/.bin/nuxt)",
+      "Bash(git stash *)",
+      "Bash(PORT=3456 npm --prefix /Users/cris/Desktop/forge_web run dev)",
+      "Bash(node_modules/.bin/nuxt dev *)",
+      "Bash(pkill -f \"nuxt dev\")"
     ]
   }
 }

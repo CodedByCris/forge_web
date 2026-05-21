@@ -92,9 +92,13 @@
       <div class="w-full h-px mb-8" style="background: #2A2A2A" />
 
       <!-- Bottom row -->
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
         <p class="text-forge-muted text-xs">© 2026 Coded by Criss</p>
-        <p class="text-forge-muted text-xs">Hecho con ❤️ para los que no se rinden</p>
+        <div class="flex items-center gap-4">
+          <a href="/privacy" class="text-forge-muted text-xs hover:text-forge-textSec transition-colors">Privacidad</a>
+          <a href="/terms" class="text-forge-muted text-xs hover:text-forge-textSec transition-colors">Términos</a>
+          <a href="mailto:codedbycris@gmail.com" class="text-forge-muted text-xs hover:text-forge-textSec transition-colors">Contacto</a>
+        </div>
       </div>
     </div>
   </footer>

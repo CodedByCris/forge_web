@@ -71,6 +71,13 @@
         <span>{{ isSubmitting ? 'Entrando...' : 'Iniciar sesión' }}</span>
       </button>
     </form>
+
+    <p class="text-center text-forge-muted text-sm mt-8">
+      ¿No tienes cuenta?
+      <NuxtLink to="/train/auth/register" class="text-forge-primary hover:text-forge-accent transition-colors">
+        Regístrate gratis
+      </NuxtLink>
+    </p>
   </div>
 </template>
 

@@ -1,4 +1,15 @@
-import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore'
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  serverTimestamp,
+  collection,
+  query,
+  where,
+  getDocs,
+} from 'firebase/firestore'
 import {
   getAuth,
   sendPasswordResetEmail,
@@ -58,6 +69,37 @@ export const profileService = {
 
   async sendPasswordReset(email: string): Promise<void> {
     await sendPasswordResetEmail(getAuth(), email)
+  },
+
+  async checkNicknameAvailable(nickname: string): Promise<boolean> {
+    const q = query(collection(getFirestore(), 'users'), where('nickname', '==', nickname))
+    const snap = await getDocs(q)
+    return snap.empty
+  },
+
+  async createProfile(uid: string, data: { nickname: string; email: string; buildType: UserBuildType }): Promise<void> {
+    await setDoc(doc(getFirestore(), 'users', uid), {
+      id: uid,
+      nickname: data.nickname,
+      email: data.email,
+      photoUrl: null,
+      createdAt: serverTimestamp(),
+      buildType: data.buildType,
+      isPrivate: false,
+      followersCount: 0,
+      followingCount: 0,
+      totalXp: 0,
+      coins: 0,
+      purchasedItems: [],
+      configured: true,
+      firstName: null,
+      lastName: null,
+      heightCm: null,
+      weightKg: null,
+      activeTitle: null,
+      lastXpDate: null,
+      weeklyGoalDays: null,
+    })
   },
 
   async deleteAccount(password: string): Promise<void> {

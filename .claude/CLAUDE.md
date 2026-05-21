@@ -2,13 +2,20 @@
 
 ## Objetivo
 
-Implementar `/train` dentro de una web Nuxt existente. Esta ruta cubre un subconjunto de la app fitness móvil (Flutter). **No construir la app entera.** Features incluidas:
+La web tiene dos zonas diferenciadas:
 
-- Inicio de sesión (Firebase Auth)
+**Zona pública** — canal de adquisición y marketing:
+- Landing page (`/`) con hero, features, social proof, sponsors y CTA
+- Pricing (`/pricing`) con comparativa free/premium y FAQ
+- Registro (`/train/auth/register`) — wizard 3 pasos que crea cuenta en Firebase
+
+**Zona privada** (`/train/`) — subconjunto de la app fitness:
+- Login / logout
 - Entrenamiento activo (workout normal)
 - Plantillas de entrenamiento
 - Feed social
 - Settings de cuenta
+- Stats dashboard, historial y PRs (pendiente — ver `TODO_web.md`)
 
 El backend es Firebase compartido con la app móvil. **La estructura Firestore NO cambia.** La web es otro cliente del mismo backend.
 
@@ -29,28 +36,41 @@ El backend es Firebase compartido con la app móvil. **La estructura Firestore N
 ## Arquitectura
 
 ```
-/train/
-  composables/       ← lógica reutilizable (useAuth, useWorkout, useFeed…)
-  stores/            ← Pinia stores (authStore, workoutStore, feedStore…)
-  services/          ← Firebase datasources (firestore calls)
-  types/             ← TypeScript interfaces y enums
-  pages/             ← rutas de Nuxt
-    index.vue        ← dashboard / home
+pages/
+  index.vue                  ← landing pública (/)
+  pricing.vue                ← precios (/pricing)
+  train/
+    index.vue                ← dashboard / home
     auth/
       login.vue
+      register.vue           ← wizard registro (3 pasos)
     workout/
-      [id].vue       ← workout activo
+      [id].vue               ← workout activo
     templates/
       index.vue
     feed/
       index.vue
     settings/
       index.vue
-  components/        ← componentes UI reutilizables
-    workout/
-    feed/
-    settings/
-    shared/
+    stats.vue                ← pendiente (BLOQUE 3)
+    history.vue              ← pendiente (BLOQUE 3)
+    history/
+      [id].vue               ← pendiente (BLOQUE 3)
+    records.vue              ← pendiente (BLOQUE 3)
+
+composables/       ← lógica reutilizable (useAuth, useWorkout, useFeed…)
+stores/            ← Pinia stores (authStore, workoutStore, feedStore…)
+services/          ← Firebase datasources (firestore calls)
+types/             ← TypeScript interfaces y enums
+components/
+  landing/         ← HeroSection, FeaturesSection, SocialProof, SponsorSection, CtaSection, PricingCard, FaqSection
+  auth/            ← RegisterStep1, RegisterStep2, RegisterStep3
+  workout/
+  feed/
+  settings/
+  stats/           ← pendiente (OverviewCards, ActivityHeatmap, VolumeChart)
+  history/         ← pendiente (WorkoutListItem, WorkoutDetail)
+  shared/          ← PublicNavbar, AppNavbar, AppFooter
 ```
 
 ### Capas

@@ -24,6 +24,9 @@ interface _GlobalComponents {
   HowItWorks: typeof import("../../app/components/HowItWorks.vue")['default']
   RanksSection: typeof import("../../app/components/RanksSection.vue")['default']
   ScreenshotGallery: typeof import("../../app/components/ScreenshotGallery.vue")['default']
+  AuthRegisterStep1: typeof import("../../app/components/auth/RegisterStep1.vue")['default']
+  AuthRegisterStep2: typeof import("../../app/components/auth/RegisterStep2.vue")['default']
+  AuthRegisterStep3: typeof import("../../app/components/auth/RegisterStep3.vue")['default']
   FeedCommentItem: typeof import("../../app/components/feed/CommentItem.vue")['default']
   FeedCommentSheet: typeof import("../../app/components/feed/CommentSheet.vue")['default']
   FeedEmptyState: typeof import("../../app/components/feed/EmptyState.vue")['default']
@@ -33,6 +36,9 @@ interface _GlobalComponents {
   FeedReactionBar: typeof import("../../app/components/feed/ReactionBar.vue")['default']
   FeedSkeletonCard: typeof import("../../app/components/feed/SkeletonCard.vue")['default']
   FeedWorkoutStats: typeof import("../../app/components/feed/WorkoutStats.vue")['default']
+  LandingCtaSection: typeof import("../../app/components/landing/CtaSection.vue")['default']
+  LandingSocialProof: typeof import("../../app/components/landing/SocialProof.vue")['default']
+  LandingSponsorSection: typeof import("../../app/components/landing/SponsorSection.vue")['default']
   SettingsDeleteAccountDialog: typeof import("../../app/components/settings/DeleteAccountDialog.vue")['default']
   SettingsProfileSheet: typeof import("../../app/components/settings/ProfileSheet.vue")['default']
   SettingsToggleSwitch: typeof import("../../app/components/settings/ToggleSwitch.vue")['default']
@@ -81,6 +87,9 @@ interface _GlobalComponents {
   LazyHowItWorks: LazyComponent<typeof import("../../app/components/HowItWorks.vue")['default']>
   LazyRanksSection: LazyComponent<typeof import("../../app/components/RanksSection.vue")['default']>
   LazyScreenshotGallery: LazyComponent<typeof import("../../app/components/ScreenshotGallery.vue")['default']>
+  LazyAuthRegisterStep1: LazyComponent<typeof import("../../app/components/auth/RegisterStep1.vue")['default']>
+  LazyAuthRegisterStep2: LazyComponent<typeof import("../../app/components/auth/RegisterStep2.vue")['default']>
+  LazyAuthRegisterStep3: LazyComponent<typeof import("../../app/components/auth/RegisterStep3.vue")['default']>
   LazyFeedCommentItem: LazyComponent<typeof import("../../app/components/feed/CommentItem.vue")['default']>
   LazyFeedCommentSheet: LazyComponent<typeof import("../../app/components/feed/CommentSheet.vue")['default']>
   LazyFeedEmptyState: LazyComponent<typeof import("../../app/components/feed/EmptyState.vue")['default']>
@@ -90,6 +99,9 @@ interface _GlobalComponents {
   LazyFeedReactionBar: LazyComponent<typeof import("../../app/components/feed/ReactionBar.vue")['default']>
   LazyFeedSkeletonCard: LazyComponent<typeof import("../../app/components/feed/SkeletonCard.vue")['default']>
   LazyFeedWorkoutStats: LazyComponent<typeof import("../../app/components/feed/WorkoutStats.vue")['default']>
+  LazyLandingCtaSection: LazyComponent<typeof import("../../app/components/landing/CtaSection.vue")['default']>
+  LazyLandingSocialProof: LazyComponent<typeof import("../../app/components/landing/SocialProof.vue")['default']>
+  LazyLandingSponsorSection: LazyComponent<typeof import("../../app/components/landing/SponsorSection.vue")['default']>
   LazySettingsDeleteAccountDialog: LazyComponent<typeof import("../../app/components/settings/DeleteAccountDialog.vue")['default']>
   LazySettingsProfileSheet: LazyComponent<typeof import("../../app/components/settings/ProfileSheet.vue")['default']>
   LazySettingsToggleSwitch: LazyComponent<typeof import("../../app/components/settings/ToggleSwitch.vue")['default']>
