@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineEmits<{ 'open-modal': [] }>()
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.bycriss.forge&pcampaignid=web_share'
 </script>
 
 <template>
@@ -42,8 +42,10 @@ defineEmits<{ 'open-modal': [] }>()
 
         <!-- CTA -->
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <button
-            @click="$emit('open-modal')"
+          <a
+            :href="PLAY_STORE_URL"
+            target="_blank"
+            rel="noopener noreferrer"
             class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-base gradient-orange glow-orange glow-orange-hover transition-all duration-200 hover:scale-105 active:scale-95"
           >
             <!-- Android icon -->
@@ -51,7 +53,7 @@ defineEmits<{ 'open-modal': [] }>()
               <path d="M6.18 15.64a2.18 2.18 0 0 1-2.18-2.18V9.5a2.18 2.18 0 0 1 4.36 0v3.96a2.18 2.18 0 0 1-2.18 2.18zm11.64 0a2.18 2.18 0 0 1-2.18-2.18V9.5a2.18 2.18 0 0 1 4.36 0v3.96a2.18 2.18 0 0 1-2.18 2.18zM3.56 8.04C3.56 5.38 7.44 3 12 3s8.44 2.38 8.44 5.04v8.6c0 .7-.57 1.27-1.27 1.27h-.5v2.27a1.82 1.82 0 0 1-3.64 0V16.9H8.97v2.27a1.82 1.82 0 0 1-3.64 0V16.9h-.5c-.7 0-1.27-.57-1.27-1.27v-8.6zM8.71 2.27l-1-1.73a.27.27 0 0 0-.47.27L8.3 2.6a6.18 6.18 0 0 1 3.7-.6 6.18 6.18 0 0 1 3.7.6l1.06-1.79a.27.27 0 0 0-.47-.27l-1 1.73A6.25 6.25 0 0 0 12 2c-1.18 0-2.28.1-3.29.27zM9.5 6.5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm5 0a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
             </svg>
             Descargar en Android
-          </button>
+          </a>
           <span class="self-center text-forge-muted text-sm">iOS próximamente</span>
         </div>
       </div>

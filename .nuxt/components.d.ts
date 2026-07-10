@@ -17,7 +17,6 @@ type LazyComponent<T> = DefineComponent<HydrationStrategies, {}, {}, {}, {}, {},
 export const AppFooter: typeof import("../app/components/AppFooter.vue")['default']
 export const AppNavbar: typeof import("../app/components/AppNavbar.vue")['default']
 export const AppShowcase: typeof import("../app/components/AppShowcase.vue")['default']
-export const BetaModal: typeof import("../app/components/BetaModal.vue")['default']
 export const BetaSection: typeof import("../app/components/BetaSection.vue")['default']
 export const FeaturesSection: typeof import("../app/components/FeaturesSection.vue")['default']
 export const HeroSection: typeof import("../app/components/HeroSection.vue")['default']
@@ -74,7 +73,6 @@ export const NuxtIsland: typeof import("../node_modules/nuxt/dist/app/components
 export const LazyAppFooter: LazyComponent<typeof import("../app/components/AppFooter.vue")['default']>
 export const LazyAppNavbar: LazyComponent<typeof import("../app/components/AppNavbar.vue")['default']>
 export const LazyAppShowcase: LazyComponent<typeof import("../app/components/AppShowcase.vue")['default']>
-export const LazyBetaModal: LazyComponent<typeof import("../app/components/BetaModal.vue")['default']>
 export const LazyBetaSection: LazyComponent<typeof import("../app/components/BetaSection.vue")['default']>
 export const LazyFeaturesSection: LazyComponent<typeof import("../app/components/FeaturesSection.vue")['default']>
 export const LazyHeroSection: LazyComponent<typeof import("../app/components/HeroSection.vue")['default']>

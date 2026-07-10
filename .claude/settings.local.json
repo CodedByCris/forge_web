@@ -15,7 +15,18 @@
       "Bash(netstat -ano)",
       "Bash(awk '{print $5}')",
       "Bash(xargs -r taskkill /PID /F)",
-      "Bash(npx nuxi:*)"
+      "Bash(npx nuxi:*)",
+      "Bash(git:*)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(node:*)",
+      "Skill(update-config)",
+      "Skill(simplify)",
+      "Skill(ui-ux-pro-max)",
+      "Skill(caveman:caveman-commit)"
     ]
   }
 }
