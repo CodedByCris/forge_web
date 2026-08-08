@@ -93,7 +93,15 @@
 
       <!-- Bottom row -->
       <div class="flex flex-col sm:flex-row items-center justify-between gap-2">
-        <p class="text-forge-muted text-xs">© 2026 Coded by Criss</p>
+        <div class="flex items-center gap-4">
+          <p class="text-forge-muted text-xs">© 2026 Coded by Criss</p>
+          <NuxtLink to="/legal/privacidad" class="text-forge-muted text-xs hover:text-forge-accent transition-colors duration-200">
+            Política de privacidad
+          </NuxtLink>
+          <NuxtLink to="/legal/terminos" class="text-forge-muted text-xs hover:text-forge-accent transition-colors duration-200">
+            Términos de servicio
+          </NuxtLink>
+        </div>
         <p class="text-forge-muted text-xs">Hecho con ❤️ para los que no se rinden</p>
       </div>
     </div>

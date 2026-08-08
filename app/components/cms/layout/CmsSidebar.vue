@@ -17,7 +17,6 @@ const sidebarOpen = useState('cms-sidebar-open', () => false)
 
 const comingSoon = [
   { label: 'Ejercicios', icon: Dumbbell },
-  { label: 'Legal', icon: FileText },
   { label: 'Moderación', icon: ShieldAlert },
   { label: 'Notificaciones', icon: Bell },
   { label: 'Configuración', icon: Settings },
@@ -72,6 +71,15 @@ async function handleLogout() {
       >
         <HelpCircle class="h-4 w-4" />
         FAQ
+      </NuxtLink>
+
+      <NuxtLink
+        to="/cms/legal"
+        class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-forge-textSec transition-all duration-150 ease-out hover:bg-forge-surfaceAlt hover:text-forge-text"
+        active-class="!bg-forge-primary/10 !text-forge-primary border-l-2 border-forge-primary"
+      >
+        <FileText class="h-4 w-4" />
+        Legal
       </NuxtLink>
 
       <div
