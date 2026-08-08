@@ -63,7 +63,8 @@
       "Bash(flutter pub *)",
       "WebFetch(domain:codedbycris.github.io)",
       "Bash(firebase functions:list --project gym-app-41fd6)",
-      "Bash(firebase functions:log --only sendNotificationPush -n 10)"
+      "Bash(firebase functions:log --only sendNotificationPush -n 10)",
+      "Bash(xxd)"
     ]
   }
 }
