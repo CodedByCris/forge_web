@@ -33,6 +33,7 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
   purchasedItems: string[]
   createdAt: Timestamp
   fcmToken: string | null     // ⚠️ en progreso en `forge` (2026-08-08) — token FCM del dispositivo móvil, para push. La web no lo usa ni lo escribe.
+  isAdmin: boolean            // NUEVO (2026-08-08) — gate de acceso a /cms. Solo el CMS lo lee; nadie lo escribe desde código, se asigna a mano en Firestore/Firebase Auth. Ver docs/superpowers/specs/2026-08-08-cms-base-auth-design.md.
 }
 ```
 
@@ -367,3 +368,17 @@ import { serverTimestamp } from 'firebase/firestore'
 
 set(ref, { createdAt: serverTimestamp() })
 ```
+
+---
+
+## SEGURIDAD — Firestore & Storage rules (implementado en `forge`, 2026-08-08)
+
+El repo `forge` ha desplegado (o está a punto de desplegar) `firestore.rules`/`storage.rules` que sustituyen las reglas abiertas (`allow read, write: if true`) que estaban en producción desde 2026-04-19. Estas reglas viven en el repo `forge`, pero aplican al mismo proyecto Firebase, así que afectan directamente a esta web:
+
+- **Lectura**: `users`, `exercises`, `shop_items`, `shop_collections`, `config` — cualquier usuario autenticado (Firebase Auth). El login de `/cms` usa el mismo Firebase Auth del proyecto, así que la lectura de `auth.store.ts` (`getDoc(doc(db, 'users', uid))` para comprobar `isAdmin`) sigue funcionando sin cambios.
+- **Escritura de `exercises`, `shop_items`, `shop_collections`, `config`**: ahora requiere que el usuario autenticado tenga `users/{uid}.isAdmin == true` (regla `isAdmin()` en `firestore.rules`, evaluada con un `get()` sobre el propio doc). Hoy `/cms` no escribe en ninguna de estas colecciones (shell vacío), pero **cualquier módulo nuevo que lo haga (ej. editor de ejercicios, editor de tienda) ya queda cubierto** siempre que el usuario logueado en `/cms` tenga `isAdmin: true` en Firestore.
+- **`isAdmin` es de solo lectura desde cualquier cliente** — ni la app móvil ni esta web pueden fijarlo vía escritura normal (bloqueado explícitamente en `forge/firestore.rules`). Se asigna manualmente desde la consola de Firebase o Admin SDK. Si se necesita un flujo de auto-bootstrap del primer admin, tendría que hacerse fuera del alcance de las security rules (script one-off con Admin SDK).
+- **Módulos futuros de `/cms` sobre colecciones nuevas** (el shell actual menciona "Legal" y "FAQ" como placeholders) **quedarán denegados por defecto** hasta que se añadan sus reglas correspondientes en `forge/firestore.rules`. Avisar al trabajar en `forge` cuando se implemente un módulo nuevo del CMS que toque una colección no listada arriba.
+- Esta web **no tiene backend propio** (no hay `firebase-admin` ni rutas `server/api`) — todo pasa por el SDK cliente, así que está sujeta a estas rules igual que la app móvil.
+
+Ver detalle completo de las reglas y su razonamiento en `forge/.claude/BACKEND.md` sección "SEGURIDAD — FIRESTORE & STORAGE RULES".

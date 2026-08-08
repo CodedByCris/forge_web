@@ -1,5 +1,10 @@
+<script setup lang="ts">
+definePageMeta({ layout: 'cms' })
+</script>
+
 <template>
-  <div class="min-h-screen bg-forge-bg text-forge-text flex items-center justify-center">
-    <p class="text-2xl font-bold">Hola mundo</p>
-  </div>
+  <EmptyState
+    title="Aún no hay módulos con datos"
+    description="Empieza por Ejercicios, Legal o FAQ para ver contenido real aquí."
+  />
 </template>

@@ -101,11 +101,14 @@ y del despliegue de índices — este repo solo documenta una copia.
   CLI + acceso a ambos repos en disco — sin copias espejo intermedias).
 - Al trabajar en `forge` y tocar algo que la web también usa: actualizar
   este `BACKEND.md`/`FUNCTIONS.md`/`INDICES.md` igual.
-- Las reglas de Firestore/Storage están **completamente abiertas ahora
-  mismo** (`allow read, write: if true`, sin excepción) — pendiente de
-  cerrarse, decisión explícita del usuario por ahora. No asumir que hay
-  ninguna restricción de seguridad real todavía (ver nota igual en
-  `forge/.claude/CLAUDE.md`).
+- ✅ **2026-08-08:** las reglas de Firestore/Storage ya NO están abiertas —
+  se desplegaron reglas restrictivas desde `forge` (`firestore.rules` +
+  `storage.rules`). Lectura de `users`/`exercises`/`shop_items`/
+  `shop_collections`/`config` requiere Firebase Auth; escritura de estas
+  últimas cuatro requiere además `users/{uid}.isAdmin == true`. Detalle
+  completo en `BACKEND.md` sección "SEGURIDAD" y en
+  `forge/.claude/BACKEND.md`. El usuario admin del CMS
+  (`cristianarellanoagudo@gmail.com`) ya tiene `isAdmin: true` fijado.
 
 ---
 

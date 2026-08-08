@@ -1,9 +1,0 @@
-{
-  "pid": 22168,
-  "startedAt": 1779011004158,
-  "command": "dev",
-  "cwd": "C:/Users/crist/Desktop/Forge/web",
-  "port": 3001,
-  "hostname": "127.0.0.1",
-  "url": "http://127.0.0.1:3001"
-}

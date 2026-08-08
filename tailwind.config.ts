@@ -23,6 +23,8 @@ export default {
           success:   '#10B981',
           divider:   '#2A2A2A',
           xp:        '#8B5CF6',
+          warning:   '#F59E0B',
+          danger:    '#EF4444',
         },
       },
       keyframes: {

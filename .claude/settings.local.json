@@ -29,7 +29,32 @@
       "Skill(caveman:caveman-commit)",
       "Bash(grep -v '^$')",
       "Bash(npx vue-tsc *)",
-      "Bash(chmod +x node_modules/.bin/*)"
+      "Bash(chmod +x node_modules/.bin/*)",
+      "Bash(find / -maxdepth 3 -iname \"forge\" -type d)",
+      "Read(//Users/cris/Desktop/**)",
+      "Bash(grep -rn 'i18n\\\\|useI18n\\\\|$t\\(' app/ nuxt.config.ts)",
+      "Bash(grep -n \"^### \\\\`users\" -A 40 /Users/cris/Desktop/forge/.claude/BACKEND.md)",
+      "Bash(pkill *)",
+      "Bash(awk '{print $2}')",
+      "Bash(xargs kill -9)",
+      "Bash(kill %1)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(npx --yes vue-tsc --version)",
+      "Bash(chmod +x /Users/cris/Desktop/forge_web/node_modules/.bin/nuxt)",
+      "Bash(kill 66375 69186)",
+      "Bash(grep -E \"^-.*\\\\.ts$\")",
+      "Bash(wait)",
+      "Bash(break)",
+      "Bash(grep -v \"^$\")",
+      "Bash(firebase --version)",
+      "Bash(firebase login:list)",
+      "Bash(mkdir -p /private/tmp/claude-501/-Users-cris-Desktop-forge-web/efdbf550-282d-4249-acf5-129dd2cc2e9c/scratchpad)",
+      "Bash(npm install *)",
+      "Bash(echo \"install exit: $?\")",
+      "Bash(cd *)",
+      "Bash(firebase --help)",
+      "Bash(npm run *)",
+      "Bash(echo \"exit code: $?\")"
     ]
   }
 }

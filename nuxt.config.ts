@@ -30,6 +30,10 @@ export default defineNuxtConfig({
     preset: 'static',
   },
 
+  routeRules: {
+    '/cms/**': { ssr: false },
+  },
+
   css: ['~/assets/css/main.css'],
 
   app: {

@@ -31,13 +31,7 @@ export { requestIdleCallback, cancelIdleCallback } from '#app/compat/idle-callba
 export { setInterval } from '#app/compat/interval';
 export { definePageMeta, PageMeta } from '#app/composables/pages';
 export { defineLazyHydrationComponent } from '#app/composables/lazy-hydration';
-export { useToast } from '../app/composables/useToast';
 export { TEMPLATE_COLORS, argbToHex, TemplateColor } from '../app/utils/colors';
 export { timeAgo } from '../app/utils/time';
-export { levelFromXp, xpProgress, calculateWorkoutXp, formatDuration, formatTimer, calcTotalVolumeKg } from '../app/utils/xp';
-export { useActiveWorkoutStore } from '../app/stores/active-workout.store';
-export { useAuthStore } from '../app/stores/auth.store';
-export { useFeedStore } from '../app/stores/feed.store';
-export { useTemplateStore } from '../app/stores/template.store';
 export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/@pinia/nuxt/dist/runtime/composables';
 export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';

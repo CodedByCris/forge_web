@@ -1,4 +1,4 @@
-export type LayoutKey = "default" | "train"
+export type LayoutKey = "cms" | "default"
 declare module 'nitropack' {
   interface NitroRouteConfig {
     appLayout?: LayoutKey | false
