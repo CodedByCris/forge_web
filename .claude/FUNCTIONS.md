@@ -1,4 +1,4 @@
-# Cloud Functions — Relevantes para Web (/train)
+# Cloud Functions — Relevantes para Web
 
 Proyecto Firebase: `gym-app-41fd6`
 Runtime: Node 20 · API Gen 2

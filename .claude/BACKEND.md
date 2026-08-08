@@ -1,4 +1,4 @@
-# Backend / Firebase — Web (/train)
+# Backend / Firebase — Web
 
 Proyecto Firebase: `gym-app-41fd6`
 SDK: `firebase` v10+ (modular, web)
@@ -7,7 +7,7 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
 
 ---
 
-## Colecciones relevantes para /train
+## Colecciones relevantes para la portada y `/cms`
 
 ### `users/{userId}`
 

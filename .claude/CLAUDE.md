@@ -7,9 +7,12 @@ web un subconjunto de la app móvil — login, workout activo, plantillas,
 feed, settings). El código ya existente en `app/pages/train/`,
 `app/stores/*`, `app/services/*` sigue en el repo — nadie ha pedido
 borrarlo — pero **ya no es el objetivo activo**: no seguir construyendo
-sobre él sin confirmar primero. `AUTH.md`, `WORKOUT.md`, `TEMPLATES.md`,
-`FEED.md`, `SETTINGS.md`, `TYPES.md` documentan ese plan abandonado y quedan
-como referencia histórica, no como alcance actual.
+sobre él sin confirmar primero. La documentación de ese plan (`AUTH.md`,
+`WORKOUT.md`, `TEMPLATES.md`, `FEED.md`, `SETTINGS.md`, `TYPES.md`) se
+eliminó de `.claude/` el 2026-08-08 — no aportaba valor como referencia
+para el nuevo alcance (portada + `/cms`, que no es un espejo de esas
+pantallas). Si hace falta revisar cómo se planteó, está en el historial
+de git.
 
 Nuevo alcance, dos zonas:
 
@@ -82,20 +85,22 @@ Cuando se dispatchen subagentes o se pregunte qué modelo usar:
 ## Sincronización con el repo móvil (`forge`)
 
 Este proyecto comparte el mismo backend Firebase (`gym-app-41fd6`) que la app
-móvil (`forge`). Regla permanente: **`BACKEND.md` y `FUNCTIONS.md` deben
-reflejar siempre el mismo esquema/funciones reales que sus equivalentes en
-`forge/.claude/BACKEND.md` y `forge/.claude/FUNCTIONS.md`** (no significa
+móvil (`forge`). Regla permanente: **`BACKEND.md`, `FUNCTIONS.md` e
+`INDICES.md` deben reflejar siempre el mismo esquema/funciones/índices
+reales que sus equivalentes en `forge/.claude/BACKEND.md`,
+`forge/.claude/FUNCTIONS.md` y `forge/.claude/INDICES.md`** (no significa
 archivos idénticos — `forge` documenta mucho más, fuera del alcance de la
 web — significa que los hechos compartidos, colecciones/campos/Cloud
-Functions que ambos tocan, no pueden divergir ni quedar desactualizados
-entre repos).
+Functions/índices que ambos tocan, no pueden divergir ni quedar
+desactualizados entre repos). `forge` es dueño de `firestore.indexes.json`
+y del despliegue de índices — este repo solo documenta una copia.
 
-- Al cambiar algo en el esquema Firestore o en una Cloud Function desde
-  este repo: actualizar también `forge/.claude/BACKEND.md`/`FUNCTIONS.md`
-  directamente en ese repo (acceso vía Firebase CLI + acceso a ambos repos
-  en disco — sin copias espejo intermedias).
+- Al cambiar algo en el esquema Firestore, una Cloud Function o un índice
+  desde este repo: actualizar también `forge/.claude/BACKEND.md`/
+  `FUNCTIONS.md`/`INDICES.md` directamente en ese repo (acceso vía Firebase
+  CLI + acceso a ambos repos en disco — sin copias espejo intermedias).
 - Al trabajar en `forge` y tocar algo que la web también usa: actualizar
-  este `BACKEND.md`/`FUNCTIONS.md` igual.
+  este `BACKEND.md`/`FUNCTIONS.md`/`INDICES.md` igual.
 - Las reglas de Firestore/Storage están **completamente abiertas ahora
   mismo** (`allow read, write: if true`, sin excepción) — pendiente de
   cerrarse, decisión explícita del usuario por ahora. No asumir que hay
@@ -139,28 +144,16 @@ Proyecto Firebase: `gym-app-41fd6`
 
 ## Rutas protegidas
 
-Legacy del plan `/train` abandonado (código sigue en el repo, sin usarse
-activamente). Cuando se defina `/cms`, necesitará su propio middleware de
+Sin definir todavía. `/cms` va a necesitar su propio middleware de
 protección — probablemente con un check de rol/admin además de
-autenticación, no el mismo `auth.ts` genérico de abajo.
-
-```typescript
-// middleware/auth.ts (legacy /train)
-export default defineNuxtRouteMiddleware(() => {
-  const { user } = useAuthStore()
-  if (!user) return navigateTo('/train/auth/login')
-})
-```
+autenticación (ver `users.role` en `BACKEND.md`), no un `auth.ts`
+genérico. Se define en el brainstorm dedicado de `/cms`, junto con el
+resto de su arquitectura.
 
 ---
 
 ## Documentación relacionada
 
 - `BACKEND.md` — Esquema Firestore completo
-- `AUTH.md` — Feature autenticación
-- `WORKOUT.md` — Feature workout activo
-- `TEMPLATES.md` — Feature plantillas
-- `FEED.md` — Feature feed social
-- `SETTINGS.md` — Feature settings
 - `FUNCTIONS.md` — Cloud Functions relevantes
-- `TYPES.md` — TypeScript types compartidos
+- `INDICES.md` — Índices compuestos de Firestore (sincronizado con `forge`)
