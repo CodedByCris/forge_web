@@ -1,10 +1,21 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { FirebaseError } from 'firebase/app'
 import type { CmsUser } from '~/types/cms/user'
 import type { CmsNotificationPayload } from '~/types/cms/notification'
 import { getUsers } from '~/services/cms/users.service'
 import { sendToUser, sendToAll } from '~/services/cms/notifications.service'
 import { useCmsAuthStore } from '~/stores/cms/auth.store'
+
+function describeSendError(e: unknown): string {
+  if (e instanceof FirebaseError && e.code === 'permission-denied') {
+    return 'No se pudo enviar: Firestore rechazó la escritura (código permission-denied). Revisa que no estés intentando enviarte una notificación a ti mismo — las rules lo bloquean explícitamente.'
+  }
+  if (e instanceof FirebaseError) {
+    return `No se pudo enviar la notificación (${e.code}).`
+  }
+  return 'No se pudo enviar la notificación.'
+}
 
 export const useCmsNotificationsStore = defineStore('cmsNotifications', () => {
   const users = ref<CmsUser[]>([])
@@ -33,12 +44,19 @@ export const useCmsNotificationsStore = defineStore('cmsNotifications', () => {
     sending.value = true
     sendError.value = null
     lastSentCount.value = null
+
+    if (toUid === authStore.user.uid) {
+      sendError.value = 'No puedes enviarte una notificación a ti mismo — elige otro usuario.'
+      sending.value = false
+      return false
+    }
+
     try {
       await sendToUser(authStore.user.uid, toUid, payload)
       lastSentCount.value = 1
       return true
-    } catch {
-      sendError.value = 'No se pudo enviar la notificación.'
+    } catch (e) {
+      sendError.value = describeSendError(e)
       return false
     } finally {
       sending.value = false
@@ -58,8 +76,8 @@ export const useCmsNotificationsStore = defineStore('cmsNotifications', () => {
       const count = await sendToAll(authStore.user.uid, users.value.map((u) => u.uid), payload)
       lastSentCount.value = count
       return true
-    } catch {
-      sendError.value = 'No se pudo enviar la notificación a todos.'
+    } catch (e) {
+      sendError.value = describeSendError(e)
       return false
     } finally {
       sending.value = false
