@@ -17,7 +17,6 @@ const sidebarOpen = useState('cms-sidebar-open', () => false)
 
 const comingSoon = [
   { label: 'Ejercicios', icon: Dumbbell },
-  { label: 'Configuración', icon: Settings },
 ]
 
 async function handleLogout() {
@@ -96,6 +95,15 @@ async function handleLogout() {
       >
         <ShieldAlert class="h-4 w-4" />
         Moderación
+      </NuxtLink>
+
+      <NuxtLink
+        to="/cms/configuracion"
+        class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-forge-textSec transition-all duration-150 ease-out hover:bg-forge-surfaceAlt hover:text-forge-text"
+        active-class="!bg-forge-primary/10 !text-forge-primary border-l-2 border-forge-primary"
+      >
+        <Settings class="h-4 w-4" />
+        Configuración
       </NuxtLink>
 
       <div
