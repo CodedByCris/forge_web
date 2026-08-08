@@ -11,15 +11,16 @@ Queda fuera de alcance: diseño real del CMS, autenticación de administradores,
 
 ## Decisiones (confirmadas con el usuario)
 
-- Se elimina **todo** `/train`, no solo el flujo de "hacer ejercicio". Incluye login/registro, plantillas, feed y settings.
+- Se elimina **todo** `/train`, no solo el flujo de "hacer ejercicio". Incluye login, plantillas, feed y settings.
 - Se elimina también la capa de datos asociada (stores Pinia, servicios Firebase, tipos TS) — no se conserva nada "por si acaso". Si el CMS necesita acceder a las mismas colecciones de Firestore, esa capa se recreará desde cero con su propio spec.
-- Los CTA de login/registro en la landing y en pricing se **quitan**, no se dejan como enlaces muertos.
+- Los CTA que enlazan a `/train` en la landing se **quitan**, no se dejan como enlaces muertos.
 - `/cms` se crea sin protección (sin middleware de auth) y sin layout especial — usa el layout `default`.
+- Trabajo hecho sobre la rama `main` (confirmado con el usuario tras detectar que difiere de `test`, la rama donde arrancó esta conversación). `main` no tiene wizard de registro, `pricing.vue`, `CtaSection.vue`, `SocialProof.vue` ni `SponsorSection.vue` — todo eso solo existe en `test` y queda fuera de este spec.
 
 ## Alcance de la eliminación
 
 ### Páginas
-- `app/pages/train/` (completo): `index.vue`, `auth/login.vue`, `auth/register.vue`, `workout/active.vue`, `workout/[id].vue`, `workout/history.vue`, `templates/index.vue`, `feed/index.vue`, `settings/index.vue`
+- `app/pages/train/` (completo): `index.vue`, `auth/login.vue`, `workout/active.vue`, `workout/[id].vue`, `workout/history.vue`, `templates/index.vue`, `feed/index.vue`, `settings/index.vue`
 
 ### Layouts y middleware
 - `app/layouts/train.vue`
@@ -62,10 +63,7 @@ Queda fuera de alcance: diseño real del CMS, autenticación de administradores,
 - Se conserva `app/plugins/01.firebase.client.ts` — solo inicializa la app de Firebase, sin dependencias de lo anterior, y lo reutilizará el CMS.
 
 ### Referencias a actualizar (no borrar el archivo, quitar el enlace)
-- `app/components/AppNavbar.vue` — quitar links a `/train/auth/login` y `/train/auth/register`
-- `app/components/HeroSection.vue` — quitar link a `/train/auth/login`
-- `app/components/landing/CtaSection.vue` — quitar link a `/train/auth/register`
-- `app/pages/pricing.vue` — quitar los dos links a `/train/auth/register`
+- `app/components/AppNavbar.vue` — quitar el `NuxtLink` "Entrenar" que apunta a `/train` (líneas 20-28 actuales)
 - `nuxt.config.ts` — quitar la `routeRule` `'/train/**': { ssr: false }` (ya no aplica a nada)
 
 ## Nueva ruta /cms
