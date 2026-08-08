@@ -30,11 +30,6 @@ export default defineNuxtConfig({
     preset: 'static',
   },
 
-  // /train is a client-side SPA (Firebase Auth — no SSR)
-  routeRules: {
-    '/train/**': { ssr: false },
-  },
-
   css: ['~/assets/css/main.css'],
 
   app: {
