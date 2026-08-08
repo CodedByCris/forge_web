@@ -142,12 +142,13 @@ lib/features/faq/
   elaborado para una lista corta), error (mensaje + reintentar), vacío (si
   no hay ninguna FAQ activa, mensaje "No hay preguntas frecuentes
   disponibles" en vez de una lista vacía silenciosa).
-- **Limpieza**: eliminar `faqTitle`/`faqQ1`/`faqA1`/`faqQ2`/`faqA2`/`faqQ3`/
-  `faqA3` de `app_es.arb` y `app_en.arb` (código muerto tras el cambio). El
-  título del `AppBar` (`l10n.faqTitle`) se sustituye por un string fijo
-  "Preguntas frecuentes" ya que ya no depende de contenido de Firestore ni
-  tiene sentido mantener una clave i18n de una sola palabra suelta cuando el
-  resto del contenido deja de ser i18n.
+- **Limpieza**: eliminar solo `faqQ1`/`faqA1`/`faqQ2`/`faqA2`/`faqQ3`/`faqA3`
+  de `app_es.arb` y `app_en.arb` (código muerto — ese contenido pasa a
+  Firestore). **`faqTitle` se mantiene** en ambos `.arb`: es un string de UI
+  (título de `AppBar`), no contenido dinámico, y el resto de la app sí
+  mantiene ES/EN real (a diferencia de `forge_web`, que no tiene i18n) — no
+  hay razón para romper esa consistencia solo porque el contenido de las
+  preguntas en sí es solo-español.
 
 ## Manejo de errores
 

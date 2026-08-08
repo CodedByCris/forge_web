@@ -1,1 +1,0 @@
-import{a4 as u,f as n,q as r}from"./_cvUzZWS.js";const s=u(e=>{const{user:t,loading:i}=n();if(i)return;const a=e.path.startsWith("/train/auth");if(!t&&!a)return r("/train/auth/login");if(t&&a)return r("/train")});export{s as default};

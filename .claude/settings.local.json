@@ -57,7 +57,9 @@
       "Bash(echo \"exit code: $?\")",
       "Bash(firebase deploy *)",
       "Bash(echo \"---exit code: $?---\")",
-      "Bash(echo \"exit: $?\")"
+      "Bash(echo \"exit: $?\")",
+      "Bash(flutter analyze *)",
+      "Bash(flutter gen-l10n *)"
     ]
   }
 }
