@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import CmsSidebar from '~/components/cms/layout/CmsSidebar.vue'
+import CmsTopbar from '~/components/cms/layout/CmsTopbar.vue'
+</script>
+
 <template>
   <div class="flex min-h-screen bg-forge-bg text-forge-text">
     <CmsSidebar />

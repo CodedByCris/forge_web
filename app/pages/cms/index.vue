@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import EmptyState from '~/components/cms/shared/EmptyState.vue'
+
 definePageMeta({ layout: 'cms' })
 </script>
 
