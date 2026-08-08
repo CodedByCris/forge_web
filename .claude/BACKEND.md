@@ -32,6 +32,7 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
   lastXpDate: string | null   // 'YYYY-MM-DD'
   purchasedItems: string[]
   createdAt: Timestamp
+  fcmToken: string | null     // ⚠️ en progreso en `forge` (2026-08-08) — token FCM del dispositivo móvil, para push. La web no lo usa ni lo escribe.
 }
 ```
 
@@ -207,6 +208,37 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
   createdAt: Timestamp
 }
 ```
+
+---
+
+### `notifications/{notificationId}`
+
+```typescript
+{
+  toUid: string
+  fromUid: string
+  fromNickname: string
+  fromPhotoUrl: string | null
+  type: string              // 'friend_request' | 'follow_request' | 'new_follower' | 'follow_accepted' | 'post_like' | 'post_reaction' | 'post_comment' (los 3 últimos en progreso en `forge`, ver más abajo)
+  status: string             // 'pending' | 'accepted' | 'declined' — solo tiene significado real para friend_request/follow_request
+  followId: string | null
+  postId: string | null      // en progreso — solo en post_like/post_reaction/post_comment
+  emoji: string | null       // en progreso — solo en post_reaction
+  isRead: boolean
+  createdAt: Timestamp
+}
+```
+
+> ⚠️ **2026-08-08 — en progreso en `forge` (mobile):** se está añadiendo
+> soporte de push (FCM) sobre esta misma colección, más un campo nuevo
+> `users/{uid}.fcmToken` (ver más abajo) y los 3 tipos `post_*`. La web no
+> necesita hacer nada para que esto funcione (la Cloud Function del push
+> lee cualquier doc nuevo de `notifications` sea cual sea el cliente que lo
+> escribió) pero si la web algún día escribe likes/reacciones/comentarios,
+> debería escribir también el doc de `notifications` correspondiente con
+> este mismo esquema para que el usuario reciba el push. Ver
+> `forge/docs/superpowers/specs/2026-08-08-push-notifications-design.md`
+> para el diseño completo.
 
 ---
 

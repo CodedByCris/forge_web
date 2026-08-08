@@ -86,6 +86,22 @@ async function awardWorkoutXp(userId: string, xpAmount: number, coinAmount: numb
 
 ---
 
+### `sendNotificationPush` (⚠️ en progreso, no desplegada todavía — 2026-08-08)
+
+**Trigger:** Firestore `onDocumentCreated('notifications/{notifId}')`
+
+Envía un push FCM al `toUid` de cualquier doc nuevo en `notifications`
+(like, reacción, comentario, follow, friend request), leyendo
+`users/{toUid}.fcmToken`. Genérica — no le importa qué cliente escribió el
+doc. Ver `forge/docs/superpowers/plans/2026-08-08-push-notifications.md`.
+
+**Impacto en web:** ninguno hasta que la web escriba en `notifications` o
+`users.fcmToken` (no lo hace en el MVP actual). Si en el futuro la web
+implementa likes/comentarios, debería escribir el doc de `notifications`
+correspondiente (ver `BACKEND.md`) para que esta función dispare el push.
+
+---
+
 ## Funciones NO relevantes para web (MVP)
 
 | Función | Por qué no aplica |
@@ -122,6 +138,13 @@ La web no necesita coordinar con la Cloud Function. El guard `lastXpDate` hace e
 ## Notas de seguridad
 
 - La web usa el mismo proyecto Firebase → mismas Security Rules
-- Las Security Rules de Firestore permiten escritura autenticada en `workouts/{workoutId}` si `request.auth.uid == resource.data.userId`
-- Las Cloud Functions tienen permisos de Admin SDK (bypasan rules)
-- La web **nunca** debe escribir XP directamente en producción sin el guard (la CF puede llegar antes)
+- ⚠️ **2026-08-08 — corregido:** las Security Rules desplegadas de verdad
+  (comprobado vía Firebase Rules API, no solo el archivo del repo) son
+  `allow read, write: if true` en **todo** Firestore y Storage — no hay
+  ningún check de `request.auth.uid`. El texto anterior de esta nota
+  (que asumía una regla tipo `request.auth.uid == resource.data.userId`)
+  era incorrecto/aspiracional, nunca llegó a desplegarse. Pendiente de
+  cerrar — no construir nada que dependa de que Firestore rechace
+  escrituras no autorizadas hasta que se resuelva.
+- Las Cloud Functions tienen permisos de Admin SDK (bypasan rules siempre, esto sí es cierto independientemente de lo anterior)
+- La web **nunca** debe escribir XP directamente en producción sin el guard (la CF puede llegar antes) — esto sigue aplicando por la lógica de negocio (evitar doble-award), no por seguridad de rules

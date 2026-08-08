@@ -26,7 +26,10 @@
       "Skill(update-config)",
       "Skill(simplify)",
       "Skill(ui-ux-pro-max)",
-      "Skill(caveman:caveman-commit)"
+      "Skill(caveman:caveman-commit)",
+      "Bash(grep -v '^$')",
+      "Bash(npx vue-tsc *)",
+      "Bash(chmod +x node_modules/.bin/*)"
     ]
   }
 }
