@@ -17,15 +17,6 @@
         >
           Inicio
         </NuxtLink>
-        <NuxtLink
-          to="/train"
-          class="px-4 py-2 rounded-xl text-sm font-medium transition-colors"
-          :class="route.path.startsWith('/train')
-            ? 'text-forge-primary bg-forge-primary/10'
-            : 'text-forge-muted hover:text-forge-text hover:bg-forge-surface/60'"
-        >
-          Entrenar
-        </NuxtLink>
       </div>
     </nav>
   </header>
