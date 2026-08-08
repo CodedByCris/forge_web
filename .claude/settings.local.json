@@ -59,7 +59,8 @@
       "Bash(echo \"---exit code: $?---\")",
       "Bash(echo \"exit: $?\")",
       "Bash(flutter analyze *)",
-      "Bash(flutter gen-l10n *)"
+      "Bash(flutter gen-l10n *)",
+      "Bash(flutter pub *)"
     ]
   }
 }
