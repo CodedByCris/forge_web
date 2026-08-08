@@ -54,7 +54,10 @@
       "Bash(cd *)",
       "Bash(firebase --help)",
       "Bash(npm run *)",
-      "Bash(echo \"exit code: $?\")"
+      "Bash(echo \"exit code: $?\")",
+      "Bash(firebase deploy *)",
+      "Bash(echo \"---exit code: $?---\")",
+      "Bash(echo \"exit: $?\")"
     ]
   }
 }

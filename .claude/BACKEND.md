@@ -29,6 +29,7 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
   followingCount: number
   totalXp: number
   coins: number
+  currentStreak: number       // NUEVO en la doc (2026-08-08) — ya existía en producción, documentado en forge/.claude/BACKEND.md pero no aquí. Días consecutivos con workout, actualizado por Cloud Function `dailyStreakReset`.
   lastXpDate: string | null   // 'YYYY-MM-DD'
   purchasedItems: string[]
   createdAt: Timestamp

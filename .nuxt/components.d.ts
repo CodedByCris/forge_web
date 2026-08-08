@@ -25,7 +25,12 @@ export const RanksSection: typeof import("../app/components/RanksSection.vue")['
 export const ScreenshotGallery: typeof import("../app/components/ScreenshotGallery.vue")['default']
 export const CmsLayoutCmsSidebar: typeof import("../app/components/cms/layout/CmsSidebar.vue")['default']
 export const CmsLayoutCmsTopbar: typeof import("../app/components/cms/layout/CmsTopbar.vue")['default']
+export const CmsSharedConfirmModal: typeof import("../app/components/cms/shared/ConfirmModal.vue")['default']
 export const CmsSharedEmptyState: typeof import("../app/components/cms/shared/EmptyState.vue")['default']
+export const CmsSharedStatCard: typeof import("../app/components/cms/shared/StatCard.vue")['default']
+export const CmsUsersAdjustXpCoinsModal: typeof import("../app/components/cms/users/AdjustXpCoinsModal.vue")['default']
+export const CmsUsersUserDetailHeader: typeof import("../app/components/cms/users/UserDetailHeader.vue")['default']
+export const CmsUsersUserRow: typeof import("../app/components/cms/users/UserRow.vue")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
 export const NuxtLayout: typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
 export const NuxtErrorBoundary: typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']
@@ -61,7 +66,12 @@ export const LazyRanksSection: LazyComponent<typeof import("../app/components/Ra
 export const LazyScreenshotGallery: LazyComponent<typeof import("../app/components/ScreenshotGallery.vue")['default']>
 export const LazyCmsLayoutCmsSidebar: LazyComponent<typeof import("../app/components/cms/layout/CmsSidebar.vue")['default']>
 export const LazyCmsLayoutCmsTopbar: LazyComponent<typeof import("../app/components/cms/layout/CmsTopbar.vue")['default']>
+export const LazyCmsSharedConfirmModal: LazyComponent<typeof import("../app/components/cms/shared/ConfirmModal.vue")['default']>
 export const LazyCmsSharedEmptyState: LazyComponent<typeof import("../app/components/cms/shared/EmptyState.vue")['default']>
+export const LazyCmsSharedStatCard: LazyComponent<typeof import("../app/components/cms/shared/StatCard.vue")['default']>
+export const LazyCmsUsersAdjustXpCoinsModal: LazyComponent<typeof import("../app/components/cms/users/AdjustXpCoinsModal.vue")['default']>
+export const LazyCmsUsersUserDetailHeader: LazyComponent<typeof import("../app/components/cms/users/UserDetailHeader.vue")['default']>
+export const LazyCmsUsersUserRow: LazyComponent<typeof import("../app/components/cms/users/UserRow.vue")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
 export const LazyNuxtLayout: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
 export const LazyNuxtErrorBoundary: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']>
