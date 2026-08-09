@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import { Music, Trash2 } from 'lucide-vue-next'
+import { Music, Sparkles, Trash2 } from 'lucide-vue-next'
 import { useCmsShopItemsStore } from '~/stores/cms/shopItems.store'
 import type { ShopItemFormInput } from '~/services/cms/shopItems.service'
 import type { CmsShopItem, CmsShopItemRarity, CmsShopItemRewardType } from '~/types/cms/shopItem'
@@ -9,7 +9,6 @@ import {
   RARITY_OPTIONS,
   RARITY_LABELS,
   THEME_OPTIONS,
-  CELEBRATION_OPTIONS,
   SOUND_EFFECT_OPTIONS,
 } from '~/types/cms/shopItem'
 
@@ -33,7 +32,6 @@ const minRankLevel = ref(0)
 const rewardType = ref<CmsShopItemRewardType>('xpBoost')
 
 const themeId = ref<string>(THEME_OPTIONS[0])
-const celebrationEffect = ref<string>(CELEBRATION_OPTIONS[0]!.id)
 const boostMultiplier = ref(2)
 const boostMode = ref<'hours' | 'workouts'>('workouts')
 const boostDurationHours = ref(24)
@@ -44,12 +42,19 @@ const soundFile = ref<File | null>(null)
 const soundFileInput = ref<HTMLInputElement>()
 const removeSound = ref(false)
 
+const lottieFile = ref<File | null>(null)
+const lottieFileInput = ref<HTMLInputElement>()
+const removeLottie = ref(false)
+
 const loading = ref(false)
 const errorMessage = ref<string | null>(null)
 
 const isEditing = computed(() => props.editingItem !== null)
 const currentSoundUrl = computed(() =>
   removeSound.value ? null : (props.editingItem?.soundUrl ?? null),
+)
+const currentLottieUrl = computed(() =>
+  removeLottie.value ? null : (props.editingItem?.celebrationLottieUrl ?? null),
 )
 
 watch(
@@ -63,7 +68,6 @@ watch(
     minRankLevel.value = item?.minRankLevel ?? 0
     rewardType.value = item?.rewardType ?? 'xpBoost'
     themeId.value = item?.themeId ?? THEME_OPTIONS[0]
-    celebrationEffect.value = item?.celebrationEffect ?? CELEBRATION_OPTIONS[0]!.id
     boostMultiplier.value = item?.boostMultiplier ?? 2
     boostMode.value = item?.boostWorkoutsLeft != null ? 'workouts' : 'hours'
     boostDurationHours.value = item?.boostDurationHours ?? 24
@@ -71,6 +75,8 @@ watch(
     soundEffect.value = item?.soundEffect ?? SOUND_EFFECT_OPTIONS[0]!.id
     soundFile.value = null
     removeSound.value = false
+    lottieFile.value = null
+    removeLottie.value = false
     errorMessage.value = null
   },
 )
@@ -94,9 +100,29 @@ function handleRemoveSound() {
   removeSound.value = true
 }
 
+function pickLottieFile() {
+  lottieFileInput.value?.click()
+}
+
+function handleLottieFileChange(event: Event) {
+  const target = event.target as HTMLInputElement
+  const file = target.files?.[0] ?? null
+  if (file) {
+    lottieFile.value = file
+    removeLottie.value = false
+  }
+  target.value = ''
+}
+
+function handleRemoveLottie() {
+  lottieFile.value = null
+  removeLottie.value = true
+}
+
 const canSubmit = computed(() => {
   if (!displayName.value.trim() || price.value < 0) return false
   if (rewardType.value === 'soundEffect' && !currentSoundUrl.value && !soundFile.value) return false
+  if (rewardType.value === 'celebration' && !currentLottieUrl.value && !lottieFile.value) return false
   return true
 })
 
@@ -112,14 +138,24 @@ async function handleSubmit() {
     minRankLevel: minRankLevel.value,
     rewardType: rewardType.value,
     themeId: rewardType.value === 'theme' ? themeId.value : null,
-    celebrationEffect: rewardType.value === 'celebration' ? celebrationEffect.value : null,
     boostMultiplier: rewardType.value === 'xpBoost' ? boostMultiplier.value : null,
     boostDurationHours: rewardType.value === 'xpBoost' && boostMode.value === 'hours' ? boostDurationHours.value : null,
     boostWorkoutsLeft: rewardType.value === 'xpBoost' && boostMode.value === 'workouts' ? boostWorkoutsLeft.value : null,
     soundEffect: rewardType.value === 'soundEffect' ? soundEffect.value : null,
   }
 
-  const ok = await shopItemsStore.saveItem(input, soundFile.value, removeSound.value, props.editingItem?.id)
+  const assetFile = rewardType.value === 'soundEffect'
+    ? soundFile.value
+    : rewardType.value === 'celebration'
+      ? lottieFile.value
+      : null
+  const removeAsset = rewardType.value === 'soundEffect'
+    ? removeSound.value
+    : rewardType.value === 'celebration'
+      ? removeLottie.value
+      : false
+
+  const ok = await shopItemsStore.saveItem(input, assetFile, removeAsset, props.editingItem?.id)
   loading.value = false
   if (ok) {
     emit('close')
@@ -333,22 +369,42 @@ async function handleSubmit() {
         <!-- Celebración -->
         <template v-else-if="rewardType === 'celebration'">
           <div>
-            <label for="si-celebration" class="mb-1.5 block text-xs font-medium text-forge-textSec">
-              Efecto de celebración
-            </label>
-            <select
-              id="si-celebration"
-              v-model="celebrationEffect"
-              :disabled="isEditing"
-              class="w-full rounded-lg border border-forge-divider bg-forge-surfaceAlt px-3 py-2 text-sm text-forge-text focus:outline-none focus:ring-2 focus:ring-forge-primary disabled:opacity-60"
-            >
-              <option v-for="opt in CELEBRATION_OPTIONS" :key="opt.id" :value="opt.id">
-                {{ opt.label }}
-              </option>
-            </select>
-            <p class="mt-1 text-xs text-forge-muted">
-              Solo puede haber un producto por efecto de celebración.
-            </p>
+            <label class="mb-1.5 block text-xs font-medium text-forge-textSec">Animación Lottie (.json)</label>
+            <div class="flex items-center gap-3">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-forge-surfaceAlt">
+                <Sparkles :size="20" class="text-forge-muted" />
+              </div>
+              <div class="flex flex-1 flex-col gap-2">
+                <p v-if="currentLottieUrl" class="text-xs text-forge-success">Lottie subido ✓</p>
+                <div class="flex gap-2">
+                  <button
+                    type="button"
+                    class="flex items-center gap-1.5 rounded-lg border border-forge-divider px-3 py-1.5 text-xs font-medium text-forge-text hover:bg-forge-surfaceAlt"
+                    @click="pickLottieFile"
+                  >
+                    <Sparkles :size="14" />
+                    {{ currentLottieUrl ? 'Cambiar Lottie' : 'Subir Lottie' }}
+                  </button>
+                  <button
+                    v-if="currentLottieUrl"
+                    type="button"
+                    class="flex items-center gap-1.5 rounded-lg border border-forge-divider px-3 py-1.5 text-xs font-medium text-forge-danger hover:bg-forge-danger/10"
+                    @click="handleRemoveLottie"
+                  >
+                    <Trash2 :size="14" />
+                    Eliminar
+                  </button>
+                </div>
+                <p v-if="lottieFile" class="text-xs text-forge-muted">{{ lottieFile.name }}</p>
+              </div>
+              <input
+                ref="lottieFileInput"
+                type="file"
+                accept="application/json,.json"
+                class="hidden"
+                @change="handleLottieFileChange"
+              >
+            </div>
           </div>
         </template>
       </div>

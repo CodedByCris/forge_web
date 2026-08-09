@@ -24,7 +24,6 @@ export interface ShopItemFormInput {
   minRankLevel: number
   rewardType: CmsShopItemRewardType
   themeId: string | null
-  celebrationEffect: string | null
   boostMultiplier: number | null
   boostDurationHours: number | null
   boostWorkoutsLeft: number | null
@@ -41,7 +40,7 @@ function toItem(id: string, data: Record<string, unknown>): CmsShopItem {
     minRankLevel: (data.minRankLevel as number) ?? 0,
     isActive: data.isActive === true,
     themeId: (data.themeId as string) ?? null,
-    celebrationEffect: (data.celebrationEffect as string) ?? null,
+    celebrationLottieUrl: (data.celebrationLottieUrl as string) ?? null,
     boostMultiplier: (data.boostMultiplier as number) ?? null,
     boostDurationHours: (data.boostDurationHours as number) ?? null,
     boostWorkoutsLeft: (data.boostWorkoutsLeft as number) ?? null,
@@ -59,7 +58,6 @@ function buildPayload(input: ShopItemFormInput, isActive: boolean) {
     minRankLevel: input.minRankLevel,
     isActive,
     themeId: input.rewardType === 'theme' ? input.themeId : null,
-    celebrationEffect: input.rewardType === 'celebration' ? input.celebrationEffect : null,
     boostMultiplier: input.rewardType === 'xpBoost' ? input.boostMultiplier : null,
     boostDurationHours: input.rewardType === 'xpBoost' ? input.boostDurationHours : null,
     boostWorkoutsLeft: input.rewardType === 'xpBoost' ? input.boostWorkoutsLeft : null,
@@ -76,13 +74,6 @@ export async function getShopItems(): Promise<CmsShopItem[]> {
 export async function createShopItem(input: ShopItemFormInput): Promise<string> {
   const db = getFirestore()
   const payload = buildPayload(input, true)
-  // La app resuelve nombre/descripción de las celebraciones a partir del ID
-  // del documento (no de un campo) — forzamos que coincida con el id del
-  // efecto elegido. Como mucho puede haber un doc por efecto (3 en total).
-  if (input.rewardType === 'celebration' && input.celebrationEffect) {
-    await setDoc(doc(db, 'shop_items', input.celebrationEffect), payload, { merge: true })
-    return input.celebrationEffect
-  }
   // Convención ya documentada en BACKEND.md para items de tema: id = 'theme_{themeId}'.
   // Un tema solo tiene una recompensa posible, así que no tiene sentido tener
   // dos documentos distintos para el mismo themeId.
@@ -132,4 +123,28 @@ export async function deleteShopItemSound(id: string): Promise<void> {
   }
   const db = getFirestore()
   await updateDoc(doc(db, 'shop_items', id), { soundUrl: null })
+}
+
+export async function uploadShopItemCelebrationLottie(id: string, file: File): Promise<string> {
+  const storage = getStorage()
+  const fileRef = storageRef(storage, `shop_items/${id}/celebration.json`)
+  await uploadBytes(fileRef, file, { contentType: 'application/json' })
+  const url = await getDownloadURL(fileRef)
+  const db = getFirestore()
+  await updateDoc(doc(db, 'shop_items', id), { celebrationLottieUrl: url })
+  return url
+}
+
+export async function deleteShopItemCelebrationLottie(id: string): Promise<void> {
+  const storage = getStorage()
+  const fileRef = storageRef(storage, `shop_items/${id}/celebration.json`)
+  try {
+    await deleteObject(fileRef)
+  } catch (e) {
+    if (!(e instanceof Error && 'code' in e && (e as { code: string }).code === 'storage/object-not-found')) {
+      throw e
+    }
+  }
+  const db = getFirestore()
+  await updateDoc(doc(db, 'shop_items', id), { celebrationLottieUrl: null })
 }

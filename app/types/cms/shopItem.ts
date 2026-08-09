@@ -10,7 +10,7 @@ export interface CmsShopItem {
   minRankLevel: number
   isActive: boolean
   themeId: string | null
-  celebrationEffect: string | null
+  celebrationLottieUrl: string | null
   boostMultiplier: number | null
   boostDurationHours: number | null
   boostWorkoutsLeft: number | null
@@ -41,15 +41,6 @@ export const THEME_OPTIONS = [
   'dark', 'neo', 'emerald', 'ember', 'arctic', 'midnight', 'neonrush',
   'shadow', 'volcanic', 'golden', 'phantom', 'bloodpact', 'titan', 'lightning',
 ] as const
-
-// Mismos valores que el enum CelebrationEffect (sin 'none') — el id del
-// documento en shop_items se fuerza a coincidir con este id al crear,
-// porque la app resuelve el nombre/descripción a partir del ID del doc.
-export const CELEBRATION_OPTIONS: { id: string; label: string }[] = [
-  { id: 'celebration_confetti', label: 'Confeti' },
-  { id: 'celebration_fireworks', label: 'Fuegos artificiales' },
-  { id: 'celebration_stars', label: 'Estrellas' },
-]
 
 // Mismos valores que el enum SoundEffect (sin 'none') — cada uno tiene un
 // trigger fijo en el código (set/descanso/entreno completado).

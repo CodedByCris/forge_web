@@ -10,6 +10,8 @@ import {
   toggleShopItemActive,
   uploadShopItemSound,
   deleteShopItemSound,
+  uploadShopItemCelebrationLottie,
+  deleteShopItemCelebrationLottie,
   type ShopItemFormInput,
 } from '~/services/cms/shopItems.service'
 
@@ -39,8 +41,8 @@ export const useCmsShopItemsStore = defineStore('cmsShopItems', () => {
 
   async function saveItem(
     input: ShopItemFormInput,
-    soundFile: File | null,
-    removeSound: boolean,
+    assetFile: File | null,
+    removeAsset: boolean,
     id?: string,
   ): Promise<boolean> {
     saving.value = true
@@ -54,10 +56,16 @@ export const useCmsShopItemsStore = defineStore('cmsShopItems', () => {
         itemId = await createShopItem(input)
       }
       if (input.rewardType === 'soundEffect') {
-        if (soundFile) {
-          await uploadShopItemSound(itemId, soundFile)
-        } else if (removeSound) {
+        if (assetFile) {
+          await uploadShopItemSound(itemId, assetFile)
+        } else if (removeAsset) {
           await deleteShopItemSound(itemId)
+        }
+      } else if (input.rewardType === 'celebration') {
+        if (assetFile) {
+          await uploadShopItemCelebrationLottie(itemId, assetFile)
+        } else if (removeAsset) {
+          await deleteShopItemCelebrationLottie(itemId)
         }
       }
       await fetchItems()
