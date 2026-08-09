@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { Camera, Trash2 } from 'lucide-vue-next'
 import { useCmsExercisesStore } from '~/stores/cms/exercises.store'
 import EmptyState from '~/components/cms/shared/EmptyState.vue'
-import { BODY_PARTS, EXERCISE_TYPE_LABELS, type CmsExerciseType } from '~/types/cms/exercise'
+import { BODY_PARTS, EXERCISE_TYPE_LABELS, EQUIPMENT_OPTIONS, CATEGORY_OPTIONS, type CmsExerciseType } from '~/types/cms/exercise'
 
 definePageMeta({ layout: 'cms' })
 
@@ -21,6 +22,8 @@ const equipment = ref('')
 const category = ref('')
 const imageFile = ref<File | null>(null)
 const imagePreview = ref<string | null>(null)
+const removeImage = ref(false)
+const imageInput = ref<HTMLInputElement>()
 
 const saved = ref(false)
 
@@ -47,13 +50,25 @@ function toggleBodyPart(part: string) {
   }
 }
 
+function pickImage() {
+  imageInput.value?.click()
+}
+
 function handleFileChange(event: Event) {
   const target = event.target as HTMLInputElement
   const file = target.files?.[0] ?? null
-  imageFile.value = file
   if (file) {
+    imageFile.value = file
     imagePreview.value = URL.createObjectURL(file)
+    removeImage.value = false
   }
+  target.value = ''
+}
+
+function handleRemoveImage() {
+  imageFile.value = null
+  imagePreview.value = null
+  removeImage.value = true
 }
 
 async function handleSave() {
@@ -70,10 +85,12 @@ async function handleSave() {
       category: category.value.trim() || null,
     },
     imageFile.value,
+    removeImage.value,
   )
   if (ok) {
     saved.value = true
     imageFile.value = null
+    removeImage.value = false
   }
 }
 </script>
@@ -140,22 +157,34 @@ async function handleSave() {
 
         <div>
           <label for="ex-equipment" class="mb-1.5 block text-xs font-medium text-forge-textSec">Equipamiento</label>
-          <input
+          <select
             id="ex-equipment"
             v-model="equipment"
-            type="text"
             class="w-full rounded-lg border border-forge-divider bg-forge-surfaceAlt px-3 py-2 text-sm text-forge-text focus:outline-none focus:ring-2 focus:ring-forge-primary"
           >
+            <option value="">
+              Sin especificar
+            </option>
+            <option v-for="opt in EQUIPMENT_OPTIONS" :key="opt" :value="opt">
+              {{ opt }}
+            </option>
+          </select>
         </div>
 
         <div>
           <label for="ex-category" class="mb-1.5 block text-xs font-medium text-forge-textSec">Categoría</label>
-          <input
+          <select
             id="ex-category"
             v-model="category"
-            type="text"
             class="w-full rounded-lg border border-forge-divider bg-forge-surfaceAlt px-3 py-2 text-sm text-forge-text focus:outline-none focus:ring-2 focus:ring-forge-primary"
           >
+            <option value="">
+              Sin especificar
+            </option>
+            <option v-for="opt in CATEGORY_OPTIONS" :key="opt" :value="opt">
+              {{ opt }}
+            </option>
+          </select>
         </div>
 
         <div>
@@ -172,13 +201,45 @@ async function handleSave() {
 
         <div>
           <label class="mb-1.5 block text-xs font-medium text-forge-textSec">Imagen</label>
-          <img
-            v-if="imagePreview"
-            :src="imagePreview"
-            alt="Preview"
-            class="mb-2 h-32 w-32 rounded-lg object-cover"
-          >
-          <input type="file" accept="image/*" @change="handleFileChange">
+          <div class="flex items-center gap-3">
+            <div class="relative h-32 w-32 overflow-hidden rounded-lg bg-forge-surfaceAlt">
+              <img
+                v-if="imagePreview"
+                :src="imagePreview"
+                alt="Preview"
+                class="h-full w-full object-cover"
+              >
+              <div v-else class="flex h-full w-full items-center justify-center text-forge-muted">
+                <Camera :size="24" />
+              </div>
+            </div>
+            <div class="flex flex-col gap-2">
+              <button
+                type="button"
+                class="flex items-center gap-1.5 rounded-lg border border-forge-divider px-3 py-1.5 text-xs font-medium text-forge-text hover:bg-forge-surfaceAlt"
+                @click="pickImage"
+              >
+                <Camera :size="14" />
+                {{ imagePreview ? 'Cambiar imagen' : 'Subir imagen' }}
+              </button>
+              <button
+                v-if="imagePreview"
+                type="button"
+                class="flex items-center gap-1.5 rounded-lg border border-forge-divider px-3 py-1.5 text-xs font-medium text-forge-danger hover:bg-forge-danger/10"
+                @click="handleRemoveImage"
+              >
+                <Trash2 :size="14" />
+                Eliminar imagen
+              </button>
+            </div>
+            <input
+              ref="imageInput"
+              type="file"
+              accept="image/*"
+              class="hidden"
+              @change="handleFileChange"
+            >
+          </div>
         </div>
 
         <p v-if="exercisesStore.saveError" class="text-sm text-forge-danger">

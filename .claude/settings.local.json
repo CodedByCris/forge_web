@@ -64,7 +64,17 @@
       "WebFetch(domain:codedbycris.github.io)",
       "Bash(firebase functions:list --project gym-app-41fd6)",
       "Bash(firebase functions:log --only sendNotificationPush -n 10)",
-      "Bash(xxd)"
+      "Bash(xxd)",
+      "Bash(grep -n \"## APP CONFIG\\\\|## NOVEDADES\\\\|^---$\\\\|## ESTADO DE FEATURES\\\\|Tienda\\\\|## SEGURIDAD — FIRESTORE\\\\|### Patrón general\\\\|### Admin \\(CMS\" /Users/cris/Desktop/forge/.claude/BACKEND.md)",
+      "Bash(grep *)",
+      "Bash(tee /private/tmp/claude-501/-Users-cris-Desktop-forge-web/b2d18165-7895-4a12-8086-b0030f46f4bb/scratchpad/typecheck.log)",
+      "Bash(python3 *)",
+      "Bash(dart format *)",
+      "Bash(npx nuxt *)",
+      "Read(//tmp/**)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(lsof -ti:3000)",
+      "Bash(xargs -r kill)"
     ]
   }
 }

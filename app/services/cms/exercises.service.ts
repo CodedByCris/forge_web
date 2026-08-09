@@ -3,6 +3,7 @@ import {
   ref as storageRef,
   uploadBytes,
   getDownloadURL,
+  deleteObject,
 } from 'firebase/storage'
 import {
   getFirestore,
@@ -93,4 +94,15 @@ export async function uploadExerciseImage(id: string, file: File): Promise<strin
   const fileRef = storageRef(storage, `exercises/${id}/photo.jpg`)
   await uploadBytes(fileRef, file, { contentType: file.type })
   return getDownloadURL(fileRef)
+}
+
+export async function deleteExerciseImage(id: string): Promise<void> {
+  const storage = getStorage()
+  const fileRef = storageRef(storage, `exercises/${id}/photo.jpg`)
+  try {
+    await deleteObject(fileRef)
+  } catch (e) {
+    if (e instanceof Error && 'code' in e && (e as { code: string }).code === 'storage/object-not-found') return
+    throw e
+  }
 }

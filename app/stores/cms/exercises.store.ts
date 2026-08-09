@@ -9,6 +9,7 @@ import {
   getExercise,
   updateExercise,
   uploadExerciseImage,
+  deleteExerciseImage,
 } from '~/services/cms/exercises.service'
 
 export const useCmsExercisesStore = defineStore('cmsExercises', () => {
@@ -79,6 +80,7 @@ export const useCmsExercisesStore = defineStore('cmsExercises', () => {
     id: string,
     data: Partial<Omit<CmsExercise, 'id'>>,
     imageFile: File | null,
+    removeImage = false,
   ): Promise<boolean> {
     saving.value = true
     saveError.value = null
@@ -86,10 +88,14 @@ export const useCmsExercisesStore = defineStore('cmsExercises', () => {
       let imageUrl = data.imageUrl
       if (imageFile) {
         imageUrl = await uploadExerciseImage(id, imageFile)
+      } else if (removeImage) {
+        await deleteExerciseImage(id)
+        imageUrl = null
       }
-      await updateExercise(id, { ...data, ...(imageFile ? { imageUrl } : {}) })
+      const imageChanged = Boolean(imageFile) || removeImage
+      await updateExercise(id, { ...data, ...(imageChanged ? { imageUrl } : {}) })
       if (selected.value) {
-        selected.value = { ...selected.value, ...data, ...(imageFile ? { imageUrl: imageUrl! } : {}) }
+        selected.value = { ...selected.value, ...data, ...(imageChanged ? { imageUrl } : {}) }
       }
       return true
     } catch (e) {

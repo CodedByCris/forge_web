@@ -4,7 +4,7 @@ Mismo backend que la app móvil (`gym-app-41fd6`) → mismos índices compuestos
 
 Ver `forge/.claude/INDICES.md` para el detalle completo y el proceso de añadir uno nuevo.
 
-Última sincronización: 2026-08-08.
+Última sincronización: 2026-08-09.
 
 ---
 
@@ -24,6 +24,7 @@ Ver `forge/.claude/INDICES.md` para el detalle completo y el proceso de añadir 
 | `routines` | `visibility ASC, userId ASC, createdAt DESC, __name__ DESC` | Rutinas públicas de un usuario |
 | `follows` | `followerId ASC, status ASC` | Listar seguidos por estado |
 | `shop_items` | `isActive ASC, sortOrder ASC, __name__ ASC` | Catálogo activo ordenado |
+| `faq` | `isActive ASC, order ASC, __name__ ASC` | Requerido por la app móvil (`where(isActive) + orderBy(order)`). El listado de `/cms/faq` (`getFaqs()`) solo hace `orderBy('order')` sin filtro, así que no lo necesita, pero comparte colección — no lo borres. |
 
 ---
 
