@@ -11,6 +11,7 @@ import {
   LogOut,
   Sparkles,
   BookOpen,
+  Store,
 } from 'lucide-vue-next'
 import { useCmsAuthStore } from '~/stores/cms/auth.store'
 
@@ -131,6 +132,15 @@ async function handleLogout() {
       >
         <BookOpen class="h-4 w-4" />
         Guía de inicio
+      </NuxtLink>
+
+      <NuxtLink
+        to="/cms/tienda"
+        class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-forge-textSec transition-all duration-150 ease-out hover:bg-forge-surfaceAlt hover:text-forge-text"
+        active-class="!bg-forge-primary/10 !text-forge-primary border-l-2 border-forge-primary"
+      >
+        <Store class="h-4 w-4" />
+        Tienda
       </NuxtLink>
 
       <div
