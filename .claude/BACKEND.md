@@ -340,6 +340,25 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
 
 ---
 
+### `shop_collections` (colección global)
+
+```typescript
+{
+  id: string
+  title: string
+  titleEn: string
+  badge: string
+  badgeEn: string
+  itemIds: string[]   // IDs de docs en shop_items
+  order: number
+  isActive: boolean
+}
+```
+
+> Gestionada desde `/cms/colecciones`. Agrupa items de `shop_items` para el carrusel de la tienda. Sin campos `description`/`descriptionEn` — existían antes pero no los renderizaba nada en la app, se eliminaron el 2026-08-09.
+
+---
+
 ## Patrones Firestore para web
 
 ### Lectura en tiempo real (onSnapshot)
