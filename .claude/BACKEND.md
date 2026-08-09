@@ -296,6 +296,25 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
 
 ---
 
+### `getting_started_items` (colección global)
+
+```typescript
+{
+  id: string
+  title: string
+  description: string
+  imageUrl: string | null
+  order: number
+  isActive: boolean
+  createdAt: Date | null
+  updatedAt: Date | null
+}
+```
+
+> Gestionada desde `/cms/guia-inicio`. Sin campo de versión — a diferencia de `whats_new_items`, no hay "forzar reaparición": la app la lee bajo demanda cuando el usuario abre Settings → Soporte → "Guía de inicio".
+
+---
+
 ## Patrones Firestore para web
 
 ### Lectura en tiempo real (onSnapshot)
@@ -395,8 +414,9 @@ set(ref, { createdAt: serverTimestamp() })
 
 El repo `forge` ha desplegado (o está a punto de desplegar) `firestore.rules`/`storage.rules` que sustituyen las reglas abiertas (`allow read, write: if true`) que estaban en producción desde 2026-04-19. Estas reglas viven en el repo `forge`, pero aplican al mismo proyecto Firebase, así que afectan directamente a esta web:
 
-- **Lectura**: `users`, `exercises`, `shop_items`, `shop_collections`, `config`, `whats_new_items` — cualquier usuario autenticado (Firebase Auth). El login de `/cms` usa el mismo Firebase Auth del proyecto, así que la lectura de `auth.store.ts` (`getDoc(doc(db, 'users', uid))` para comprobar `isAdmin`) sigue funcionando sin cambios.
-- **Escritura de `exercises`, `shop_items`, `shop_collections`, `config`, `whats_new_items`**: requiere que el usuario autenticado tenga `users/{uid}.isAdmin == true` (regla `isAdmin()` en `firestore.rules`, evaluada con un `get()` sobre el propio doc). El módulo `/cms/novedades` ya escribe en `whats_new_items` y en `config/appConfig.whatsNewVersion` bajo esta regla.
+- **Lectura**: `users`, `exercises`, `shop_items`, `shop_collections`, `config`, `whats_new_items`, `getting_started_items` — cualquier usuario autenticado (Firebase Auth). El login de `/cms` usa el mismo Firebase Auth del proyecto, así que la lectura de `auth.store.ts` (`getDoc(doc(db, 'users', uid))` para comprobar `isAdmin`) sigue funcionando sin cambios.
+- **Escritura de `exercises`, `shop_items`, `shop_collections`, `config`, `whats_new_items`, `getting_started_items`**: requiere que el usuario autenticado tenga `users/{uid}.isAdmin == true` (regla `isAdmin()` en `firestore.rules`, evaluada con un `get()` sobre el propio doc). El módulo `/cms/novedades` ya escribe en `whats_new_items` y en `config/appConfig.whatsNewVersion`, y `/cms/guia-inicio` en `getting_started_items`, bajo esta regla.
+- **Lectura de `workouts` para el CMS**: `workouts/{workoutId}` también permite lectura a `isAdmin()` (además del propio dueño) — el detalle de usuario del CMS (`/cms/usuarios/{uid}`) lista el historial de workouts de cualquier usuario. `update`/`delete` siguen restringidos al dueño.
 - **`isAdmin` es de solo lectura desde cualquier cliente** — ni la app móvil ni esta web pueden fijarlo vía escritura normal (bloqueado explícitamente en `forge/firestore.rules`). Se asigna manualmente desde la consola de Firebase o Admin SDK. Si se necesita un flujo de auto-bootstrap del primer admin, tendría que hacerse fuera del alcance de las security rules (script one-off con Admin SDK).
 - `faq` y `legal_documents` ya tienen regla propia en `forge/firestore.rules` (`allow read: if true; allow write: if isAdmin();`) — no son placeholders. Módulos futuros de `/cms` sobre otras colecciones nuevas **quedarán denegados por defecto** hasta que se añadan sus reglas correspondientes en `forge/firestore.rules`. Avisar al trabajar en `forge` cuando se implemente un módulo nuevo del CMS que toque una colección no listada arriba.
 - Esta web **no tiene backend propio** (no hay `firebase-admin` ni rutas `server/api`) — todo pasa por el SDK cliente, así que está sujeta a estas rules igual que la app móvil.
