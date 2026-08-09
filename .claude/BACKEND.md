@@ -319,7 +319,7 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
 
 ```typescript
 {
-  id: string                          // 'theme_{themeId}' o 'celebration_{effect}' para esos dos tipos — ver forge/.claude/BACKEND.md
+  id: string                          // 'theme_{themeId}' para temas — ver forge/.claude/BACKEND.md; celebración/sonido usan ID aleatorio
   displayName: string
   price: number                       // mancuernitas
   rewardType: 'theme' | 'celebration' | 'xpBoost' | 'soundEffect'
@@ -327,7 +327,7 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
   minRankLevel: number
   isActive: boolean
   themeId: string | null              // solo rewardType 'theme'
-  celebrationEffect: string | null    // solo 'celebration'
+  celebrationLottieUrl: string | null // solo 'celebration' — animación Lottie (bodymovin JSON)
   boostMultiplier: number | null      // solo 'xpBoost'
   boostDurationHours: number | null   // 'xpBoost', mutuamente excluyente con boostWorkoutsLeft
   boostWorkoutsLeft: number | null    // 'xpBoost', mutuamente excluyente con boostDurationHours
@@ -336,7 +336,7 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
 }
 ```
 
-> Gestionada desde `/cms/tienda`. El tipo de recompensa no se puede cambiar tras crear el producto (cambia el significado de los campos y, para tema/celebración, el propio ID del documento). Audio de `soundEffect` subido a Storage `shop_items/{itemId}/sound`.
+> Gestionada desde `/cms/tienda`. El tipo de recompensa no se puede cambiar tras crear el producto (cambia el significado de los campos y, para tema, el propio ID del documento). Assets en Storage `shop_items/{itemId}/{fileName}`: audio de `soundEffect` (`sound`), Lottie de `celebration` (`celebration.json`).
 
 ---
 

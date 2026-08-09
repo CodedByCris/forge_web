@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Pencil, Trash2 } from 'lucide-vue-next'
 import type { CmsShopItem } from '~/types/cms/shopItem'
-import { REWARD_TYPE_LABELS, RARITY_LABELS } from '~/types/cms/shopItem'
+import { RARITY_LABELS, RARITY_COLORS } from '~/types/cms/shopItem'
 
 defineProps<{
   item: CmsShopItem
@@ -19,7 +19,8 @@ const emit = defineEmits<{
     <div class="min-w-0 flex-1">
       <p class="truncate font-medium text-forge-text">{{ item.displayName }}</p>
       <p class="truncate text-xs text-forge-muted">
-        {{ REWARD_TYPE_LABELS[item.rewardType] }} · {{ RARITY_LABELS[item.rarity] }} · Nivel mín. {{ item.minRankLevel }}
+        <span :style="{ color: RARITY_COLORS[item.rarity] }" class="font-semibold">{{ RARITY_LABELS[item.rarity] }}</span>
+        · Nivel mín. {{ item.minRankLevel }}
       </p>
     </div>
 

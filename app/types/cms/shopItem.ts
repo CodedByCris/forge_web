@@ -35,6 +35,18 @@ export const RARITY_LABELS: Record<CmsShopItemRarity, string> = {
   mythic: 'Mítica',
 }
 
+// Mismos colores que ShopItemRarity.color en forge/lib/features/shop/domain/entities/shop_item_rarity.dart
+export const RARITY_COLORS: Record<CmsShopItemRarity, string> = {
+  common: '#9CA3AF',
+  rare: '#22C55E',
+  epic: '#A855F7',
+  legendary: '#FACC15',
+  mythic: '#00E5FF',
+}
+
+// Mismo orden que las secciones de la tienda en la app (shop_screen.dart).
+export const REWARD_TYPE_ORDER: CmsShopItemRewardType[] = ['xpBoost', 'celebration', 'theme', 'soundEffect']
+
 // Mismos valores que el enum AppThemeId en forge/lib/core/theme/app_theme_id.dart —
 // no se pueden inventar temas nuevos aquí, solo elegir entre los ya implementados.
 export const THEME_OPTIONS = [

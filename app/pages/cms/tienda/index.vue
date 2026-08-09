@@ -6,19 +6,21 @@ import ShopItemRow from '~/components/cms/shop/ShopItemRow.vue'
 import ShopItemFormModal from '~/components/cms/shop/ShopItemFormModal.vue'
 import ConfirmModal from '~/components/cms/shared/ConfirmModal.vue'
 import EmptyState from '~/components/cms/shared/EmptyState.vue'
-import type { CmsShopItem, CmsShopItemRewardType } from '~/types/cms/shopItem'
-import { REWARD_TYPE_LABELS } from '~/types/cms/shopItem'
+import type { CmsShopItem } from '~/types/cms/shopItem'
+import { REWARD_TYPE_LABELS, REWARD_TYPE_ORDER } from '~/types/cms/shopItem'
 
 definePageMeta({ layout: 'cms' })
 
 const shopItemsStore = useCmsShopItemsStore()
 
-const typeFilter = ref<CmsShopItemRewardType | 'all'>('all')
-
-const filteredItems = computed(() =>
-  typeFilter.value === 'all'
-    ? shopItemsStore.items
-    : shopItemsStore.items.filter((i) => i.rewardType === typeFilter.value),
+const sections = computed(() =>
+  REWARD_TYPE_ORDER
+    .map((rewardType) => ({
+      rewardType,
+      label: REWARD_TYPE_LABELS[rewardType],
+      items: shopItemsStore.items.filter((i) => i.rewardType === rewardType),
+    }))
+    .filter((section) => section.items.length > 0),
 )
 
 const showFormModal = ref(false)
@@ -71,29 +73,6 @@ async function handleDelete() {
       </button>
     </div>
 
-    <div class="mb-4">
-      <select
-        v-model="typeFilter"
-        class="rounded-lg border border-forge-divider bg-forge-surfaceAlt px-3 py-2 text-sm text-forge-text focus:outline-none focus:ring-2 focus:ring-forge-primary"
-      >
-        <option value="all">
-          Todos los tipos
-        </option>
-        <option value="xpBoost">
-          {{ REWARD_TYPE_LABELS.xpBoost }}
-        </option>
-        <option value="soundEffect">
-          {{ REWARD_TYPE_LABELS.soundEffect }}
-        </option>
-        <option value="theme">
-          {{ REWARD_TYPE_LABELS.theme }}
-        </option>
-        <option value="celebration">
-          {{ REWARD_TYPE_LABELS.celebration }}
-        </option>
-      </select>
-    </div>
-
     <EmptyState
       v-if="shopItemsStore.error"
       title="No se pudieron cargar los productos"
@@ -105,20 +84,27 @@ async function handleDelete() {
     </div>
 
     <EmptyState
-      v-else-if="filteredItems.length === 0"
+      v-else-if="sections.length === 0"
       title="No hay productos"
       description="Crea el primero con el botón de arriba."
     />
 
-    <div v-else class="overflow-hidden rounded-xl border border-forge-divider">
-      <ShopItemRow
-        v-for="item in filteredItems"
-        :key="item.id"
-        :item="item"
-        @edit="openEditModal(item)"
-        @delete="openDeleteConfirm(item)"
-        @toggle="(isActive) => shopItemsStore.toggleActive(item.id, isActive)"
-      />
+    <div v-else class="space-y-6">
+      <div v-for="section in sections" :key="section.rewardType">
+        <h2 class="mb-2 text-xs font-semibold uppercase tracking-wide text-forge-muted">
+          {{ section.label }}
+        </h2>
+        <div class="overflow-hidden rounded-xl border border-forge-divider">
+          <ShopItemRow
+            v-for="item in section.items"
+            :key="item.id"
+            :item="item"
+            @edit="openEditModal(item)"
+            @delete="openDeleteConfirm(item)"
+            @toggle="(isActive) => shopItemsStore.toggleActive(item.id, isActive)"
+          />
+        </div>
+      </div>
     </div>
 
     <ShopItemFormModal
