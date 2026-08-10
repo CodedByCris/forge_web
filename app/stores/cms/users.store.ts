@@ -9,6 +9,11 @@ import {
   adminDeleteUser,
 } from '~/services/cms/users.service'
 
+export interface DeleteUserOutcome {
+  ok: boolean
+  failedSteps: string[]
+}
+
 export const useCmsUsersStore = defineStore('cmsUsers', () => {
   const users = ref<CmsUser[]>([])
   const loading = ref(false)
@@ -72,16 +77,20 @@ export const useCmsUsersStore = defineStore('cmsUsers', () => {
     }
   }
 
-  async function deleteUser(uid: string): Promise<boolean> {
+  async function deleteUser(uid: string): Promise<DeleteUserOutcome> {
     try {
-      await adminDeleteUser(uid)
+      const { results } = await adminDeleteUser(uid)
+      const failedSteps = Object.entries(results)
+        .filter(([, value]) => value !== 'ok')
+        .map(([step]) => step)
       users.value = users.value.filter((u) => u.uid !== uid)
       if (selectedUser.value?.uid === uid) {
         selectedUser.value = null
       }
-      return true
-    } catch {
-      return false
+      return { ok: failedSteps.length === 0, failedSteps }
+    } catch (error) {
+      console.error('deleteUser failed', error)
+      return { ok: false, failedSteps: [] }
     }
   }
 

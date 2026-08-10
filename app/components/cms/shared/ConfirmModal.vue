@@ -1,11 +1,14 @@
 <script setup lang="ts">
-defineProps<{
+const props = withDefaults(defineProps<{
   open: boolean
   title: string
   message: string
   confirmLabel?: string
   loading?: boolean
-}>()
+  loadingLabel?: string
+}>(), {
+  loadingLabel: 'Aplicando…',
+})
 
 const emit = defineEmits<{
   confirm: []
@@ -32,7 +35,7 @@ const emit = defineEmits<{
           class="rounded-lg bg-forge-primary px-4 py-2 text-sm font-semibold text-white hover:bg-forge-accent disabled:opacity-60"
           @click="emit('confirm')"
         >
-          {{ loading ? 'Aplicando…' : (confirmLabel ?? 'Confirmar') }}
+          {{ loading ? props.loadingLabel : (confirmLabel ?? 'Confirmar') }}
         </button>
       </div>
     </div>

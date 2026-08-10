@@ -77,8 +77,13 @@ export async function resetUserStreak(uid: string): Promise<void> {
   await updateDoc(doc(db, 'users', uid), { currentStreak: 0 })
 }
 
-export async function adminDeleteUser(uid: string): Promise<void> {
+export interface AdminDeleteUserResult {
+  results: Record<string, 'ok' | { error: string }>
+}
+
+export async function adminDeleteUser(uid: string): Promise<AdminDeleteUserResult> {
   const functions = getFunctions()
-  const callable = httpsCallable(functions, 'adminDeleteUser')
-  await callable({ uid })
+  const callable = httpsCallable<{ uid: string }, AdminDeleteUserResult>(functions, 'adminDeleteUser')
+  const response = await callable({ uid })
+  return response.data
 }

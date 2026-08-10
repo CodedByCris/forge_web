@@ -21,6 +21,7 @@ const resettingStreak = ref(false)
 const resetFeedback = ref<string | null>(null)
 const showDeleteConfirm = ref(false)
 const deletingUser = ref(false)
+const deleteFeedback = ref<{ type: 'success' | 'error'; message: string } | null>(null)
 
 onMounted(() => {
   usersStore.fetchUserDetail(uid.value)
@@ -36,16 +37,22 @@ async function handleResetStreak() {
 }
 
 async function handleDeleteUser() {
+  if (deletingUser.value) return
   deletingUser.value = true
-  const ok = await usersStore.deleteUser(uid.value)
+  const outcome = await usersStore.deleteUser(uid.value)
   deletingUser.value = false
   showDeleteConfirm.value = false
-  if (ok) {
+  if (outcome.ok) {
     await navigateTo('/cms/usuarios')
+  } else if (outcome.failedSteps.length > 0) {
+    deleteFeedback.value = {
+      type: 'error',
+      message: `Usuario eliminado parcialmente. Fallaron estos pasos: ${outcome.failedSteps.join(', ')}. Revisa los logs de Cloud Functions y reintenta.`,
+    }
   } else {
-    resetFeedback.value = 'No se pudo eliminar el usuario.'
-    setTimeout(() => { resetFeedback.value = null }, 3000)
+    deleteFeedback.value = { type: 'error', message: 'No se pudo eliminar el usuario.' }
   }
+  setTimeout(() => { deleteFeedback.value = null }, 6000)
 }
 
 function formatDuration(start: Date | null, end: Date | null): string {
@@ -100,7 +107,7 @@ function formatDuration(start: Date | null, end: Date | null): string {
         </button>
         <button
           type="button"
-          class="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
+          class="rounded-lg bg-forge-danger px-4 py-2 text-sm font-semibold text-white hover:bg-forge-danger/90"
           @click="showDeleteConfirm = true"
         >
           Eliminar usuario
@@ -113,6 +120,14 @@ function formatDuration(start: Date | null, end: Date | null): string {
         :class="resetFeedback.includes('No se pudo') ? 'text-forge-danger' : 'text-forge-success'"
       >
         {{ resetFeedback }}
+      </p>
+
+      <p
+        v-if="deleteFeedback"
+        class="mt-3 text-sm"
+        :class="deleteFeedback.type === 'success' ? 'text-forge-success' : 'text-forge-danger'"
+      >
+        {{ deleteFeedback.message }}
       </p>
 
       <h2 class="mb-3 mt-8 text-sm font-semibold uppercase tracking-wide text-forge-muted">
@@ -161,6 +176,7 @@ function formatDuration(start: Date | null, end: Date | null): string {
       title="Eliminar usuario"
       :message="`¿Seguro que quieres eliminar a ${usersStore.selectedUser?.nickname ?? 'este usuario'}? Se borrará todo su contenido (entrenos, posts, rutinas, likes, comentarios, follows) y su cuenta. Esta acción no se puede deshacer.`"
       confirm-label="Eliminar"
+      loading-label="Eliminando…"
       :loading="deletingUser"
       @confirm="handleDeleteUser"
       @cancel="showDeleteConfirm = false"
