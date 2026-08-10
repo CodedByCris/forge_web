@@ -2,14 +2,13 @@ import {
   getFirestore,
   collection,
   getDocs,
-  doc,
-  deleteDoc,
   query,
   where,
   orderBy,
   limit,
   Timestamp,
 } from 'firebase/firestore'
+import { getFunctions, httpsCallable } from 'firebase/functions'
 import type { CmsModeratedPost, CmsModeratedRoutine } from '~/types/cms/moderation'
 
 function toDateOrNull(value: unknown): Date | null {
@@ -58,11 +57,13 @@ export async function getRecentRoutines(): Promise<CmsModeratedRoutine[]> {
 }
 
 export async function deletePost(id: string): Promise<void> {
-  const db = getFirestore()
-  await deleteDoc(doc(db, 'posts', id))
+  const functions = getFunctions()
+  const callable = httpsCallable(functions, 'adminDeleteContent')
+  await callable({ collection: 'posts', id })
 }
 
 export async function deleteRoutine(id: string): Promise<void> {
-  const db = getFirestore()
-  await deleteDoc(doc(db, 'routines', id))
+  const functions = getFunctions()
+  const callable = httpsCallable(functions, 'adminDeleteContent')
+  await callable({ collection: 'routines', id })
 }
