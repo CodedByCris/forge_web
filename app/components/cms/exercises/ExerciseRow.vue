@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CmsExercise } from '~/types/cms/exercise'
-import { EXERCISE_TYPE_LABELS } from '~/types/cms/exercise'
+import { BODY_PART_LABELS, EXERCISE_TYPE_LABELS } from '~/types/cms/exercise'
 
 defineProps<{
   exercise: CmsExercise
@@ -28,7 +28,7 @@ defineProps<{
     <div class="min-w-0 flex-1">
       <p class="truncate font-medium text-forge-text">{{ exercise.name }}</p>
       <p class="truncate text-xs text-forge-muted">
-        {{ exercise.bodyParts.join(', ') || '—' }}
+        {{ exercise.bodyParts.map((p) => BODY_PART_LABELS[p as keyof typeof BODY_PART_LABELS] ?? p).join(', ') || '—' }}
       </p>
     </div>
 

@@ -3,7 +3,7 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useCmsExercisesStore } from '~/stores/cms/exercises.store'
 import ExerciseRow from '~/components/cms/exercises/ExerciseRow.vue'
 import EmptyState from '~/components/cms/shared/EmptyState.vue'
-import { BODY_PARTS, EXERCISE_TYPE_LABELS, type CmsExerciseType } from '~/types/cms/exercise'
+import { BODY_PART_LABELS, BODY_PARTS, EXERCISE_TYPE_LABELS, type CmsExerciseType } from '~/types/cms/exercise'
 
 definePageMeta({ layout: 'cms' })
 
@@ -49,7 +49,7 @@ const filteredExercises = computed(() => {
           class="rounded-lg border border-forge-divider bg-forge-surfaceAlt px-3 py-2 text-sm text-forge-text focus:outline-none focus:ring-2 focus:ring-forge-primary"
         >
           <option value="">Todos los grupos</option>
-          <option v-for="part in BODY_PARTS" :key="part" :value="part">{{ part }}</option>
+          <option v-for="part in BODY_PARTS" :key="part" :value="part">{{ BODY_PART_LABELS[part] }}</option>
         </select>
         <select
           v-model="exerciseTypeFilter"

@@ -4,7 +4,16 @@ import { useRoute } from 'vue-router'
 import { Camera, Trash2 } from 'lucide-vue-next'
 import { useCmsExercisesStore } from '~/stores/cms/exercises.store'
 import EmptyState from '~/components/cms/shared/EmptyState.vue'
-import { BODY_PARTS, EXERCISE_TYPE_LABELS, EQUIPMENT_OPTIONS, CATEGORY_OPTIONS, type CmsExerciseType } from '~/types/cms/exercise'
+import {
+  BODY_PARTS,
+  BODY_PART_LABELS,
+  EXERCISE_TYPE_LABELS,
+  EQUIPMENT_OPTIONS,
+  EQUIPMENT_LABELS,
+  CATEGORY_OPTIONS,
+  CATEGORY_LABELS,
+  type CmsExerciseType,
+} from '~/types/cms/exercise'
 
 definePageMeta({ layout: 'cms' })
 
@@ -132,7 +141,7 @@ async function handleSave() {
               :class="bodyParts.includes(part) ? 'bg-forge-primary/10 text-forge-primary' : 'bg-forge-surfaceAlt text-forge-muted'"
               @click="toggleBodyPart(part)"
             >
-              {{ part }}
+              {{ BODY_PART_LABELS[part] }}
             </button>
           </div>
         </div>
@@ -166,7 +175,7 @@ async function handleSave() {
               Sin especificar
             </option>
             <option v-for="opt in EQUIPMENT_OPTIONS" :key="opt" :value="opt">
-              {{ opt }}
+              {{ EQUIPMENT_LABELS[opt] }}
             </option>
           </select>
         </div>
@@ -182,7 +191,7 @@ async function handleSave() {
               Sin especificar
             </option>
             <option v-for="opt in CATEGORY_OPTIONS" :key="opt" :value="opt">
-              {{ opt }}
+              {{ CATEGORY_LABELS[opt] }}
             </option>
           </select>
         </div>
