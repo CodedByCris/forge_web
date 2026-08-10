@@ -19,6 +19,8 @@ const showAdjustModal = ref(false)
 const showResetConfirm = ref(false)
 const resettingStreak = ref(false)
 const resetFeedback = ref<string | null>(null)
+const showDeleteConfirm = ref(false)
+const deletingUser = ref(false)
 
 onMounted(() => {
   usersStore.fetchUserDetail(uid.value)
@@ -31,6 +33,19 @@ async function handleResetStreak() {
   showResetConfirm.value = false
   resetFeedback.value = ok ? 'Racha reseteada.' : 'No se pudo resetear la racha.'
   setTimeout(() => { resetFeedback.value = null }, 3000)
+}
+
+async function handleDeleteUser() {
+  deletingUser.value = true
+  const ok = await usersStore.deleteUser(uid.value)
+  deletingUser.value = false
+  showDeleteConfirm.value = false
+  if (ok) {
+    await navigateTo('/cms/usuarios')
+  } else {
+    resetFeedback.value = 'No se pudo eliminar el usuario.'
+    setTimeout(() => { resetFeedback.value = null }, 3000)
+  }
 }
 
 function formatDuration(start: Date | null, end: Date | null): string {
@@ -83,6 +98,13 @@ function formatDuration(start: Date | null, end: Date | null): string {
         >
           Resetear racha
         </button>
+        <button
+          type="button"
+          class="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
+          @click="showDeleteConfirm = true"
+        >
+          Eliminar usuario
+        </button>
       </div>
 
       <p
@@ -132,6 +154,16 @@ function formatDuration(start: Date | null, end: Date | null): string {
       :loading="resettingStreak"
       @confirm="handleResetStreak"
       @cancel="showResetConfirm = false"
+    />
+
+    <ConfirmModal
+      :open="showDeleteConfirm"
+      title="Eliminar usuario"
+      :message="`¿Seguro que quieres eliminar a ${usersStore.selectedUser?.nickname ?? 'este usuario'}? Se borrará todo su contenido (entrenos, posts, rutinas, likes, comentarios, follows) y su cuenta. Esta acción no se puede deshacer.`"
+      confirm-label="Eliminar"
+      :loading="deletingUser"
+      @confirm="handleDeleteUser"
+      @cancel="showDeleteConfirm = false"
     />
   </div>
 </template>

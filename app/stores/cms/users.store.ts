@@ -6,6 +6,7 @@ import {
   getUserWorkouts,
   adjustUserXpCoins,
   resetUserStreak,
+  adminDeleteUser,
 } from '~/services/cms/users.service'
 
 export const useCmsUsersStore = defineStore('cmsUsers', () => {
@@ -71,6 +72,19 @@ export const useCmsUsersStore = defineStore('cmsUsers', () => {
     }
   }
 
+  async function deleteUser(uid: string): Promise<boolean> {
+    try {
+      await adminDeleteUser(uid)
+      users.value = users.value.filter((u) => u.uid !== uid)
+      if (selectedUser.value?.uid === uid) {
+        selectedUser.value = null
+      }
+      return true
+    } catch {
+      return false
+    }
+  }
+
   return {
     users,
     loading,
@@ -83,5 +97,6 @@ export const useCmsUsersStore = defineStore('cmsUsers', () => {
     fetchUserDetail,
     adjustXpCoins,
     resetStreak,
+    deleteUser,
   }
 })

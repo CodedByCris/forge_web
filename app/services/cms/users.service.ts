@@ -11,6 +11,7 @@ import {
   limit,
   Timestamp,
 } from 'firebase/firestore'
+import { getFunctions, httpsCallable } from 'firebase/functions'
 import type { CmsUser, CmsWorkoutSummary } from '~/types/cms/user'
 
 function toDateOrNull(value: unknown): Date | null {
@@ -74,4 +75,10 @@ export async function adjustUserXpCoins(uid: string, deltaXp: number, deltaCoins
 export async function resetUserStreak(uid: string): Promise<void> {
   const db = getFirestore()
   await updateDoc(doc(db, 'users', uid), { currentStreak: 0 })
+}
+
+export async function adminDeleteUser(uid: string): Promise<void> {
+  const functions = getFunctions()
+  const callable = httpsCallable(functions, 'adminDeleteUser')
+  await callable({ uid })
 }
