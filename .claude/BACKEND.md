@@ -53,7 +53,6 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
 {
   exerciseKey: string
   exerciseName: string
-  exerciseNameEs: string | null
   bestByReps: {
     [reps: string]: {
       weight: number
@@ -74,7 +73,6 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
   color: number            // ARGB int
   exercises: Array<{
     name: string
-    nameEs: string | null
     order: number
     defaultSets: number
     defaultReps: string
@@ -134,7 +132,6 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
 ```typescript
 {
   name: string
-  nameEs: string | null
   order: number
   exerciseType: string
   notes: string | null
@@ -169,7 +166,6 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
   prsCount: number
   exercisesPreview: Array<{
     name: string
-    nameEs: string | null
     sets: number
     reps: string
   }>
@@ -193,7 +189,7 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
 
 ```typescript
 {
-  userId: string
+  userId: string           // NUEVO (2026-08-10) — antes solo tenía emoji/createdAt; permite localizar por collectionGroup todas las reacciones de un usuario al borrarlo (ver "Borrado de usuario" más abajo)
   emoji: string           // '🔥' | '💪' | '😤' | '🧠'
   createdAt: Timestamp
 }
@@ -265,7 +261,6 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
 {
   id: string              // doc ID kebab-case slug
   name: string
-  nameEs: string | null
   bodyParts: string[]
   exerciseType: string
   isActive: boolean
@@ -466,3 +461,20 @@ El repo `forge` ha desplegado (o está a punto de desplegar) `firestore.rules`/`
 - Esta web **no tiene backend propio** (no hay `firebase-admin` ni rutas `server/api`) — todo pasa por el SDK cliente, así que está sujeta a estas rules igual que la app móvil.
 
 Ver detalle completo de las reglas y su razonamiento en `forge/.claude/BACKEND.md` sección "SEGURIDAD — FIRESTORE & STORAGE RULES".
+
+---
+
+## Borrado de usuario ✅ (implementado en `forge`, 2026-08-10)
+
+`/cms/usuarios/[uid]` tiene un botón rojo "Eliminar usuario" (con
+confirmación) que llama a la Cloud Function `adminDeleteUser` — borrado en
+cascada real (Firestore + Storage + Auth), no solo `deleteDoc` del doc
+`users/{uid}`. También corrige `/cms/moderacion`: borrar un post/rutina
+reportado ahora llama a `adminDeleteContent` en vez de un `deleteDoc`
+plano desde el cliente, así que ya no deja huérfanas las subcolecciones
+(`comments`, `likes`, `reactions`) del contenido borrado.
+
+Detalle completo (qué borra, en qué orden, por qué son Cloud Functions y no
+client-side) en `forge/docs/user_deletion.md` y `forge/.claude/FUNCTIONS.md`.
+Ver también la sección "Funciones que el CMS invoca directamente" en
+`FUNCTIONS.md` de este repo.

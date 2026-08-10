@@ -7,6 +7,40 @@ La web **no despliega** Cloud Functions nuevas. Usa las existentes de la app mó
 
 ---
 
+## Funciones que el CMS invoca directamente (`httpsCallable`)
+
+A diferencia de las funciones de la sección siguiente (triggers que se
+disparan solos y cuyo efecto la web solo observa), estas dos las llama el
+propio código del CMS mediante `httpsCallable(functions, '<nombre>')`.
+Fuente completa: `forge/.claude/FUNCTIONS.md` y
+`forge/docs/user_deletion.md` (implementado en `forge`, 2026-08-10).
+
+### `adminDeleteUser`
+
+Llamada desde `app/services/cms/users.service.ts` (`adminDeleteUser(uid)`),
+usada por `useCmsUsersStore().deleteUser` y el botón "Eliminar usuario" en
+`/cms/usuarios/[uid]`. Solo admins (`isAdmin` en el doc `users` del que
+llama), y rechaza borrarse a sí mismo. Hace borrado en cascada real de todo
+lo que el usuario posee/tocó (Firestore + Storage) y finalmente su cuenta
+de Firebase Auth — ver `forge/docs/user_deletion.md` para el detalle
+colección por colección.
+
+### `adminDeleteContent`
+
+Llamada desde `app/services/cms/moderation.service.ts` (`deletePost` /
+`deleteRoutine`), usada por `/cms/moderacion`. Recibe
+`{ collection: 'posts' | 'routines', id }` y hace `recursiveDelete` del doc
+— sustituye al `deleteDoc` plano que se usaba antes, que dejaba huérfanas
+las subcolecciones (`comments`, `likes`, `reactions`) del post/rutina
+borrado.
+
+> `selfDeleteAccount` (la tercera función del mismo grupo, en
+> `functions/src/user_deletion.functions.ts` de `forge`) es exclusiva de la
+> app móvil ("Eliminar cuenta" en `AccountScreen`) — el CMS no la usa, se
+> menciona aquí solo por completitud.
+
+---
+
 ## Funciones que impactan la web
 
 ### `onWorkoutCompleted`

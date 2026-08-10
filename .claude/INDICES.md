@@ -28,6 +28,19 @@ Ver `forge/.claude/INDICES.md` para el detalle completo y el proceso de añadir 
 | `getting_started_items` | `isActive ASC, order ASC, __name__ ASC` | Requerido por la app móvil (guía de inicio). `/cms` (`getGettingStartedItems()`) solo hace `orderBy('order')` sin filtro, así que no lo necesita, pero comparte colección — no lo borres. |
 | `whats_new_items` | `isActive ASC, order ASC, __name__ ASC` | Requerido por la app móvil (pantalla de novedades). `/cms` (`getWhatsNewItems()`) solo hace `orderBy('order')` sin filtro, así que no lo necesita, pero comparte colección — no lo borres. |
 
+### Field overrides (collection group) — NUEVO 2026-08-10
+
+| Collection group | Campo | Para qué |
+|---|---|---|
+| `likes` | `userId ASC` (COLLECTION_GROUP) | `adminDeleteUser`/`selfDeleteAccount` localizan los likes que un usuario dejó en posts ajenos |
+| `comments` | `userId ASC` (COLLECTION_GROUP) | Idem para comentarios en posts/rutinas ajenos |
+| `reactions` | `userId ASC` (COLLECTION_GROUP) | Idem para reacciones en posts ajenos |
+
+No usados por ninguna pantalla de `/cms` todavía — los añadió el borrado en
+cascada de usuario (`forge/.claude/FUNCTIONS.md`,
+`forge/docs/user_deletion.md`). Documentados aquí solo por completitud del
+espejo de `firestore.indexes.json`.
+
 ---
 
 ## Al implementar `/cms`
