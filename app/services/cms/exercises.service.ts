@@ -13,19 +13,10 @@ import {
   getDocs,
   updateDoc,
   query,
-  where,
   orderBy,
-  limit,
-  startAfter,
-  type QueryDocumentSnapshot,
   type DocumentData,
 } from 'firebase/firestore'
 import type { CmsExercise, CmsExerciseType } from '~/types/cms/exercise'
-
-// Caracter de la Zona de Uso Privado de Unicode: mayor que cualquier
-// caracter normal, usado como convencion de Firestore para simular
-// prefix-match con un rango >= term && <= term + este caracter.
-const PREFIX_RANGE_END = ''
 
 function toExercise(id: string, data: DocumentData): CmsExercise {
   return {
@@ -38,41 +29,16 @@ function toExercise(id: string, data: DocumentData): CmsExercise {
     equipment: data.equipment ?? null,
     category: data.category ?? null,
     imageUrl: data.imageUrl ?? null,
+    lottieUrl: data.lottieUrl ?? null,
   }
 }
 
-export interface ExercisesPage {
-  exercises: CmsExercise[]
-  lastDoc: QueryDocumentSnapshot<DocumentData> | null
-  hasMore: boolean
-}
-
-export async function getExercisesPage(
-  cursor: QueryDocumentSnapshot<DocumentData> | null,
-  pageSize = 25,
-): Promise<ExercisesPage> {
+// Colección pequeña (~1400 docs) — se carga entera de una vez y se cachea
+// en cliente (ver exercises.store.ts). Búsqueda y filtros se resuelven
+// después en memoria, sin más queries a Firestore.
+export async function getAllExercises(): Promise<CmsExercise[]> {
   const db = getFirestore()
-  let q = query(collection(db, 'exercises'), orderBy('name'), limit(pageSize))
-  if (cursor) {
-    q = query(collection(db, 'exercises'), orderBy('name'), startAfter(cursor), limit(pageSize))
-  }
-  const snap = await getDocs(q)
-  return {
-    exercises: snap.docs.map((d) => toExercise(d.id, d.data())),
-    lastDoc: snap.docs[snap.docs.length - 1] ?? null,
-    hasMore: snap.docs.length === pageSize,
-  }
-}
-
-export async function searchExercisesByName(term: string, pageSize = 25): Promise<CmsExercise[]> {
-  const db = getFirestore()
-  const q = query(
-    collection(db, 'exercises'),
-    orderBy('name'),
-    where('name', '>=', term),
-    where('name', '<=', term + PREFIX_RANGE_END),
-    limit(pageSize),
-  )
+  const q = query(collection(db, 'exercises'), orderBy('name'))
   const snap = await getDocs(q)
   return snap.docs.map((d) => toExercise(d.id, d.data()))
 }
@@ -99,6 +65,24 @@ export async function uploadExerciseImage(id: string, file: File): Promise<strin
 export async function deleteExerciseImage(id: string): Promise<void> {
   const storage = getStorage()
   const fileRef = storageRef(storage, `exercises/${id}/photo.jpg`)
+  try {
+    await deleteObject(fileRef)
+  } catch (e) {
+    if (e instanceof Error && 'code' in e && (e as { code: string }).code === 'storage/object-not-found') return
+    throw e
+  }
+}
+
+export async function uploadExerciseLottie(id: string, file: File): Promise<string> {
+  const storage = getStorage()
+  const fileRef = storageRef(storage, `exercises/${id}/animation.json`)
+  await uploadBytes(fileRef, file, { contentType: 'application/json' })
+  return getDownloadURL(fileRef)
+}
+
+export async function deleteExerciseLottie(id: string): Promise<void> {
+  const storage = getStorage()
+  const fileRef = storageRef(storage, `exercises/${id}/animation.json`)
   try {
     await deleteObject(fileRef)
   } catch (e) {

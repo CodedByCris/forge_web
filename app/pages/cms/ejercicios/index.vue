@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useCmsExercisesStore } from '~/stores/cms/exercises.store'
 import ExerciseRow from '~/components/cms/exercises/ExerciseRow.vue'
 import EmptyState from '~/components/cms/shared/EmptyState.vue'
@@ -14,22 +14,15 @@ const exerciseTypeFilter = ref<CmsExerciseType | ''>('')
 const activeFilter = ref<'all' | 'active' | 'inactive'>('all')
 
 onMounted(() => {
-  exercisesStore.fetchFirstPage()
+  exercisesStore.fetchAll()
 })
 
-let searchTimeout: ReturnType<typeof setTimeout> | null = null
-watch(() => exercisesStore.searchTerm, () => {
-  if (searchTimeout) clearTimeout(searchTimeout)
-  searchTimeout = setTimeout(() => {
-    exercisesStore.fetchFirstPage()
-  }, 300)
-})
-
-// Los filtros se aplican en cliente sobre la página ya cargada — Firestore
-// no permite combinar un where('name', '>=', ...) de rango con más filtros
-// de igualdad en la misma query sin índices compuestos adicionales.
+// Todo el catálogo (~1396 docs) vive en memoria (exercisesStore.exercises) —
+// búsqueda por nombre y filtros se resuelven aquí, sin más queries.
 const filteredExercises = computed(() => {
+  const term = exercisesStore.searchTerm.trim().toLowerCase()
   return exercisesStore.exercises.filter((ex) => {
+    if (term && !ex.name.toLowerCase().includes(term)) return false
     if (bodyPartFilter.value && !ex.bodyParts.includes(bodyPartFilter.value)) return false
     if (exerciseTypeFilter.value && ex.exerciseType !== exerciseTypeFilter.value) return false
     if (activeFilter.value === 'active' && !ex.isActive) return false
@@ -69,11 +62,23 @@ const filteredExercises = computed(() => {
         <input
           v-model="exercisesStore.searchTerm"
           type="text"
-          placeholder="Buscar por nombre (empieza por…)"
+          placeholder="Buscar por nombre…"
           class="w-56 rounded-lg border border-forge-divider bg-forge-surfaceAlt px-3 py-2 text-sm text-forge-text placeholder:text-forge-muted focus:outline-none focus:ring-2 focus:ring-forge-primary"
         >
+        <button
+          type="button"
+          :disabled="exercisesStore.loading"
+          class="rounded-lg border border-forge-divider px-3 py-2 text-sm text-forge-textSec hover:bg-forge-surfaceAlt disabled:opacity-60"
+          @click="exercisesStore.fetchAll(true)"
+        >
+          {{ exercisesStore.loading ? 'Actualizando…' : 'Actualizar' }}
+        </button>
       </div>
     </div>
+
+    <p v-if="!exercisesStore.loading" class="mb-4 text-xs text-forge-muted">
+      {{ filteredExercises.length }} de {{ exercisesStore.exercises.length }} ejercicios
+    </p>
 
     <EmptyState
       v-if="exercisesStore.error"
@@ -90,29 +95,12 @@ const filteredExercises = computed(() => {
       title="Sin resultados"
     />
 
-    <div v-else>
-      <div class="overflow-hidden rounded-xl border border-forge-divider">
-        <ExerciseRow
-          v-for="exercise in filteredExercises"
-          :key="exercise.id"
-          :exercise="exercise"
-        />
-      </div>
-
-      <p v-if="(bodyPartFilter || exerciseTypeFilter || activeFilter !== 'all') && exercisesStore.hasMore" class="mt-2 text-xs text-forge-muted">
-        Los filtros solo se aplican sobre las páginas ya cargadas — pulsa
-        "Cargar más" si buscas un ejercicio que no aparece.
-      </p>
-
-      <button
-        v-if="exercisesStore.hasMore"
-        type="button"
-        :disabled="exercisesStore.loading"
-        class="mt-4 w-full rounded-lg border border-forge-divider py-2 text-sm text-forge-textSec hover:bg-forge-surfaceAlt disabled:opacity-60"
-        @click="exercisesStore.fetchNextPage"
-      >
-        {{ exercisesStore.loading ? 'Cargando…' : 'Cargar más' }}
-      </button>
+    <div v-else class="overflow-hidden rounded-xl border border-forge-divider">
+      <ExerciseRow
+        v-for="exercise in filteredExercises"
+        :key="exercise.id"
+        :exercise="exercise"
+      />
     </div>
   </div>
 </template>

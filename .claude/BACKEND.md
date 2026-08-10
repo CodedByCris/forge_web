@@ -35,6 +35,9 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
   createdAt: Timestamp
   fcmToken: string | null     // ⚠️ en progreso en `forge` (2026-08-08) — token FCM del dispositivo móvil, para push. La web no lo usa ni lo escribe.
   isAdmin: boolean            // NUEVO (2026-08-08) — gate de acceso a /cms. Solo el CMS lo lee; nadie lo escribe desde código, se asigna a mano en Firestore/Firebase Auth. Ver docs/superpowers/specs/2026-08-08-cms-base-auth-design.md.
+  totalVolumeKg: number       // NUEVO (2026-08-10, app móvil, feature Dashboard) — volumen total de por vida (kg). La web no lo usa hoy, documentado por completitud del esquema.
+  totalDurationSeconds: number // NUEVO (2026-08-10, app móvil, feature Dashboard) — duración total de por vida (segundos). La web no lo usa hoy.
+  volumeByWeek: Record<string, number> | null // NUEVO (2026-08-10, app móvil, feature Dashboard) — clave 'YYYY-Www' (semana ISO) → volumen (kg) esa semana. La web no lo usa hoy.
 }
 ```
 
@@ -264,11 +267,15 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
   bodyParts: string[]
   exerciseType: string
   isActive: boolean
-  imageUrl: string | null
+  equipment: string | null
+  category: string | null
+  imageUrl: string | null   // portada, Storage exercises/{id}/photo.jpg
+  lottieUrl: string | null  // animación Lottie opcional, Storage exercises/{id}/animation.json (2026-08-10)
 }
 ```
 
-> Cacheada en cliente. Fetch una vez y guardar en `sessionStorage` (TTL 1 semana).
+> Cacheada en cliente. `/cms/ejercicios` carga la colección entera (`orderBy('name')`, sin paginar — ~1396 docs, coste trivial) y la guarda en `sessionStorage` (clave `cms_exercises_cache_v1`, TTL 1 semana); búsqueda por nombre y filtros (grupo muscular, tipo, activo) se resuelven en memoria sobre esa lista, no con queries adicionales. Botón "Actualizar" fuerza refetch e invalida el caché. Guardar una edición en el detalle también actualiza la entrada correspondiente en la lista cacheada (2026-08-10, antes paginaba de 25 en 25 y los filtros solo cubrían lo ya cargado).
+> `storage.rules` (`forge/storage.rules`, bloque `exercises/{slug}/{fileName}`) acepta `image/*` (portada) y `application/json` (Lottie) en escritura, solo admin.
 
 ---
 

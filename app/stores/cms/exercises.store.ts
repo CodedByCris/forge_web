@@ -1,23 +1,50 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { FirebaseError } from 'firebase/app'
-import type { QueryDocumentSnapshot, DocumentData } from 'firebase/firestore'
 import type { CmsExercise } from '~/types/cms/exercise'
 import {
-  getExercisesPage,
-  searchExercisesByName,
+  getAllExercises,
   getExercise,
   updateExercise,
   uploadExerciseImage,
   deleteExerciseImage,
+  uploadExerciseLottie,
+  deleteExerciseLottie,
 } from '~/services/cms/exercises.service'
+
+const CACHE_KEY = 'cms_exercises_cache_v1'
+const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000
+
+interface ExercisesCache {
+  savedAt: number
+  exercises: CmsExercise[]
+}
+
+function readCache(): ExercisesCache | null {
+  try {
+    const raw = sessionStorage.getItem(CACHE_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as ExercisesCache
+    if (Date.now() - parsed.savedAt > CACHE_TTL_MS) return null
+    return parsed
+  } catch {
+    return null
+  }
+}
+
+function writeCache(exercises: CmsExercise[], savedAt = Date.now()): void {
+  try {
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt, exercises }))
+  } catch {
+    // sessionStorage puede fallar en modo privado/cuota llena — no es crítico, se
+    // pierde el caché pero el listado sigue funcionando con una query por visita.
+  }
+}
 
 export const useCmsExercisesStore = defineStore('cmsExercises', () => {
   const exercises = ref<CmsExercise[]>([])
   const loading = ref(false)
   const error = ref<string | null>(null)
-  const cursor = ref<QueryDocumentSnapshot<DocumentData> | null>(null)
-  const hasMore = ref(true)
   const searchTerm = ref('')
 
   const selected = ref<CmsExercise | null>(null)
@@ -27,37 +54,22 @@ export const useCmsExercisesStore = defineStore('cmsExercises', () => {
   const saving = ref(false)
   const saveError = ref<string | null>(null)
 
-  async function fetchFirstPage(): Promise<void> {
+  async function fetchAll(force = false): Promise<void> {
+    if (!force) {
+      const cached = readCache()
+      if (cached) {
+        exercises.value = cached.exercises
+        return
+      }
+    }
     loading.value = true
     error.value = null
-    cursor.value = null
     try {
-      if (searchTerm.value.trim()) {
-        exercises.value = await searchExercisesByName(searchTerm.value.trim())
-        hasMore.value = false
-      } else {
-        const page = await getExercisesPage(null)
-        exercises.value = page.exercises
-        cursor.value = page.lastDoc
-        hasMore.value = page.hasMore
-      }
+      const all = await getAllExercises()
+      exercises.value = all
+      writeCache(all)
     } catch {
       error.value = 'No se pudieron cargar los ejercicios.'
-    } finally {
-      loading.value = false
-    }
-  }
-
-  async function fetchNextPage(): Promise<void> {
-    if (!hasMore.value || loading.value || searchTerm.value.trim()) return
-    loading.value = true
-    try {
-      const page = await getExercisesPage(cursor.value)
-      exercises.value = [...exercises.value, ...page.exercises]
-      cursor.value = page.lastDoc
-      hasMore.value = page.hasMore
-    } catch {
-      error.value = 'No se pudieron cargar más ejercicios.'
     } finally {
       loading.value = false
     }
@@ -81,6 +93,8 @@ export const useCmsExercisesStore = defineStore('cmsExercises', () => {
     data: Partial<Omit<CmsExercise, 'id'>>,
     imageFile: File | null,
     removeImage = false,
+    lottieFile: File | null = null,
+    removeLottie = false,
   ): Promise<boolean> {
     saving.value = true
     saveError.value = null
@@ -93,9 +107,35 @@ export const useCmsExercisesStore = defineStore('cmsExercises', () => {
         imageUrl = null
       }
       const imageChanged = Boolean(imageFile) || removeImage
-      await updateExercise(id, { ...data, ...(imageChanged ? { imageUrl } : {}) })
+
+      let lottieUrl = data.lottieUrl
+      if (lottieFile) {
+        lottieUrl = await uploadExerciseLottie(id, lottieFile)
+      } else if (removeLottie) {
+        await deleteExerciseLottie(id)
+        lottieUrl = null
+      }
+      const lottieChanged = Boolean(lottieFile) || removeLottie
+
+      const changes = {
+        ...data,
+        ...(imageChanged ? { imageUrl } : {}),
+        ...(lottieChanged ? { lottieUrl } : {}),
+      }
+      await updateExercise(id, changes)
       if (selected.value) {
-        selected.value = { ...selected.value, ...data, ...(imageChanged ? { imageUrl } : {}) }
+        selected.value = { ...selected.value, ...changes }
+      }
+      // Mantiene la lista (y su caché) coherente con la edición, sin
+      // necesidad de volver a leer los ~1396 docs de Firestore.
+      const idx = exercises.value.findIndex((e) => e.id === id)
+      if (idx !== -1) {
+        exercises.value = [
+          ...exercises.value.slice(0, idx),
+          { ...exercises.value[idx], ...changes } as CmsExercise,
+          ...exercises.value.slice(idx + 1),
+        ]
+        writeCache(exercises.value)
       }
       return true
     } catch (e) {
@@ -112,15 +152,13 @@ export const useCmsExercisesStore = defineStore('cmsExercises', () => {
     exercises,
     loading,
     error,
-    hasMore,
     searchTerm,
     selected,
     detailLoading,
     detailError,
     saving,
     saveError,
-    fetchFirstPage,
-    fetchNextPage,
+    fetchAll,
     fetchDetail,
     saveDetail,
   }

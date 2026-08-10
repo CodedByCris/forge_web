@@ -106,4 +106,5 @@ export interface CmsExercise {
   equipment: string | null
   category: string | null
   imageUrl: string | null
+  lottieUrl: string | null
 }

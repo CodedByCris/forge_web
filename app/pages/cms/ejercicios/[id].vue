@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { Camera, Trash2 } from 'lucide-vue-next'
+import { Camera, FileJson, Trash2 } from 'lucide-vue-next'
 import { useCmsExercisesStore } from '~/stores/cms/exercises.store'
 import EmptyState from '~/components/cms/shared/EmptyState.vue'
 import {
@@ -33,6 +33,10 @@ const imageFile = ref<File | null>(null)
 const imagePreview = ref<string | null>(null)
 const removeImage = ref(false)
 const imageInput = ref<HTMLInputElement>()
+const lottieFile = ref<File | null>(null)
+const lottiePreviewUrl = ref<string | null>(null)
+const removeLottie = ref(false)
+const lottieInput = ref<HTMLInputElement>()
 
 const saved = ref(false)
 
@@ -48,6 +52,7 @@ onMounted(async () => {
     equipment.value = ex.equipment ?? ''
     category.value = ex.category ?? ''
     imagePreview.value = ex.imageUrl
+    lottiePreviewUrl.value = ex.lottieUrl
   }
 })
 
@@ -80,6 +85,26 @@ function handleRemoveImage() {
   removeImage.value = true
 }
 
+function pickLottie() {
+  lottieInput.value?.click()
+}
+
+function handleLottieFileChange(event: Event) {
+  const target = event.target as HTMLInputElement
+  const file = target.files?.[0] ?? null
+  if (file) {
+    lottieFile.value = file
+    removeLottie.value = false
+  }
+  target.value = ''
+}
+
+function handleRemoveLottie() {
+  lottieFile.value = null
+  lottiePreviewUrl.value = null
+  removeLottie.value = true
+}
+
 async function handleSave() {
   saved.value = false
   const ok = await exercisesStore.saveDetail(
@@ -95,11 +120,15 @@ async function handleSave() {
     },
     imageFile.value,
     removeImage.value,
+    lottieFile.value,
+    removeLottie.value,
   )
   if (ok) {
     saved.value = true
     imageFile.value = null
     removeImage.value = false
+    lottieFile.value = null
+    removeLottie.value = false
   }
 }
 </script>
@@ -209,7 +238,7 @@ async function handleSave() {
         </div>
 
         <div>
-          <label class="mb-1.5 block text-xs font-medium text-forge-textSec">Imagen</label>
+          <label class="mb-1.5 block text-xs font-medium text-forge-textSec">Imagen de portada</label>
           <div class="flex items-center gap-3">
             <div class="relative h-32 w-32 overflow-hidden rounded-lg bg-forge-surfaceAlt">
               <img
@@ -247,6 +276,43 @@ async function handleSave() {
               accept="image/*"
               class="hidden"
               @change="handleFileChange"
+            >
+          </div>
+        </div>
+
+        <div>
+          <label class="mb-1.5 block text-xs font-medium text-forge-textSec">Animación (Lottie)</label>
+          <div class="flex items-center gap-3">
+            <div class="flex h-32 w-32 flex-col items-center justify-center gap-1 rounded-lg bg-forge-surfaceAlt text-forge-muted">
+              <FileJson :size="24" />
+              <span v-if="lottieFile" class="max-w-[7rem] truncate px-1 text-[10px]">{{ lottieFile.name }}</span>
+              <span v-else-if="lottiePreviewUrl" class="text-[10px]">Cargada</span>
+            </div>
+            <div class="flex flex-col gap-2">
+              <button
+                type="button"
+                class="flex items-center gap-1.5 rounded-lg border border-forge-divider px-3 py-1.5 text-xs font-medium text-forge-text hover:bg-forge-surfaceAlt"
+                @click="pickLottie"
+              >
+                <FileJson :size="14" />
+                {{ lottiePreviewUrl || lottieFile ? 'Cambiar animación' : 'Subir animación' }}
+              </button>
+              <button
+                v-if="lottiePreviewUrl || lottieFile"
+                type="button"
+                class="flex items-center gap-1.5 rounded-lg border border-forge-divider px-3 py-1.5 text-xs font-medium text-forge-danger hover:bg-forge-danger/10"
+                @click="handleRemoveLottie"
+              >
+                <Trash2 :size="14" />
+                Eliminar animación
+              </button>
+            </div>
+            <input
+              ref="lottieInput"
+              type="file"
+              accept="application/json,.json"
+              class="hidden"
+              @change="handleLottieFileChange"
             >
           </div>
         </div>
