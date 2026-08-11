@@ -279,6 +279,37 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
 
 ---
 
+### `exercises_v2` (colección global, consolidada 2026-08-11)
+
+```typescript
+{
+  id: string
+  name: string
+  bodyParts: string[]
+  category: string | null
+  exerciseType: string
+  equipmentOptions: string[]   // ['barbell', 'dumbbell', ...] — antes era `equipment` único
+  instructionSteps: string[]
+  imageUrl: string | null
+  lottieUrl: string | null
+  isActive: boolean
+  legacyIds: string[]          // IDs de `exercises` (v1) fusionados en este ejercicio base
+  legacyPrimaryId: string | null
+}
+```
+
+> 504 documentos (533 tras la consolidación inicial, menos 29 de calistenia
+> avanzada eliminados el mismo día). Coexiste con `exercises` (v1, 1396
+> docs) — la app publicada sigue usando v1, v2 es para la próxima versión.
+> Ver `forge/docs/superpowers/specs/2026-08-11-exercise-consolidation-design.md`.
+> Gestionada desde `/cms/ejercicios-v2` (mismo patrón de caché en cliente
+> que `exercises`, clave `cms_exercises_v2_cache_v1`). `equipmentOptions`
+> se edita como selección múltiple (botones toggle), no un `<select>`
+> único. `storage.rules` bloque `exercises_v2/{exerciseId}/{fileName}`
+> (mismo patrón que `exercises`) desplegado 2026-08-11.
+
+---
+
 ### `whats_new_items` (colección global)
 
 ```typescript
