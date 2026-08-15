@@ -4,7 +4,7 @@ Mismo backend que la app móvil (`gym-app-41fd6`) → mismos índices compuestos
 
 Ver `forge/.claude/INDICES.md` para el detalle completo y el proceso de añadir uno nuevo.
 
-Última sincronización: 2026-08-09 (añadidos `getting_started_items` y `whats_new_items`).
+Última sincronización: 2026-08-15 (añadido `shop_collections`).
 
 ---
 
@@ -27,6 +27,7 @@ Ver `forge/.claude/INDICES.md` para el detalle completo y el proceso de añadir 
 | `faq` | `isActive ASC, order ASC, __name__ ASC` | Requerido por la app móvil (`where(isActive) + orderBy(order)`). El listado de `/cms/faq` (`getFaqs()`) solo hace `orderBy('order')` sin filtro, así que no lo necesita, pero comparte colección — no lo borres. |
 | `getting_started_items` | `isActive ASC, order ASC, __name__ ASC` | Requerido por la app móvil (guía de inicio). `/cms` (`getGettingStartedItems()`) solo hace `orderBy('order')` sin filtro, así que no lo necesita, pero comparte colección — no lo borres. |
 | `whats_new_items` | `isActive ASC, order ASC, __name__ ASC` | Requerido por la app móvil (pantalla de novedades). `/cms` (`getWhatsNewItems()`) solo hace `orderBy('order')` sin filtro, así que no lo necesita, pero comparte colección — no lo borres. |
+| `shop_collections` | `isActive ASC, order ASC, __name__ ASC` | Requerido por la app móvil (carrusel de colecciones de la tienda, `ShopCollectionDatasource.fetchCollections`). `/cms/tienda` (`shopCollections.service.ts`) solo hace `orderBy('order')` sin filtro, así que no lo necesita, pero comparte colección — no lo borres. Añadido 2026-08-15 (bugfix: la app llevaba desde la creación de la feature sin este índice, la query fallaba con `FAILED_PRECONDITION` y el carrusel lo silenciaba mostrando nada). |
 
 ### Field overrides (collection group) — NUEVO 2026-08-10
 

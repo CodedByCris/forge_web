@@ -95,16 +95,3 @@ export const CATEGORY_LABELS: Record<typeof CATEGORY_OPTIONS[number], string> = 
   'upper legs': 'Muslos',
   waist: 'Abdomen',
 }
-
-export interface CmsExercise {
-  id: string
-  name: string
-  bodyParts: string[]
-  exerciseType: CmsExerciseType
-  isActive: boolean
-  instructionSteps: string[]
-  equipment: string | null
-  category: string | null
-  imageUrl: string | null
-  lottieUrl: string | null
-}

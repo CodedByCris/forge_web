@@ -258,26 +258,19 @@ El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecc
 
 ---
 
-### `exercises` (colección global)
+### `exercises` — ❌ RETIRADA (borrada 2026-08-15)
 
-```typescript
-{
-  id: string              // doc ID kebab-case slug
-  name: string
-  bodyParts: string[]
-  exerciseType: string
-  isActive: boolean
-  equipment: string | null
-  category: string | null
-  imageUrl: string | null   // portada, Storage exercises/{id}/photo.jpg
-  lottieUrl: string | null  // animación Lottie opcional, Storage exercises/{id}/animation.json (2026-08-10)
-}
-```
-
-> Cacheada en cliente. `/cms/ejercicios` carga la colección entera (`orderBy('name')`, sin paginar — ~1396 docs, coste trivial) y la guarda en `sessionStorage` (clave `cms_exercises_cache_v1`, TTL 1 semana); búsqueda por nombre y filtros (grupo muscular, tipo, activo) se resuelven en memoria sobre esa lista, no con queries adicionales. Botón "Actualizar" fuerza refetch e invalida el caché. Guardar una edición en el detalle también actualiza la entrada correspondiente en la lista cacheada (2026-08-10, antes paginaba de 25 en 25 y los filtros solo cubrían lo ya cargado).
-> `storage.rules` (`forge/storage.rules`, bloque `exercises/{slug}/{fileName}`) acepta `image/*` (portada) y `application/json` (Lottie) en escritura, solo admin.
+**Ya no existe en Firestore** — sustituida por `exercises_v2` (ver abajo).
+Backup de solo lectura de los 1396 docs originales en
+`forge/scripts/exercise_consolidation/backup_v1_before_delete/exercises_v1_backup.json`.
+La pantalla `/cms/ejercicios` (que gestionaba esta colección) sigue en el
+código pero ahora mostrará la lista vacía — pendiente decidir si se
+elimina la pantalla o se deja como está (no bloquea nada, solo queda
+inerte). Usar `/cms/ejercicios-v2` para todo a partir de ahora.
 
 ---
+
+### `exercises_v2` ✅ — colección de catálogo definitiva
 
 ### `exercises_v2` (colección global, consolidada 2026-08-11)
 
