@@ -1,15 +1,30 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { FirebaseError } from 'firebase/app'
-import { getAppConfig, updateExercisesCacheKey } from '~/services/cms/config.service'
+import {
+  getAppConfig,
+  updateExercisesCacheKey,
+  uploadDashboardTileImage,
+  deleteDashboardTileImage,
+} from '~/services/cms/config.service'
+import type { DashboardTileKey } from '~/types/cms/config'
 
 export const useCmsConfigStore = defineStore('cmsConfig', () => {
   const exercisesCacheKey = ref('')
+  const tileImages = ref<Record<DashboardTileKey, string | null>>({
+    manual: null,
+    template: null,
+    duel: null,
+    challenge: null,
+  })
   const loading = ref(false)
   const error = ref<string | null>(null)
 
   const saving = ref(false)
   const saveError = ref<string | null>(null)
+
+  const uploadingTile = ref<DashboardTileKey | null>(null)
+  const tileError = ref<string | null>(null)
 
   async function fetchConfig(): Promise<void> {
     loading.value = true
@@ -17,6 +32,12 @@ export const useCmsConfigStore = defineStore('cmsConfig', () => {
     try {
       const config = await getAppConfig()
       exercisesCacheKey.value = config.exercisesCacheKey
+      tileImages.value = {
+        manual: config.manualWorkImageUrl,
+        template: config.templateWorkImageUrl,
+        duel: config.duelWorkImageUrl,
+        challenge: config.challengeWorkImageUrl,
+      }
     } catch {
       error.value = 'No se pudo cargar la configuración.'
     } finally {
@@ -41,13 +62,44 @@ export const useCmsConfigStore = defineStore('cmsConfig', () => {
     }
   }
 
+  async function uploadTileImage(tile: DashboardTileKey, file: File): Promise<void> {
+    uploadingTile.value = tile
+    tileError.value = null
+    try {
+      const url = await uploadDashboardTileImage(tile, file)
+      tileImages.value = { ...tileImages.value, [tile]: url }
+    } catch {
+      tileError.value = 'No se pudo subir la imagen.'
+    } finally {
+      uploadingTile.value = null
+    }
+  }
+
+  async function removeTileImage(tile: DashboardTileKey): Promise<void> {
+    uploadingTile.value = tile
+    tileError.value = null
+    try {
+      await deleteDashboardTileImage(tile)
+      tileImages.value = { ...tileImages.value, [tile]: null }
+    } catch {
+      tileError.value = 'No se pudo eliminar la imagen.'
+    } finally {
+      uploadingTile.value = null
+    }
+  }
+
   return {
     exercisesCacheKey,
+    tileImages,
     loading,
     error,
     saving,
     saveError,
+    uploadingTile,
+    tileError,
     fetchConfig,
     save,
+    uploadTileImage,
+    removeTileImage,
   }
 })

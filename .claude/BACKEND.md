@@ -303,6 +303,23 @@ inerte). Usar `/cms/ejercicios-v2` para todo a partir de ahora.
 
 ---
 
+### `config/appConfig` (documento único)
+
+```typescript
+{
+  exercisesCacheKey: string
+  whatsNewVersion: number
+  manualWorkImageUrl: string | null
+  templateWorkImageUrl: string | null
+  duelWorkImageUrl: string | null
+  challengeWorkImageUrl: string | null
+}
+```
+
+> ✅ (2026-08-17) Las 4 `*WorkImageUrl` son las portadas de las cards "Manual/Plantillas/Duelo/Retos" del dashboard de la app (`DashboardStartWorkoutGrid`), gestionadas desde `/cms/configuracion` (`useCmsConfigStore`, sección "Imágenes del dashboard"). Storage: `app_config/{manual,template,duel,challenge}_work.jpg` (`storage.rules` en `forge`, mismo patrón que `whats_new/{itemId}/{fileName}` — lectura pública, escritura `isStorageAdmin()`, máx. 5MB, `image/*`). Sin imagen subida, la card cae a un fondo tintado en la app (sin backfill).
+
+---
+
 ### `whats_new_items` (colección global)
 
 ```typescript
