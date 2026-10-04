@@ -26,7 +26,8 @@ export const useCmsChallengesStore = defineStore('cmsChallenges', () => {
     }
   }
 
-  async function saveChallenge(input: CmsChallengeInput, id?: string): Promise<boolean> {
+  /** Devuelve null si guarda bien, o un mensaje con la causa real del fallo. */
+  async function saveChallenge(input: CmsChallengeInput, id?: string): Promise<string | null> {
     try {
       if (id) {
         await updateChallenge(id, input)
@@ -34,9 +35,14 @@ export const useCmsChallengesStore = defineStore('cmsChallenges', () => {
         await createChallenge(input)
       }
       await fetchChallenges()
-      return true
-    } catch {
-      return false
+      return null
+    } catch (e) {
+      const code = (e as { code?: string }).code
+      const message = e instanceof Error ? e.message : String(e)
+      if (code === 'permission-denied') {
+        return 'Firestore denegó la escritura (permission-denied). Despliega las reglas de gym_app con la colección challenges y comprueba que tu usuario tiene isAdmin.'
+      }
+      return code ? `${code}: ${message}` : message
     }
   }
 

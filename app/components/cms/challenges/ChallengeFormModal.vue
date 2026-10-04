@@ -75,7 +75,7 @@ async function handleSubmit() {
   // El reto termina al final del día de `endsAt`.
   const start = new Date(`${startsAt.value}T00:00:00`)
   const end = new Date(`${endsAt.value}T23:59:59`)
-  const ok = await store.saveChallenge(
+  const saveError = await store.saveChallenge(
     {
       title: title.value.trim(),
       description: description.value.trim(),
@@ -90,10 +90,10 @@ async function handleSubmit() {
     props.editingChallenge?.id,
   )
   loading.value = false
-  if (ok) {
+  if (saveError === null) {
     emit('close')
   } else {
-    errorMessage.value = 'No se pudo guardar el reto.'
+    errorMessage.value = `No se pudo guardar el reto. ${saveError}`
   }
 }
 
