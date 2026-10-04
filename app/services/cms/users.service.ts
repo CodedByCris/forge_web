@@ -11,6 +11,7 @@ import {
   limit,
   Timestamp,
 } from 'firebase/firestore'
+import { getApp } from 'firebase/app'
 import { getFunctions, httpsCallable } from 'firebase/functions'
 import type { CmsUser, CmsWorkoutSummary } from '~/types/cms/user'
 
@@ -82,7 +83,7 @@ export interface AdminDeleteUserResult {
 }
 
 export async function adminDeleteUser(uid: string): Promise<AdminDeleteUserResult> {
-  const functions = getFunctions()
+  const functions = getFunctions(getApp(), 'europe-west1')
   const callable = httpsCallable<{ uid: string }, AdminDeleteUserResult>(functions, 'adminDeleteUser')
   const response = await callable({ uid })
   return response.data

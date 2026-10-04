@@ -8,6 +8,7 @@ import {
   limit,
   Timestamp,
 } from 'firebase/firestore'
+import { getApp } from 'firebase/app'
 import { getFunctions, httpsCallable } from 'firebase/functions'
 import type { CmsModeratedPost, CmsModeratedRoutine } from '~/types/cms/moderation'
 
@@ -57,13 +58,13 @@ export async function getRecentRoutines(): Promise<CmsModeratedRoutine[]> {
 }
 
 export async function deletePost(id: string): Promise<void> {
-  const functions = getFunctions()
+  const functions = getFunctions(getApp(), 'europe-west1')
   const callable = httpsCallable(functions, 'adminDeleteContent')
   await callable({ collection: 'posts', id })
 }
 
 export async function deleteRoutine(id: string): Promise<void> {
-  const functions = getFunctions()
+  const functions = getFunctions(getApp(), 'europe-west1')
   const callable = httpsCallable(functions, 'adminDeleteContent')
   await callable({ collection: 'routines', id })
 }

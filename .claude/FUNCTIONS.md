@@ -2,6 +2,11 @@
 
 Proyecto Firebase: `gym-app-41fd6`
 Runtime: Node 20 · API Gen 2
+Región: **`europe-west1`** (migración US → EU, 2026-10-04 — ver
+`forge/.claude/BACKEND.md` sección "Región"). Todas las llamadas
+`getFunctions()` del CMS deben especificar la región explícitamente:
+`getFunctions(getApp(), 'europe-west1')`, si no apuntan a `us-central1` por
+defecto y la llamada falla (la function ya no existe ahí).
 
 La web **no despliega** Cloud Functions nuevas. Usa las existentes de la app móvil.
 
