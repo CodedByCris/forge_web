@@ -4,6 +4,7 @@ import { Camera, Trash2, Loader2 } from 'lucide-vue-next'
 import { useCmsConfigStore } from '~/stores/cms/config.store'
 import ConfirmModal from '~/components/cms/shared/ConfirmModal.vue'
 import EmptyState from '~/components/cms/shared/EmptyState.vue'
+import ForceUpdateSection from '~/components/cms/config/ForceUpdateSection.vue'
 import type { DashboardTileKey } from '~/types/cms/config'
 
 definePageMeta({ layout: 'cms' })
@@ -110,6 +111,8 @@ async function handleTileFileChange(event: Event) {
         Guardar
       </button>
     </div>
+
+    <ForceUpdateSection v-if="!configStore.loading && !configStore.error" />
 
     <div class="mt-10">
       <h2 class="mb-1.5 text-sm font-semibold text-forge-text">

@@ -21,6 +21,7 @@ export async function getAppConfig(): Promise<CmsAppConfig> {
   const data = snap.data()
   return {
     exercisesCacheKey: data?.exercisesCacheKey ?? '',
+    minVersion: data?.minVersion ?? '',
     manualWorkImageUrl: data?.manualWorkImageUrl ?? null,
     templateWorkImageUrl: data?.templateWorkImageUrl ?? null,
     duelWorkImageUrl: data?.duelWorkImageUrl ?? null,
@@ -31,6 +32,11 @@ export async function getAppConfig(): Promise<CmsAppConfig> {
 export async function updateExercisesCacheKey(value: string): Promise<void> {
   const db = getFirestore()
   await setDoc(doc(db, 'config', 'appConfig'), { exercisesCacheKey: value }, { merge: true })
+}
+
+export async function updateMinVersion(value: string): Promise<void> {
+  const db = getFirestore()
+  await setDoc(doc(db, 'config', 'appConfig'), { minVersion: value }, { merge: true })
 }
 
 export async function uploadDashboardTileImage(tile: DashboardTileKey, file: File): Promise<string> {

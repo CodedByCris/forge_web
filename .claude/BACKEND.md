@@ -309,12 +309,15 @@ inerte). Usar `/cms/ejercicios-v2` para todo a partir de ahora.
 {
   exercisesCacheKey: string
   whatsNewVersion: number
+  minVersion: string // 'X.Y.Z', vacío/ausente = sin actualización forzada
   manualWorkImageUrl: string | null
   templateWorkImageUrl: string | null
   duelWorkImageUrl: string | null
   challengeWorkImageUrl: string | null
 }
 ```
+
+> ✅ (2026-10-04) `minVersion`: versión mínima de la app Android. Se edita en `/cms/configuracion` (sección "Actualización forzada"). La app compara su versión instalada con este valor y, si es menor, muestra un modal bloqueante con botón a Play Store. Reglas: `config/*` ya permite lectura a usuarios autenticados y escritura a admin.
 
 > ✅ (2026-08-17) Las 4 `*WorkImageUrl` son las portadas de las cards "Manual/Plantillas/Duelo/Retos" del dashboard de la app (`DashboardStartWorkoutGrid`), gestionadas desde `/cms/configuracion` (`useCmsConfigStore`, sección "Imágenes del dashboard"). Storage: `app_config/{manual,template,duel,challenge}_work.jpg` (`storage.rules` en `forge`, mismo patrón que `whats_new/{itemId}/{fileName}` — lectura pública, escritura `isStorageAdmin()`, máx. 5MB, `image/*`). Sin imagen subida, la card cae a un fondo tintado en la app (sin backfill).
 
