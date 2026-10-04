@@ -89,6 +89,16 @@ async function awardWorkoutXp(userId: string, xpAmount: number, coinAmount: numb
 
 ---
 
+### `onWorkoutCompleted` — actualización de retos (añadido 2026-10-04, gym_app#1)
+
+Paso extra de la misma función: `updateChallengesForUser` recalcula el progreso de cada `challenges` con `isActive == true` y ventana vigente, lo guarda en `users/{uid}/challengeProgress/{id}` y, al llegar a `target`, marca `completed` y suma `rewardCoins`/`rewardXp` a `users/{uid}` (una sola vez, transacción). El CMS (`/cms/retos`) solo crea/edita `challenges`; no escribe progreso.
+
+### `onFollowWritten` (gym_app#1)
+
+Trigger Firestore `onDocumentWritten("follows/{followId}")`. Recuenta follows `accepted` y escribe `users.followersCount|followingCount` (absolutos). Sin impacto en el CMS salvo que `/cms/usuarios` muestre esos contadores: ahora son autoritativos.
+
+---
+
 ### `dailyStreakReset`
 
 **Schedule:** Cada día a las 02:00 UTC
