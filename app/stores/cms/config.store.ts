@@ -4,6 +4,7 @@ import { FirebaseError } from 'firebase/app'
 import {
   getAppConfig,
   updateExercisesCacheKey,
+  updateMinVersion,
   uploadDashboardTileImage,
   deleteDashboardTileImage,
 } from '~/services/cms/config.service'
@@ -11,6 +12,7 @@ import type { DashboardTileKey } from '~/types/cms/config'
 
 export const useCmsConfigStore = defineStore('cmsConfig', () => {
   const exercisesCacheKey = ref('')
+  const minVersion = ref('')
   const tileImages = ref<Record<DashboardTileKey, string | null>>({
     manual: null,
     template: null,
@@ -32,6 +34,7 @@ export const useCmsConfigStore = defineStore('cmsConfig', () => {
     try {
       const config = await getAppConfig()
       exercisesCacheKey.value = config.exercisesCacheKey
+      minVersion.value = config.minVersion
       tileImages.value = {
         manual: config.manualWorkImageUrl,
         template: config.templateWorkImageUrl,
@@ -56,6 +59,23 @@ export const useCmsConfigStore = defineStore('cmsConfig', () => {
       saveError.value = e instanceof FirebaseError
         ? `No se pudo guardar (${e.code}).`
         : 'No se pudo guardar la configuración.'
+      return false
+    } finally {
+      saving.value = false
+    }
+  }
+
+  async function saveMinVersion(value: string): Promise<boolean> {
+    saving.value = true
+    saveError.value = null
+    try {
+      await updateMinVersion(value)
+      minVersion.value = value
+      return true
+    } catch (e) {
+      saveError.value = e instanceof FirebaseError
+        ? `No se pudo guardar (${e.code}).`
+        : 'No se pudo guardar la versión mínima.'
       return false
     } finally {
       saving.value = false
@@ -90,6 +110,7 @@ export const useCmsConfigStore = defineStore('cmsConfig', () => {
 
   return {
     exercisesCacheKey,
+    minVersion,
     tileImages,
     loading,
     error,
@@ -99,6 +120,7 @@ export const useCmsConfigStore = defineStore('cmsConfig', () => {
     tileError,
     fetchConfig,
     save,
+    saveMinVersion,
     uploadTileImage,
     removeTileImage,
   }
