@@ -358,6 +358,29 @@ inerte). Usar `/cms/ejercicios-v2` para todo a partir de ahora.
 
 ---
 
+### `challenges` (colección global) ✅
+
+```typescript
+{
+  id: string
+  title: string
+  description: string
+  type: 'workouts' | 'volumeKg' | 'durationMinutes' | 'duels'
+  target: number            // > 0
+  rewardCoins: number       // default 0
+  rewardXp: number          // default 0
+  startsAt: Timestamp
+  endsAt: Timestamp         // el CMS lo fija a las 23:59:59 del día elegido
+  isActive: boolean
+  imageUrl: string | null
+  createdAt: Timestamp
+}
+```
+
+> Gestionada desde `/cms/retos` (CRUD + toggle activo). Lectura: cualquier autenticado; escritura: `isAdmin()` (regla ya en `gym_app/firestore.rules`, PR gym_app#1). El progreso vive en `users/{uid}/challengeProgress/{challengeId}` y solo lo escribe la Cloud Function `onWorkoutCompleted` — el CMS no lo toca. Query del CMS: `orderBy('endsAt','desc')`, un solo campo, sin índice compuesto.
+
+---
+
 ### `shop_items` (colección global)
 
 ```typescript
