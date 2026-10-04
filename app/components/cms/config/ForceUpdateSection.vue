@@ -11,7 +11,7 @@ const showConfirm = ref(false)
 watch(() => configStore.minVersion, (v) => { draft.value = v })
 
 // Formato X.Y.Z (igual que `version:` de pubspec.yaml, sin el build number). Vacío = desactivado.
-const isValid = computed(() => draft.value.trim() === '' || /^\d+(\.\d+){0,2}$/.test(draft.value.trim()))
+const isValid = computed(() => draft.value.trim() === '' || /^\d+\.\d+\.\d+$/.test(draft.value.trim()))
 
 async function handleConfirm() {
   await configStore.saveMinVersion(draft.value.trim())
