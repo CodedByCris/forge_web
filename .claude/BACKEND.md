@@ -5,6 +5,13 @@ SDK: `firebase` v10+ (modular, web)
 
 El esquema Firestore es **idéntico** al de la app móvil. La web NO crea colecciones nuevas. Solo usa las existentes.
 
+**Región (2026-10-04, migración US → EU):** Firestore y Storage están en
+`europe-west1`. El bucket de Storage es `gym-app-41fd6-eu` (el bucket por
+defecto `gym-app-41fd6.firebasestorage.app` quedó abandonado en `US-EAST1`,
+no se puede mover) — `storageBucket` en `app/plugins/01.firebase.client.ts`
+ya apunta al nuevo. Detalle completo: `forge/.claude/BACKEND.md` sección
+"Región".
+
 ---
 
 ## Colecciones relevantes para la portada y `/cms`
